@@ -22,7 +22,6 @@ export class ISOCurrencyList implements CurrencyList {
         return 0;
     }
 
-    public [Symbol.iterator](): Iterable<Currency> {
-        return [];
+    public *[Symbol.iterator](): Generator<Currency> {
     }
 }

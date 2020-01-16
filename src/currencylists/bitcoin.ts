@@ -19,7 +19,7 @@ export class BitcoinCurrencyList implements CurrencyList {
         return 8;
     }
 
-    public [Symbol.iterator](): Iterable<Currency> {
-        return [new Currency(CODE)];
+    public *[Symbol.iterator](): Generator<Currency> {
+        yield new Currency(CODE);
     }
 }
