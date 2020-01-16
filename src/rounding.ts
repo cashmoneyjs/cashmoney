@@ -8,11 +8,3 @@ export enum RoundingMode {
     ROUND_HALF_POSITIVE_INFINITY = 7,
     ROUND_HALF_NEGATIVE_INFINITY = 8,
 };
-
-export const roundingModeNames = Object.keys(RoundingMode).filter((key: string | number): boolean => {
-    return typeof RoundingMode[key] === "number";
-}) as ReadonlyArray<keyof RoundingMode>;
-
-export const roundingModes = roundingModeNames.map((key: keyof RoundingMode): number => {
-    return RoundingMode[key];
-}) as ReadonlyArray<number>;

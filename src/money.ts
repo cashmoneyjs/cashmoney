@@ -2,7 +2,7 @@ import { Calculator } from "./calculator";
 import { CalculatorRegistry } from "./calculator-registry";
 import { Currency } from "./currency";
 import { Num } from "./number";
-import { RoundingMode, roundingModes } from "./rounding";
+import { RoundingMode } from "./rounding";
 import { numeric } from "./types";
 import { arraySum, arrayKeysWithSearch, objectKeysWithSearch } from "./util";
 
@@ -112,20 +112,8 @@ export class Money {
         }
     }
 
-    private assertRoundingMode(roundingMode: RoundingMode): asserts roundingMode is RoundingMode {
-        if (roundingModes.includes(roundingMode) === false) {
-            throw new Error(
-                "Rounding mode should be RoundingMode.ROUND_HALF_UP | " +
-                "RoundingMode.ROUND_HALF_DOWN | RoundingMode.ROUND_HALF_EVEN | " +
-                "RoundingMode.ROUND_HALF_ODD | RoundingMode.ROUND_UP | RoundingMode.ROUND_DOWN | " +
-                "RoundingMode.ROUND_HALF_POSITIVE_INFINITY | RoundingMode.ROUND_HALF_NEGATIVE_INFINITY"
-            );
-        }
-    }
-
     public multiply(multiplier: numeric, roundingMode: RoundingMode = RoundingMode.ROUND_HALF_UP): Money {
         this.assertOperand(multiplier);
-        this.assertRoundingMode(roundingMode);
 
         const product = this.round(
             this.calculator.multiply(this.amount, multiplier),
@@ -137,7 +125,6 @@ export class Money {
 
     public divide(divisor: numeric, roundingMode: RoundingMode = RoundingMode.ROUND_HALF_UP): Money {
         this.assertOperand(divisor);
-        this.assertRoundingMode(roundingMode);
 
         const divisorS = String(Num.fromNumber(divisor));
 
@@ -276,8 +263,6 @@ export class Money {
     }
 
     private round(amount: string, roundingMode: RoundingMode): string {
-        this.assertRoundingMode(roundingMode);
-
         if (roundingMode === RoundingMode.ROUND_UP) {
             return this.calculator.ceil(amount);
         }
