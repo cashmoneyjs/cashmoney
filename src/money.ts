@@ -185,7 +185,7 @@ export class Money {
 
         while (this.calculator.compare(remainder, "0") > 0) {
             const index = Object.keys(fractions).length > 0 ? arrayKeysWithSearch(fractions, Math.max(...fractions))[0] : 0;
-            results[index].amount = this.calculator.add(results[index].amount, "1");
+            results[index] = results[index].newInstance(this.calculator.add(results[index].amount, "1"));
             remainder = this.calculator.subtract(remainder, "1");
             delete fractions[index];
         }
@@ -231,7 +231,7 @@ export class Money {
         while (this.calculator.compare(remainder, "0") > 0) {
             // TODO: I don't know how this is supposed to handle the case where Object.keys(fractions).length === 0 for named allocations
             const index = Object.keys(fractions).length > 0 ? objectKeysWithSearch(fractions, Math.max(...Object.values(fractions)))[0] : 0;
-            results[index].amount = this.calculator.add(results[index].amount, "1");
+            results[index] = results[index].newInstance(this.calculator.add(results[index].amount, "1"));
             remainder = this.calculator.subtract(remainder, "1");
             delete fractions[index];
         }
