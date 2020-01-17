@@ -10,7 +10,7 @@ export const subtractionExamples = [
 
 export const multiplicationExamples = [
     ['1', 1.5, '1.5'],
-    ['10', 1.2500, '12.50'],
+    ['10', 1.2500, '12.5'],
     ['100', 0.29, '29'],
     ['100', 0.029, '2.9'],
     ['100', 0.0029, '0.29'],

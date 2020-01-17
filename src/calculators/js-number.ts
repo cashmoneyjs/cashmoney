@@ -50,7 +50,7 @@ export default class JsNumberCalculator implements Calculator {
         }
 
         const result = amountN * multiplierN;
-        const resultNum = Num.fromNumber(result);
+        const resultNum = Num.fromNumber(parseFloat(result.toPrecision(14)));
         return String(resultNum);
     }
 
@@ -64,7 +64,7 @@ export default class JsNumberCalculator implements Calculator {
         }
 
         const result = amountN / divisorN;
-        const resultNum = Num.fromNumber(result);
+        const resultNum = Num.fromNumber(parseFloat(result.toPrecision(14)));
         return String(resultNum);
     }
 
