@@ -1,11 +1,11 @@
-import { Currency } from "./currency";
+import Currency from "./currency";
 
 const currency = "([A-Z]{2,3})";
 const ratio = "([0-9]*\.?[0-9]+)";
 const pattern = currency + "/" + currency + " " + ratio;
 const isoRegex = new RegExp(pattern);
 
-export class CurrencyPair {
+export default class CurrencyPair {
     public readonly baseCurrency: Currency;
     public readonly counterCurrency: Currency;
     public readonly conversionRatio: number;

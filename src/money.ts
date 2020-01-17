@@ -1,6 +1,6 @@
 import Calculator from "./calculator";
 import CalculatorRegistry from "./calculator-registry";
-import { Currency } from "./currency";
+import Currency from "./currency";
 import Num from "./number";
 import { RoundingMode } from "./rounding";
 import { numeric } from "./types";

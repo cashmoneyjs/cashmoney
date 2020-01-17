@@ -1,6 +1,6 @@
-import { Currency } from "./currency";
-import { CurrencyPair } from "./currencypair";
+import Currency from "./currency";
+import CurrencyPair from "./currencypair";
 
-export interface Exchange {
+export default interface Exchange {
     quote(baseCurrency: Currency, counterCurrency: Currency): CurrencyPair;
 }

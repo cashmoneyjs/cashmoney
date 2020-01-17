@@ -1,6 +1,6 @@
-import { Exchange } from "../exchange";
-import { Currency } from "../currency";
-import { CurrencyPair } from "../currencypair";
+import Exchange from "../exchange";
+import Currency from "../currency";
+import CurrencyPair from "../currencypair";
 
 export interface CurrencyRatioMap {
     [baseCurrencyCode: string]: {

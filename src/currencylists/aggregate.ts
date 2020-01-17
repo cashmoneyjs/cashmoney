@@ -1,5 +1,5 @@
-import { Currency } from "../currency";
-import { CurrencyList } from "../currencylist";
+import Currency from "../currency";
+import CurrencyList from "../currencylist";
 
 export class AggregateCurrencyList implements CurrencyList {
     private currencyLists: CurrencyList[];

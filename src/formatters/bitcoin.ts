@@ -1,7 +1,7 @@
 import Num from "../number";
 import { Money } from "../money";
-import { MoneyFormatter } from "../formatter";
-import { CurrencyList } from "../currencylist";
+import MoneyFormatter from "../formatter";
+import CurrencyList from "../currencylist";
 import { CODE as BITCOIN_CODE, SYMBOL as BITCOIN_SYMBOL } from "../currencylists/bitcoin";
 
 export class BitcoinMoneyFormatter implements MoneyFormatter {

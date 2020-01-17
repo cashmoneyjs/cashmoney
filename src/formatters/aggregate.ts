@@ -1,5 +1,5 @@
 import { Money } from "../money";
-import { MoneyFormatter } from "../formatter";
+import MoneyFormatter from "../formatter";
 
 export interface MoneyFormatterMap {
     [currencyCode: string]: MoneyFormatter;

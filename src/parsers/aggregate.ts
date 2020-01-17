@@ -1,6 +1,6 @@
 import { Money } from "../money";
-import { Currency } from "../currency";
-import { MoneyParser } from "../parser";
+import Currency from "../currency";
+import MoneyParser from "../parser";
 
 export class AggregateMoneyParser implements MoneyParser {
     private parsers: Array<MoneyParser>;

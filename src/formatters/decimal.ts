@@ -1,6 +1,6 @@
 import { Money } from "../money";
-import { MoneyFormatter } from "../formatter";
-import { CurrencyList } from "../currencylist";
+import MoneyFormatter from "../formatter";
+import CurrencyList from "../currencylist";
 
 export class DecimalMoneyFormatter implements MoneyFormatter {
     private currencyList: CurrencyList;

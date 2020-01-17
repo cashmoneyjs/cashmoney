@@ -1,6 +1,6 @@
-import { CurrencyList } from "./currencylist";
+import CurrencyList from "./currencylist";
 
-export class Currency {
+export default class Currency {
     public readonly code: string;
 
     public constructor(code: string) {

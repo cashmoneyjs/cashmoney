@@ -1,5 +1,5 @@
 import { Money } from "./money";
 
-export interface MoneyFormatter {
+export default interface MoneyFormatter {
     format(money: Money): string;
 }

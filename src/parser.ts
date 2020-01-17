@@ -1,6 +1,6 @@
 import { Money } from "./money";
-import { Currency } from "./currency";
+import Currency from "./currency";
 
-export interface MoneyParser {
+export default interface MoneyParser {
     parse(money: string, forceCurrency?: Currency): Money;
 }
