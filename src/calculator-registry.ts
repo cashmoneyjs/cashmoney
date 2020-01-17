@@ -1,7 +1,7 @@
-import { Calculator } from "./calculator";
-import { JsNumberCalculator } from "./calculators/js-number";
+import Calculator from "./calculator";
+import JsNumberCalculator from "./calculators/js-number";
 
-export class CalculatorRegistry {
+export default class CalculatorRegistry {
     private static calc: Calculator | null = null;
 
     public static registerCalculator(calc: Calculator): void {

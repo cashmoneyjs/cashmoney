@@ -36,6 +36,7 @@ function parseIntegerPart(num: string): string {
 
 function parseFractionalPart(num: string): string {
     if (num === "") {
+        return num;
     }
 
     const characters = num.length;
@@ -49,7 +50,7 @@ function parseFractionalPart(num: string): string {
     return num;
 }
 
-export class Num {
+export default class Num {
     public readonly integerPart: string;
     public readonly fractionalPart: string;
 
@@ -63,7 +64,7 @@ export class Num {
     }
 
     public static fromString(num: string): Num {
-        const decimalSeparatorPosition = num.search(".");
+        const decimalSeparatorPosition = num.indexOf(".");
         if (decimalSeparatorPosition === -1) {
             return new Num(num, "");
         }
@@ -84,7 +85,7 @@ export class Num {
         } else if (typeof num === "string") {
             return Num.fromString(num);
         } else {
-            throw new Error("Valid numeric valud expected");
+            throw new Error("Valid numeric value expected");
         }
     }
 

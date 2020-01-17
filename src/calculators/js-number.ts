@@ -1,35 +1,46 @@
 import { trimStart } from "trim-strings";
 
-import { Num } from "../number";
+import Num from "../number";
 import { RoundingMode } from "../rounding";
-import { Calculator } from "../calculator";
-import { numeric } from "../types";
+import Calculator from "../calculator";
+import { IntString, numeric } from "../types";
 
-export class JsNumberCalculator implements Calculator {
-    public compare(a: string, b: string): number {
-        const aN = parseFloat(a);
-        const bN = parseFloat(b);
+export default class JsNumberCalculator implements Calculator {
+    public compare(a: numeric, b: numeric): number {
+        let aN: number;
+        if (typeof a === "string") {
+            aN = parseFloat(a);
+        } else {
+            aN = a;
+        }
+
+        let bN: number;
+        if (typeof b === "string") {
+            bN = parseFloat(b);
+        } else {
+            bN = b;
+        }
 
         return (aN < bN) ? -1 : ((aN > bN) ? 1 : 0);
     }
 
-    public add(amount: string, addend: string): string {
+    public add(amount: IntString, addend: IntString): IntString {
         const amountN = parseInt(amount);
-        const addendN = parseInt(amount);
+        const addendN = parseInt(addend);
 
         const result = amountN + addendN;
         return String(result);
     }
 
-    public subtract(amount: string, subtrahend: string): string {
+    public subtract(amount: IntString, subtrahend: IntString): IntString {
         const amountN = parseInt(amount);
-        const addendN = parseInt(amount);
+        const addendN = parseInt(subtrahend);
 
-        const result = amountN + addendN;
+        const result = amountN - addendN;
         return String(result);
     }
 
-    public multiply(amount: string, multiplier: numeric): string {
+    public multiply(amount: IntString, multiplier: numeric): string {
         const amountN = parseInt(amount);
         let multiplierN: number;
         if (typeof multiplier === "string") {
@@ -43,7 +54,7 @@ export class JsNumberCalculator implements Calculator {
         return String(resultNum);
     }
 
-    public divide(amount: string, divisor: numeric): string {
+    public divide(amount: IntString, divisor: numeric): string {
         const amountN = parseInt(amount);
         let divisorN: number;
         if (typeof divisor === "string") {
@@ -57,20 +68,34 @@ export class JsNumberCalculator implements Calculator {
         return String(resultNum);
     }
 
-    public ceil(num: string): string {
-        return String(Math.ceil(parseFloat(num)));
+    public ceil(num: numeric): IntString {
+        let numN: number;
+        if (typeof num === "string") {
+            numN = parseFloat(num);
+        } else {
+            numN = num;
+        }
+
+        return String(Math.ceil(numN));
     }
 
-    public floor(num: string): string {
-        return String(Math.floor(parseFloat(num)));
+    public floor(num: numeric): IntString {
+        let numN: number;
+        if (typeof num === "string") {
+            numN = parseFloat(num);
+        } else {
+            numN = num;
+        }
+
+        return String(Math.floor(numN));
     }
 
-    public absolute(num: string): string {
+    public absolute(num: IntString): IntString {
         const result = trimStart(num, "-");
         return result;
     }
 
-    public round(num: numeric, roundingMode: RoundingMode): string {
+    public round(num: numeric, roundingMode: RoundingMode): IntString {
         const numObj = Num.fromNumber(num);
 
         if (numObj.isInteger === true) {
@@ -131,7 +156,7 @@ export class JsNumberCalculator implements Calculator {
         throw new Error("Unknown rounding mode");
     }
 
-    private roundDigit(numObj: Num): string {
+    private roundDigit(numObj: Num): IntString {
         const numInt = parseInt(String(numObj));
 
         if (numObj.isCloserToNext === true) {
@@ -142,7 +167,7 @@ export class JsNumberCalculator implements Calculator {
         return String(numInt);
     }
 
-    public share(amount: string, ratio: numeric, total: numeric): string {
+    public share(amount: IntString, ratio: numeric, total: numeric): IntString {
         const amountN = parseInt(amount);
         let ratioN: number;
         let totalN: number;
@@ -162,14 +187,9 @@ export class JsNumberCalculator implements Calculator {
         return String(resultN);
     }
 
-    public mod(amount: string, divisor: numeric): string {
+    public mod(amount: IntString, divisor: IntString): IntString {
         const amountN = parseInt(amount);
-        let divisorN: number;
-        if (typeof divisor === "string") {
-            divisorN = parseFloat(divisor);
-        } else {
-            divisorN = divisor;
-        }
+        const divisorN = parseInt(divisor);
 
         const result = amountN % divisorN;
         return String(result);

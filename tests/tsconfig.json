@@ -10,12 +10,19 @@
         "moduleResolution": "node",
         "sourceMap": true,
         "lib": ["esnext"],
-        "outDir": "dist"
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "baseUrl": ".",
+        "paths": {
+            "src/*": [
+                "../src/*"
+            ],
+            "fixtures/*": [
+                "fixtures/*"
+            ]
+        }
     },
     "include": [
-        "src/**/*.ts"
-    ],
-    "exclude": [
-        "node_modules"
+        "**/*.ts"
     ]
 }
