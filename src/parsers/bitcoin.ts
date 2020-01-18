@@ -7,7 +7,7 @@ import { CODE as BITCOIN_CODE, SYMBOL as BITCOIN_SYMBOL } from "../currencylists
 
 const BITCOIN_SYMBOL_PATTERN = new RegExp(BITCOIN_SYMBOL, "g");
 
-export class BitcoinMoneyParser implements MoneyParser {
+export default class BitcoinMoneyParser implements MoneyParser {
     private fractionDigits: number;
 
     public constructor(fractionDigits: number) {

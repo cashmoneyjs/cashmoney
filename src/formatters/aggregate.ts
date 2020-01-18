@@ -1,11 +1,11 @@
 import { Money } from "../money";
 import MoneyFormatter from "../formatter";
 
-export interface MoneyFormatterMap {
+interface MoneyFormatterMap {
     [currencyCode: string]: MoneyFormatter;
 }
 
-export class AggregateMoneyFormatter implements MoneyFormatter {
+export default class AggregateMoneyFormatter implements MoneyFormatter {
     private formatters: MoneyFormatterMap;
 
     public constructor(formatters: MoneyFormatterMap) {

@@ -2,7 +2,7 @@ import { Money } from "../money";
 import Currency from "../currency";
 import MoneyParser from "../parser";
 
-export class AggregateMoneyParser implements MoneyParser {
+export default class AggregateMoneyParser implements MoneyParser {
     private parsers: Array<MoneyParser>;
 
     public constructor(parsers: Array<MoneyParser>) {

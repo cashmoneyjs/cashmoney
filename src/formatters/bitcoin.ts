@@ -4,7 +4,7 @@ import MoneyFormatter from "../formatter";
 import CurrencyList from "../currencylist";
 import { CODE as BITCOIN_CODE, SYMBOL as BITCOIN_SYMBOL } from "../currencylists/bitcoin";
 
-export class BitcoinMoneyFormatter implements MoneyFormatter {
+export default class BitcoinMoneyFormatter implements MoneyFormatter {
     private fractionDigits: number;
     private currencyList: CurrencyList;
 

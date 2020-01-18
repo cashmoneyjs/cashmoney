@@ -9,7 +9,7 @@ import MoneyParser from "../parser";
 //const DECIMAL_PATTERN = /^(?P<sign>-)?(?P<digits>0|[1-9]\d*)?\.?(?P<fraction>\d+)?$/;
 const DECIMAL_PATTERN = /^(-)?(0|[1-9]\d*)?\.?(\d+)?$/;
 
-export class DecimalMoneyParser implements MoneyParser {
+export default class DecimalMoneyParser implements MoneyParser {
     private currencyList: CurrencyList;
 
     public constructor(currencyList: CurrencyList) {
@@ -30,13 +30,13 @@ export class DecimalMoneyParser implements MoneyParser {
         const subunit = this.currencyList.subunitFor(forceCurrency);
 
         const matches = DECIMAL_PATTERN.exec(decimal);
-        if (!matches || !matches[2]) {
+        if (!matches || !(matches[2] || matches[3])) {
             throw new Error("Cannot parse " + decimal + " to Money.");
         }
 
         const negative = matches[1] && matches[1] === "-";
 
-        decimal = matches[2];
+        decimal = matches[2] || "";
 
         if (negative === true) {
             decimal = "-" + decimal;
