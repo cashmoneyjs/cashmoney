@@ -4,7 +4,7 @@ import CurrencyList from "../currencylist";
 export const CODE = "XBT";
 export const SYMBOL = "\xC9\x83";
 
-export class BitcoinCurrencyList implements CurrencyList {
+export default class BitcoinCurrencyList implements CurrencyList {
     public contains(currency: Currency): boolean {
         return currency.code === CODE;
     }

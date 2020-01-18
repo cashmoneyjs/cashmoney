@@ -5,6 +5,7 @@ import Currency from "../currency";
 import Num from "../number";
 import CurrencyList from "../currencylist";
 import MoneyParser from "../parser";
+import { stringPhpSubstr } from "../util";
 
 //const DECIMAL_PATTERN = /^(?P<sign>-)?(?P<digits>0|[1-9]\d*)?\.?(?P<fraction>\d+)?$/;
 const DECIMAL_PATTERN = /^(-)?(0|[1-9]\d*)?\.?(\d+)?$/;
@@ -34,7 +35,7 @@ export default class DecimalMoneyParser implements MoneyParser {
             throw new Error("Cannot parse " + decimal + " to Money.");
         }
 
-        const negative = matches[1] && matches[1] === "-";
+        const negative = Boolean(matches[1] && matches[1] === "-");
 
         decimal = matches[2] || "";
 
@@ -42,13 +43,13 @@ export default class DecimalMoneyParser implements MoneyParser {
             decimal = "-" + decimal;
         }
 
-        if (matches[3]) {
+        if (Boolean(matches[3])) {
             const fractionDigits = matches[3].length;
             decimal += matches[3];
             decimal = Num.roundMoneyValue(decimal, subunit, fractionDigits);
 
             if (fractionDigits > subunit) {
-                decimal = decimal.substr(0, subunit - fractionDigits);
+                decimal = stringPhpSubstr(decimal, 0, subunit - fractionDigits);
             } else if (fractionDigits < subunit) {
                 decimal += "0".repeat(subunit - fractionDigits);
             }
@@ -57,7 +58,7 @@ export default class DecimalMoneyParser implements MoneyParser {
         }
 
         if (negative === true) {
-            decimal = "-" + trimStart(decimal.substr(1), "0");
+            decimal = "-" + trimStart(stringPhpSubstr(decimal, 1), "0");
         } else {
             decimal = trimStart(decimal, "0");
         }

@@ -3,6 +3,7 @@ import { Money } from "../money";
 import MoneyFormatter from "../formatter";
 import CurrencyList from "../currencylist";
 import { CODE as BITCOIN_CODE, SYMBOL as BITCOIN_SYMBOL } from "../currencylists/bitcoin";
+import { stringPhpSubstr } from "../util";
 
 export default class BitcoinMoneyFormatter implements MoneyFormatter {
     private fractionDigits: number;
@@ -23,7 +24,7 @@ export default class BitcoinMoneyFormatter implements MoneyFormatter {
 
         if (valueBase[0] === "-") {
             negative = true;
-            valueBase = valueBase.substr(1);
+            valueBase = stringPhpSubstr(valueBase, 1);
         }
 
         const subunit = this.currencyList.subunitFor(money.currency);
@@ -32,23 +33,23 @@ export default class BitcoinMoneyFormatter implements MoneyFormatter {
 
         let formatted: string;
         if (valueLength > subunit) {
-            formatted = valueBase.substr(0, valueLength - subunit);
+            formatted = stringPhpSubstr(valueBase, 0, valueLength - subunit);
 
             if (subunit) {
                 formatted += ".";
-                formatted += valueBase.substr(valueLength - subunit);
+                formatted += stringPhpSubstr(valueBase, valueLength - subunit);
             }
         } else {
             formatted = "0." + "0".repeat(subunit - valueLength) + valueBase;
         }
 
         if (this.fractionDigits === 0) {
-            formatted = formatted.substr(0, formatted.indexOf("."));
+            formatted = stringPhpSubstr(formatted, 0, formatted.indexOf("."));
         } else if (this.fractionDigits > subunit) {
             formatted += "0".repeat(this.fractionDigits - subunit);
         } else if (this.fractionDigits < subunit) {
             const lastDigit = formatted.indexOf(".") + this.fractionDigits + 1;
-            formatted = formatted.substr(0, lastDigit);
+            formatted = stringPhpSubstr(formatted, 0, lastDigit);
         }
 
         formatted = BITCOIN_SYMBOL + formatted;

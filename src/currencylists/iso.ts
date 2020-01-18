@@ -1,7 +1,7 @@
 import Currency from "../currency";
 import CurrencyList from "../currencylist";
 
-export class ISOCurrencyList implements CurrencyList {
+export default class ISOCurrencyList implements CurrencyList {
     public contains(currency: Currency): boolean {
         return false;
     }

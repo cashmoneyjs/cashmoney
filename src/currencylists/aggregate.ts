@@ -1,7 +1,7 @@
 import Currency from "../currency";
 import CurrencyList from "../currencylist";
 
-export class AggregateCurrencyList implements CurrencyList {
+export default class AggregateCurrencyList implements CurrencyList {
     private currencyLists: CurrencyList[];
 
     public constructor(currencyLists: CurrencyList[]) {

@@ -4,6 +4,7 @@ import { Money } from "../money";
 import Currency from "../currency";
 import MoneyParser from "../parser";
 import { CODE as BITCOIN_CODE, SYMBOL as BITCOIN_SYMBOL } from "../currencylists/bitcoin";
+import { stringPhpSubstr } from "../util";
 
 const BITCOIN_SYMBOL_PATTERN = new RegExp(BITCOIN_SYMBOL, "g");
 
@@ -35,8 +36,8 @@ export default class BitcoinMoneyParser implements MoneyParser {
             decimal += "0".repeat(this.fractionDigits);
         }
 
-        if (decimal.substr(0, 1) === "-") {
-            decimal = "-" + trimStart(decimal.substr(1), "0");
+        if (stringPhpSubstr(decimal, 0, 1) === "-") {
+            decimal = "-" + trimStart(stringPhpSubstr(decimal, 1), "0");
         } else {
             decimal = trimStart(decimal, "0");
         }

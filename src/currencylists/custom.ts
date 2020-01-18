@@ -5,7 +5,7 @@ interface CustomCurrencies {
     [currencyCode: string]: number;
 }
 
-export class CustomCurrencyList implements CurrencyList {
+export default class CustomCurrencyList implements CurrencyList {
     private currencies: CustomCurrencies;
 
     public constructor(currencies: CustomCurrencies) {

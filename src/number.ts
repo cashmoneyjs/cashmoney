@@ -1,7 +1,7 @@
 import { trimStart, trimEnd } from "trim-strings";
 
 import { numeric } from "./types";
-import { stringSplice } from "./util";
+import { stringSplice, stringPhpSubstr, stringPhpSubstrBroke } from "./util";
 
 const numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 
@@ -70,8 +70,8 @@ export default class Num {
         }
 
         return new Num(
-            num.substr(0, decimalSeparatorPosition),
-            trimEnd(num.substr(decimalSeparatorPosition + 1), "0"),
+            stringPhpSubstr(num, 0, decimalSeparatorPosition),
+            trimEnd(stringPhpSubstr(num, decimalSeparatorPosition + 1), "0"),
         );
     }
 
@@ -152,7 +152,7 @@ export default class Num {
 
         if (integerPart[0] === "-") {
             sign = "-";
-            integerPart = integerPart.substr(1);
+            integerPart = stringPhpSubstr(integerPart, 1);
         }
 
         if (num >= 0) {
@@ -161,8 +161,8 @@ export default class Num {
             const integers = lengthIntegerPart - Math.min(num, lengthIntegerPart);
             const zeroPad = num - Math.min(num, lengthIntegerPart);
 
-            const newIntegerPart = sign + integerPart.substr(0, integers);
-            const newFractionalPart = "0".repeat(zeroPad) + integerPart.substr(integers) + this.fractionalPart;
+            const newIntegerPart = sign + stringPhpSubstr(integerPart, 0, integers);
+            const newFractionalPart = "0".repeat(zeroPad) + stringPhpSubstrBroke(integerPart, integers) + this.fractionalPart;
             return new Num(
                 newIntegerPart,
                 trimEnd(newFractionalPart, "0"),
@@ -174,8 +174,8 @@ export default class Num {
         const fractions = lengthFractionalPart - Math.min(num, lengthFractionalPart);
         const zeroPad = num - Math.min(num, lengthFractionalPart);
 
-        const newIntegerPart = integerPart + this.fractionalPart.substr(0, lengthFractionalPart - fractions) + "0".repeat(zeroPad);
-        const newFractionalPart = this.fractionalPart.substr(lengthFractionalPart - fractions);
+        const newIntegerPart = integerPart + stringPhpSubstr(this.fractionalPart, 0, lengthFractionalPart - fractions) + "0".repeat(zeroPad);
+        const newFractionalPart = stringPhpSubstrBroke(this.fractionalPart, lengthFractionalPart - fractions);
         return new Num(
             sign + trimStart(newIntegerPart, "0"),
             newFractionalPart,
@@ -195,7 +195,16 @@ export default class Num {
             let addend = 1;
 
             while (position > 0) {
-                const newValue = String(parseInt(moneyValue[position - 1]) + addend);
+                // In PHP, casting "-" to an integer Just Works(tm), and it turns into
+                // a zero. Javascript actually has a concept of NaN, so that doesn't work
+                // automatically and we need to handle it specially.
+                let subNewValue: number;
+                if (moneyValue[position - 1] === "-") {
+                    subNewValue = 0;
+                } else {
+                    subNewValue = parseInt(moneyValue[position - 1]);
+                }
+                const newValue = String(subNewValue + addend);
 
                 if (parseFloat(newValue) >= 10) {
                     moneyValue = stringSplice(moneyValue, position - 1, 1, newValue[1]);
