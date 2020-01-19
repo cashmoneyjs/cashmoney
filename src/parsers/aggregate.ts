@@ -1,4 +1,4 @@
-import { Money } from "../money";
+import Money from "../money";
 import Currency from "../currency";
 import MoneyParser from "../parser";
 

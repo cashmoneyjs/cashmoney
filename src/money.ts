@@ -14,7 +14,7 @@ interface NamedMoneyMap {
     [name: string]: Money;
 }
 
-export class Money {
+export default class Money {
     public readonly amount: string;
     public readonly currency: Currency;
 

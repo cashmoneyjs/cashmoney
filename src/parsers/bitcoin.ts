@@ -1,6 +1,6 @@
 import { trimStart, trimEnd } from "trim-strings";
 
-import { Money } from "../money";
+import Money from "../money";
 import Currency from "../currency";
 import MoneyParser from "../parser";
 import { CODE as BITCOIN_CODE, SYMBOL as BITCOIN_SYMBOL } from "../currencylists/bitcoin";

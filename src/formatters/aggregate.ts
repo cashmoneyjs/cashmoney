@@ -1,4 +1,4 @@
-import { Money } from "../money";
+import Money from "../money";
 import MoneyFormatter from "../formatter";
 
 interface MoneyFormatterMap {

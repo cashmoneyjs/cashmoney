@@ -1,7 +1,7 @@
-import { Money } from "../money";
+import Money from "../money";
 import MoneyFormatter from "../formatter";
 import CurrencyList from "../currencylist";
-import { stringPhpSubstr } from "../util";
+import { stringPhpSubstr, stringPhpSubstrBroke } from "../util";
 
 export default class DecimalMoneyFormatter implements MoneyFormatter {
     private currencyList: CurrencyList;
@@ -25,7 +25,7 @@ export default class DecimalMoneyFormatter implements MoneyFormatter {
         let formatted: string;
         if (valueLength > subunit) {
             formatted = stringPhpSubstr(valueBase, 0, valueLength - subunit);
-            const decimalDigits = stringPhpSubstr(valueBase, valueLength - subunit);
+            const decimalDigits = stringPhpSubstrBroke(valueBase, valueLength - subunit);
 
             if (decimalDigits.length > 0) {
                 formatted += "." + decimalDigits;

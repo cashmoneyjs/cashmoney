@@ -1,6 +1,6 @@
 import { trimStart } from "trim-strings";
 
-import { Money } from "../money";
+import Money from "../money";
 import Currency from "../currency";
 import Num from "../number";
 import CurrencyList from "../currencylist";

@@ -2,13 +2,13 @@ import Exchange from "../exchange";
 import Currency from "../currency";
 import CurrencyPair from "../currencypair";
 
-export interface CurrencyRatioMap {
+interface CurrencyRatioMap {
     [baseCurrencyCode: string]: {
         [counterCurrencyCode: string]: number;
     };
 }
 
-export class FixedExchange implements Exchange {
+export default class FixedExchange implements Exchange {
     private list: CurrencyRatioMap;
 
     public constructor(list: CurrencyRatioMap) {
