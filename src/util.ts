@@ -72,6 +72,19 @@ export function arrayKeysWithSearch<T>(arr: T[], search: T, strict: boolean = fa
     return arrKeys;
 };
 
+export function mapKeysWithSearch<T>(map: Map<number, T>, search: T, strict: boolean = false): number[] {
+    const mapKeys = [];
+
+    for (const [key, val] of map.entries()) {
+        const check = strict === true ? val === search : val == search;
+        if (check === true) {
+            mapKeys.push(key);
+        }
+    }
+
+    return mapKeys;
+};
+
 interface GenericObj<T> {
     [key: string]: T;
 }

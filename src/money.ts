@@ -4,7 +4,7 @@ import Currency from "./currency";
 import Num from "./number";
 import { RoundingMode } from "./rounding";
 import { numeric } from "./types";
-import { arraySum, arrayKeysWithSearch, objectKeysWithSearch } from "./util";
+import { arraySum, mapKeysWithSearch, objectKeysWithSearch } from "./util";
 
 interface NamedRatios {
     [name: string]: number;
@@ -155,7 +155,7 @@ export default class Money {
         }
 
         let remainder = this.amount;
-        const results: Money[] = [];
+        const results = new Map<number, Money>();
         const total = arraySum(ratios);
 
         if (total <= 0) {
@@ -168,29 +168,30 @@ export default class Money {
             }
 
             const share = this.calculator.share(this.amount, ratio, total);
-            results[key] = this.newInstance(share);
+            results.set(key, this.newInstance(share));
             remainder = this.calculator.subtract(remainder, share);
         }
 
         if (this.calculator.compare(remainder, "0") === 0) {
-            return results;
+            return [...results.values()];
         }
 
         const thisAmountInt = parseInt(this.amount);
-        const fractions = ratios.map((ratio: number): number => {
+        const fractionsMap = new Map<number, number>();
+        ratios.forEach((ratio, index) => {
             const share = (ratio / total) * thisAmountInt;
-
-            return share - Math.floor(share);
+            const fraction = share - Math.floor(share);
+            fractionsMap.set(index, fraction);
         });
 
         while (this.calculator.compare(remainder, "0") > 0) {
-            const index = Object.keys(fractions).length > 0 ? arrayKeysWithSearch(fractions, Math.max(...fractions))[0] : 0;
-            results[index] = results[index].newInstance(this.calculator.add(results[index].amount, "1"));
+            const index = fractionsMap.size > 0 ? mapKeysWithSearch(fractionsMap, Math.max(...fractionsMap.values()))[0] : 0;
+            results.set(index, results.get(index)!.newInstance(this.calculator.add(results.get(index)!.amount, "1")));
             remainder = this.calculator.subtract(remainder, "1");
-            delete fractions[index];
+            fractionsMap.delete(index);
         }
 
-        return results;
+        return [...results.values()];
     }
 
     public allocateNamed(ratios: NamedRatios): NamedMoneyMap {
@@ -299,12 +300,16 @@ export default class Money {
     public toJSON(): object {
         return {
             amount: this.amount,
-            currency: this.currency,
+            currency: this.currency.toJSON(),
         };
     }
 
-    public static min(first: Money, ...collection: Money[]): Money {
-        let min = first;
+    public static min(...collection: Money[]): Money {
+        if (collection.length === 0) {
+            throw new Error("Must pass at least one money object.");
+        }
+
+        let min = collection.shift() as Money;
 
         for (const money of collection) {
             if (money.lessThan(min) === true) {
@@ -315,8 +320,12 @@ export default class Money {
         return min;
     }
 
-    public static max(first: Money, ...collection: Money[]): Money {
-        let max = first;
+    public static max(...collection: Money[]): Money {
+        if (collection.length === 0) {
+            throw new Error("Must pass at least one money object.");
+        }
+
+        let max = collection.shift() as Money;
 
         for (const money of collection) {
             if (money.greaterThan(max) === true) {
@@ -327,12 +336,22 @@ export default class Money {
         return max;
     }
 
-    public static sum(first: Money, ...collection: Money[]): Money {
+    public static sum(...collection: Money[]): Money {
+        if (collection.length === 0) {
+            throw new Error("Must pass at least one money object.");
+        }
+
+        const first = collection.shift() as Money;
         return first.add(...collection);
     }
 
-    public static avg(first: Money, ...collection: Array<Money>): Money {
-        const argCount = collection.length + 1;
+    public static avg(...collection: Money[]): Money {
+        const argCount = collection.length;
+        if (argCount === 0) {
+            throw new Error("Must pass at least one money object.");
+        }
+
+        const first = collection.shift() as Money;
         return first.add(...collection).divide(argCount);
     }
 
