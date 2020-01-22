@@ -55,6 +55,13 @@ export default class Money {
         return this.isSameCurrency(other) && this.amount === other.amount;
     }
 
+    /**
+     * This is a wrapper method for compatibility with the Dinero.js API.
+     */
+    public equalsTo(other: Money): boolean {
+        return this.equals(other);
+    }
+
     public compare(other: Money): number {
         this.assertSameCurrency(other);
 
@@ -147,6 +154,14 @@ export default class Money {
             this.calculator.mod(this.amount, divisor.amount),
             this.currency,
         );
+    }
+
+    public percentage(percent: number, roundingMode: RoundingMode = RoundingMode.ROUND_HALF_UP): Money {
+        if (percent < 0 || percent > 100) {
+            throw new RangeError("Percentage values must be between 0 and 100.");
+        }
+
+        return this.multiply(percent / 100, roundingMode);
     }
 
     public allocate(ratios: number[]): Money[] {

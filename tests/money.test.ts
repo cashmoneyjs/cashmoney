@@ -19,7 +19,10 @@ export default class MoneyTest {
     public itEqualsToAnotherMoney(amount: number, currency: Currency, equality: boolean) {
         const money = new Money(AMOUNT, new Currency(CURRENCY));
 
-        Expect(money.equals(new Money(amount, currency))).toBe(equality);
+        const compareTo = new Money(amount, currency);
+        Expect(money.equals(compareTo)).toBe(equality);
+        // Test Dinero.js API compatibility method
+        Expect(money.equalsTo(compareTo)).toBe(equality);
     }
 
     @TestCases(MoneyTest.comparisonExamples)
@@ -183,6 +186,28 @@ export default class MoneyTest {
 
         Expect(modMoney instanceof Money).toBeTruthy();
         Expect(modMoney.amount).toBe(expected);
+    }
+
+    @TestCases(MoneyTest.percentageExamples)
+    @Test("it calculates percentages")
+    public itCalculatesPercentages(amount: number, percent: number, roundingMode: RoundingMode, expected: string) {
+        const money = new Money(amount, new Currency(CURRENCY));
+        const smallerMoney = money.percentage(percent, roundingMode);
+
+        Expect(smallerMoney instanceof Money).toBeTruthy();
+        Expect(smallerMoney.amount).toBe(expected);
+    }
+
+    @TestCases(MoneyTest.invalidPercentageExamples)
+    @Test("it throws for invalid percentages")
+    public itThrowsForInvalidPercentages(percent: number) {
+        const money = new Money(AMOUNT, new Currency(CURRENCY));
+
+        const throwFn = (): void => {
+            money.percentage(percent);
+        };
+
+        Expect(throwFn).toThrowError(RangeError, "Percentage values must be between 0 and 100.");
     }
 
     @Test("it converts to JSON")
@@ -365,6 +390,32 @@ export default class MoneyTest {
             [9, 3, '0'],
             [1006, 10, '6'],
             [1007, 10, '7'],
+        ];
+    }
+
+    public static percentageExamples() {
+        return [
+            [350, 0, RoundingMode.ROUND_HALF_UP, '0'],
+            [350, 100, RoundingMode.ROUND_HALF_UP, '350'],
+            [350, 50, RoundingMode.ROUND_HALF_UP, '175'],
+            [10, 100, RoundingMode.ROUND_HALF_UP, '10'],
+            [10, 30, RoundingMode.ROUND_HALF_UP, '3'],
+            [10, 25, RoundingMode.ROUND_HALF_UP, '3'],
+            [10, 24, RoundingMode.ROUND_HALF_UP, '2'],
+            [10, 25, RoundingMode.ROUND_HALF_DOWN, '2'],
+            [100, 25, RoundingMode.ROUND_HALF_UP, '25'],
+            [100, 25, RoundingMode.ROUND_HALF_DOWN, '25'],
+        ];
+    }
+
+    public static invalidPercentageExamples() {
+        return [
+            [100.01],
+            [101],
+            [1000],
+            [-0.01],
+            [-1],
+            [-101],
         ];
     }
 }
