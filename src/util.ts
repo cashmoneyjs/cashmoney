@@ -4,6 +4,9 @@ export function stringSplice(str: string, index: number, count: number, add: str
 
 export function stringPhpSubstr(str: string, start: number, length?: number): string {
     if (str.length === 0 && start === 0) {
+        if (length !== undefined && length < 0) {
+            throw new Error("Invalid combination of parameters.");
+        }
         return "";
     }
 
