@@ -24,7 +24,7 @@ export default class DecimalMoneyFormatter implements MoneyFormatter {
 
         let formatted: string;
         if (valueLength > subunit) {
-            formatted = stringPhpSubstr(valueBase, 0, valueLength - subunit);
+            formatted = stringPhpSubstrBroke(valueBase, 0, valueLength - subunit);
             const decimalDigits = stringPhpSubstrBroke(valueBase, valueLength - subunit);
 
             if (decimalDigits.length > 0) {
