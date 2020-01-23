@@ -6,8 +6,8 @@ import { CODE as BITCOIN_CODE, SYMBOL as BITCOIN_SYMBOL } from "../currencylists
 import { stringPhpSubstr } from "../util";
 
 export default class BitcoinMoneyFormatter implements MoneyFormatter {
-    private fractionDigits: number;
-    private currencyList: CurrencyList;
+    private readonly fractionDigits: number;
+    private readonly currencyList: CurrencyList;
 
     public constructor(fractionDigits: number, currencyList: CurrencyList) {
         this.fractionDigits = fractionDigits;

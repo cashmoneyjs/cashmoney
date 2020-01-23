@@ -4,7 +4,7 @@ import CurrencyList from "../currencylist";
 import { stringPhpSubstr, stringPhpSubstrBroke } from "../util";
 
 export default class DecimalMoneyFormatter implements MoneyFormatter {
-    private currencyList: CurrencyList;
+    private readonly currencyList: CurrencyList;
 
     public constructor(currencyList: CurrencyList) {
         this.currencyList = currencyList;

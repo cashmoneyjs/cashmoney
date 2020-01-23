@@ -2,9 +2,9 @@ import Currency from "../currency";
 import CurrencyList from "../currencylist";
 
 export default class AggregateCurrencyList implements CurrencyList {
-    private currencyLists: CurrencyList[];
+    private currencyLists: ReadonlyArray<CurrencyList>;
 
-    public constructor(currencyLists: CurrencyList[]) {
+    public constructor(currencyLists: ReadonlyArray<CurrencyList>) {
         this.currencyLists = currencyLists;
     }
 

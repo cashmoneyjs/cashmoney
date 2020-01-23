@@ -11,7 +11,7 @@ import { stringPhpSubstr } from "../util";
 const DECIMAL_PATTERN = /^(-)?(0|[1-9]\d*)?\.?(\d+)?$/;
 
 export default class DecimalMoneyParser implements MoneyParser {
-    private currencyList: CurrencyList;
+    private readonly currencyList: CurrencyList;
 
     public constructor(currencyList: CurrencyList) {
         this.currencyList = currencyList;

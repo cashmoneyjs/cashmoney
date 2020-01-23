@@ -6,7 +6,7 @@ interface CustomCurrencies {
 }
 
 export default class CustomCurrencyList implements CurrencyList {
-    private currencies: CustomCurrencies;
+    private readonly currencies: CustomCurrencies;
 
     public constructor(currencies: CustomCurrencies) {
         for (const [code, subunit] of Object.entries(currencies)) {

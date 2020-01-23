@@ -9,7 +9,7 @@ import { stringPhpSubstr } from "../util";
 const BITCOIN_SYMBOL_PATTERN = new RegExp(BITCOIN_SYMBOL, "g");
 
 export default class BitcoinMoneyParser implements MoneyParser {
-    private fractionDigits: number;
+    private readonly fractionDigits: number;
 
     public constructor(fractionDigits: number) {
         this.fractionDigits = fractionDigits;

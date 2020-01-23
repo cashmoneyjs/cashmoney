@@ -3,7 +3,7 @@ import Currency from "../currency";
 import MoneyParser from "../parser";
 
 export default class AggregateMoneyParser implements MoneyParser {
-    private parsers: Array<MoneyParser>;
+    private readonly parsers: ReadonlyArray<MoneyParser>;
 
     public constructor(parsers: Array<MoneyParser>) {
         if (parsers.length === 0) {
