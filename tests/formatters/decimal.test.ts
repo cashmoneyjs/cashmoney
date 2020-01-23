@@ -5,7 +5,7 @@ import CustomCurrencyList from "src/currencylists/custom";
 import Money from "src/money";
 import Currency from "src/currency";
 
-@TestFixture("DecimalMoneyFormatter")
+@TestFixture("Decimal Money Formatter")
 export default class DecimalMoneyFormatterTest {
     @TestCases(DecimalMoneyFormatterTest.moneyExamples)
     @Test("it formats money")
