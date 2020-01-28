@@ -1,9 +1,24 @@
 import Currency from "../currency";
 import CurrencyList from "../currencylist";
 
+export interface ISOCurrencies {
+    [code: string]: {
+        alphabeticCode: string;
+        currency: string;
+        minorUnit: number;
+        numericCode: number;
+    };
+}
+
 export default class ISOCurrencyList implements CurrencyList {
+    private isoCurrencies: ISOCurrencies;
+
+    public constructor(isoCurrencies: ISOCurrencies) {
+        this.isoCurrencies = isoCurrencies;
+    }
+
     public contains(currency: Currency): boolean {
-        return false;
+        return typeof this.isoCurrencies[currency.code] !== "undefined";
     }
 
     public subunitFor(currency: Currency): number {
@@ -11,7 +26,7 @@ export default class ISOCurrencyList implements CurrencyList {
             throw new Error("Cannot find ISO currency " + currency.code);
         }
 
-        return 0;
+        return this.isoCurrencies[currency.code]["minorUnit"];
     }
 
     public numericCodeFor(currency: Currency): number {
@@ -19,9 +34,12 @@ export default class ISOCurrencyList implements CurrencyList {
             throw new Error("Cannot find ISO currency " + currency.code);
         }
 
-        return 0;
+        return this.isoCurrencies[currency.code]["numericCode"];
     }
 
     public *[Symbol.iterator](): Generator<Currency> {
+        for (const code of Object.keys(this.isoCurrencies)) {
+            yield new Currency(code);
+        }
     }
 }
