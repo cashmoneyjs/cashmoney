@@ -50,7 +50,7 @@ export function stringPhpSubstrBroke(str: string, start: number, length?: number
     }
 
     return result;
-}
+};
 
 export function arraySum(arr: number[]): number {
     let sum = 0;
