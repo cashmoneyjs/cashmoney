@@ -1,18 +1,18 @@
 {
-  "name": "cashmoney",
-  "version": "1.0.0",
-  "scripts": {
-    "build": "tsc",
-    "test": "node run-tests.js 'tests/**/*.test.ts'",
-    "gen-money-factory": "ts-node bin/generate-money-factory.ts"
-  },
-  "dependencies": {
-    "trim-strings": "^1.0.5"
-  },
-  "devDependencies": {
-    "alsatian": "^3.2.1",
-    "ts-node": "^8.5.4",
-    "tsconfig-paths": "^3.9.0",
-    "typescript": "^3.7.4"
-  }
+    "name": "cashmoney",
+    "version": "1.0.0",
+    "scripts": {
+        "build": "tsc",
+        "test": "node run-tests.js 'tests/**/*.test.ts'",
+        "gen-money-factory": "ts-node bin/generate-money-factory.ts"
+    },
+    "dependencies": {
+        "trim-strings": "^1.0.5"
+    },
+    "devDependencies": {
+        "alsatian": "^3.2.1",
+        "ts-node": "^8.6.2",
+        "tsconfig-paths": "^3.9.0",
+        "typescript": "^3.7.5"
+    }
 }
