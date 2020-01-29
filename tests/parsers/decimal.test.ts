@@ -32,6 +32,9 @@ export default class DecimalMoneyParserTest {
             contains(currency: Currency): boolean {
                 return true;
             },
+            nameFor(currency: Currency): string {
+                return currency.code;
+            },
             subunitFor(currency: Currency): number {
                 return subunit;
             },
