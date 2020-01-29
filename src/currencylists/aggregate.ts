@@ -18,6 +18,16 @@ export default class AggregateCurrencyList implements CurrencyList {
         return false;
     }
 
+    public nameFor(currency: Currency): string {
+        for (const currencyList of this.currencyLists) {
+            if (currencyList.contains(currency) === true) {
+                return currencyList.nameFor(currency);
+            }
+        }
+
+        throw new Error("Cannot find currency " + currency.code);
+    }
+
     public subunitFor(currency: Currency): number {
         for (const currencyList of this.currencyLists) {
             if (currencyList.contains(currency) === true) {

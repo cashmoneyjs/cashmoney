@@ -21,6 +21,14 @@ export default class ISOCurrencyList implements CurrencyList {
         return typeof this.isoCurrencies[currency.code] !== "undefined";
     }
 
+    public nameFor(currency: Currency): string {
+        if (this.contains(currency) === false) {
+            throw new Error("Cannot find ISO currency " + currency.code);
+        }
+
+        return this.isoCurrencies[currency.code]["currency"];
+    }
+
     public subunitFor(currency: Currency): number {
         if (this.contains(currency) === false) {
             throw new Error("Cannot find ISO currency " + currency.code);

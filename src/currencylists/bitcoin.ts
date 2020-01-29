@@ -9,6 +9,16 @@ export default class BitcoinCurrencyList implements CurrencyList {
         return currency.code === CODE;
     }
 
+    public nameFor(currency: Currency): string {
+        if (currency.code !== CODE) {
+            throw new Error(
+                currency.code + " is not bitcoin and is not supported by this currency repository"
+            );
+        }
+
+        return "Bitcoin";
+    }
+
     public subunitFor(currency: Currency): number {
         if (currency.code !== CODE) {
             throw new Error(

@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "scripts": {
     "build": "tsc",
-    "test": "node run-tests.js 'tests/**/*.test.ts'"
+    "test": "node run-tests.js 'tests/**/*.test.ts'",
+    "gen-money-factory": "ts-node bin/generate-money-factory.ts"
   },
   "dependencies": {
     "trim-strings": "^1.0.5"
