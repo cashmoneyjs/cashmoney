@@ -1,6 +1,11 @@
 {
     "name": "cashmoney",
     "version": "1.0.0",
+    "description": "Everything you need to handle monetary values sensibly in JS.",
+    "keywords": ["cashmoney", "money", "currency", "moneyphp"],
+    "author": "Matthew Gamble <git@matthewgamble.net>",
+    "homepage": "https://github.com/djmattyg007/js-cashmoney",
+    "license": "MIT",
     "scripts": {
         "build": "tsc",
         "test": "node run-tests.js 'tests/**/*.test.ts'",
