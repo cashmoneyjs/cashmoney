@@ -62,19 +62,6 @@ export function arraySum(arr: number[]): number {
     return sum;
 };
 
-export function arrayKeysWithSearch<T>(arr: T[], search: T, strict: boolean = false): number[] {
-    const arrKeys = [];
-
-    for (const [key, val] of arr.entries()) {
-        const check = strict === true ? val === search : val == search;
-        if (check === true) {
-            arrKeys.push(key);
-        }
-    }
-
-    return arrKeys;
-};
-
 export function mapKeysWithSearch<T>(map: Map<number, T>, search: T, strict: boolean = false): number[] {
     const mapKeys = [];
 
