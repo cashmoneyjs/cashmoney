@@ -8,6 +8,7 @@
         "noImplicitReturns": true,
         "noUnusedLocals": true,
         "moduleResolution": "node",
+        "esModuleInterop": true,
         "sourceMap": true,
         "lib": ["esnext"],
         "outDir": "dist"
