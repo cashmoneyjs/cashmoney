@@ -198,11 +198,9 @@ export default class Num {
                 // In PHP, casting "-" to an integer Just Works(tm), and it turns into
                 // a zero. Javascript actually has a concept of NaN, so that doesn't work
                 // automatically and we need to handle it specially.
-                let subNewValue: number;
-                if (moneyValue[position - 1] === "-") {
+                let subNewValue = parseInt(moneyValue[position - 1]);
+                if (isNaN(subNewValue)) {
                     subNewValue = 0;
-                } else {
-                    subNewValue = parseInt(moneyValue[position - 1]);
                 }
                 const newValue = String(subNewValue + addend);
 
