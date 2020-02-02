@@ -5,7 +5,7 @@ import Currency from "../currency";
 import Num from "../number";
 import CurrencyList from "../currencylist";
 import MoneyParser from "../parser";
-import { stringPhpSubstr } from "../util";
+import { stringPhpSubstr } from "../_util";
 
 //const DECIMAL_PATTERN = /^(?P<sign>-)?(?P<digits>0|[1-9]\d*)?\.?(?P<fraction>\d+)?$/;
 const DECIMAL_PATTERN = /^(-)?(0|[1-9]\d*)?\.?(\d+)?$/;

@@ -3,7 +3,7 @@ import Money from "../money";
 import MoneyFormatter from "../formatter";
 import CurrencyList from "../currencylist";
 import { CODE as BITCOIN_CODE, SYMBOL as BITCOIN_SYMBOL } from "../currencylists/bitcoin";
-import { stringPhpSubstr } from "../util";
+import { stringPhpSubstr } from "../_util";
 
 export default class BitcoinMoneyFormatter implements MoneyFormatter {
     private readonly fractionDigits: number;

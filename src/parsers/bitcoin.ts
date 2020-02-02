@@ -4,7 +4,7 @@ import Money from "../money";
 import Currency from "../currency";
 import MoneyParser from "../parser";
 import { CODE as BITCOIN_CODE, SYMBOL as BITCOIN_SYMBOL } from "../currencylists/bitcoin";
-import { stringPhpSubstr } from "../util";
+import { stringPhpSubstr } from "../_util";
 
 const BITCOIN_SYMBOL_PATTERN = new RegExp(BITCOIN_SYMBOL, "g");
 

@@ -4,7 +4,7 @@ import Currency from "./currency";
 import Num from "./number";
 import { RoundingMode } from "./rounding";
 import { numeric } from "./types";
-import { arraySum, mapKeysWithSearch, objectKeysWithSearch } from "./util";
+import { arraySum, mapKeysWithSearch, objectKeysWithSearch } from "./_util";
 
 interface NamedRatios {
     [name: string]: number;

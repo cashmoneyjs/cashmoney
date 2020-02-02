@@ -1,7 +1,7 @@
 import Money from "../money";
 import MoneyFormatter from "../formatter";
 import CurrencyList from "../currencylist";
-import { stringPhpSubstr, stringPhpSubstrBroke } from "../util";
+import { stringPhpSubstr, stringPhpSubstrBroke } from "../_util";
 
 interface IntlNumberFormatterSettings {
     locales?: string | string[];
