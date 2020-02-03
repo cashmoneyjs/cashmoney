@@ -1,5 +1,7 @@
 import { Matcher } from "alsatian";
 import Money from "src/money";
+import Currency from "src/currency";
+import CurrencyPair from "src/currencypair";
 
 export class MoneyMatcher extends Matcher<Money> {
     public toBe(other: Money) {
@@ -94,5 +96,37 @@ export class MoneyMatcher extends Matcher<Money> {
             }` + `to be negative.`,
             this.shouldMatch ? "negative" : "positive"
         );
+    }
+}
+
+export class CurrencyMatcher extends Matcher<Currency> {
+    public toBe(other: Currency) {
+        this._registerMatcher(
+            (this.actualValue.equals(other)) === this.shouldMatch,
+            `Expected ${JSON.stringify(this.actualValue)} ${
+                !this.shouldMatch ? "not " : ""
+            }` + `to equal ${JSON.stringify(other)}.`,
+            other
+        );
+    }
+
+    public toEqual(other: Currency) {
+        this.toBe(other);
+    }
+}
+
+export class CurrencyPairMatcher extends Matcher<CurrencyPair> {
+    public toBe(other: CurrencyPair) {
+        this._registerMatcher(
+            (this.actualValue.equals(other)) === this.shouldMatch,
+            `Expected ${JSON.stringify(this.actualValue)} ${
+                !this.shouldMatch ? "not " : ""
+            }` + `to equal ${JSON.stringify(other)}.`,
+            other
+        );
+    }
+
+    public toEqual(other: CurrencyPair) {
+        this.toBe(other);
     }
 }
