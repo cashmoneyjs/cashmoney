@@ -97,6 +97,10 @@ export default class Money {
         return new Money(amount, this.currency);
     }
 
+    public plus(...addends: Money[]): Money {
+        return this.add(...addends);
+    }
+
     public subtract(...subtrahends: Money[]): Money {
         let amount = this.amount;
         const calculator = this.calculator;
@@ -108,6 +112,10 @@ export default class Money {
         }
 
         return new Money(amount, this.currency);
+    }
+
+    public minus(...subtrahends: Money[]): Money {
+        return this.subtract(...subtrahends);
     }
 
     private assertOperand(operand: numeric): asserts operand is numeric {
@@ -128,6 +136,10 @@ export default class Money {
         );
 
         return this.newInstance(product);
+    }
+
+    public times(multiplier: numeric, roundingMode: RoundingMode = RoundingMode.ROUND_HALF_UP): Money {
+        return this.multiply(multiplier, roundingMode);
     }
 
     public divide(divisor: numeric, roundingMode: RoundingMode = RoundingMode.ROUND_HALF_UP): Money {
