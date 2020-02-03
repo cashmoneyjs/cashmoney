@@ -1,5 +1,3 @@
-import CurrencyList from "./currencylist";
-
 export default class Currency {
     public readonly code: string;
 
@@ -13,10 +11,6 @@ export default class Currency {
 
     public equals(other: Currency): boolean {
         return this.code === other.code;
-    }
-
-    public isAvailableWithin(currencyList: CurrencyList): boolean {
-        return currencyList.contains(this);
     }
 
     public toString(): string {
