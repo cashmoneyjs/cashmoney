@@ -14,6 +14,46 @@ This port doesn't yet include everything found in the MoneyPHP library. For exam
 support for various exchanges and formatters is not yet available. However, the core
 functionality is all available.
 
+## Features
+
+- JSON Serialization
+- Money formatting using built-in JS Intl functionality
+- Money exchange (conversion rates must be supplied manually)
+
+## Install
+
+With yarn:
+
+```bash
+$ yarn add cashmoney
+```
+
+Or with npm:
+
+```bash
+$ npm add cashmoney
+```
+
+## Example usage
+
+```typescript
+import Money from "cashmoney/money";
+import Currency from "cashmoney/currency";
+import { AUD } from "cashmoney/factory";
+
+const fiveAud = new Money(500, new Currency("AUD"));
+const tenAud = fiveAud.add(fiveAud);
+
+// Or alternatively
+const fiveAudAlt = AUD(500);
+const tenAudAlt = AUD(1000);
+
+const [part1, part2, part3] = tenAud.allocate([1, 1, 1]);
+assert(part1.equals(AUD(334)));
+assert(part2.equals(AUD(333)));
+assert(part3.equals(AUD(333)));
+```
+
 ## Tests
 
 To run the test suite, run ``yarn run test`` in the root of this repository.
