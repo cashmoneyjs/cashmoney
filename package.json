@@ -6,6 +6,8 @@
     "author": "Matthew Gamble <git@matthewgamble.net>",
     "homepage": "https://github.com/djmattyg007/js-cashmoney",
     "license": "MIT",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
     "scripts": {
         "build": "tsc",
         "test": "node run-tests.js 'tests/**/*.test.ts'",

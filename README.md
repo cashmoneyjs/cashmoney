@@ -37,9 +37,8 @@ $ npm add cashmoney
 ## Example usage
 
 ```typescript
-import Money from "cashmoney/money";
-import Currency from "cashmoney/currency";
-import { AUD } from "cashmoney/factory";
+import { Money, Currency, MoneyFactory } from "cashmoney";
+const { AUD } = MoneyFactory;
 
 const fiveAud = new Money(500, new Currency("AUD"));
 const tenAud = fiveAud.add(fiveAud);
