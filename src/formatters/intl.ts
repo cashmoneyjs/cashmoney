@@ -3,7 +3,7 @@ import MoneyFormatter from "../formatter";
 import CurrencyList from "../currencylist";
 import { stringPhpSubstr, stringPhpSubstrBroke } from "../_util";
 
-interface IntlNumberFormatterSettings {
+export interface IntlNumberFormatterSettings {
     locales?: string | string[];
     style?: "decimal" | "currency";
     currencyDisplay?: "symbol" | "code" | "name";
