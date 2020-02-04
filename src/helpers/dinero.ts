@@ -7,7 +7,7 @@ interface DineroOptions {
     precision?: number;
 }
 
-let defaultCurrency: Currency | null = null;
+let defaultCurrency: Currency = new Currency("USD");
 
 export function setDefaultDineroCurrency(currencyCode: string): void {
     defaultCurrency = new Currency(currencyCode);
@@ -25,10 +25,8 @@ export function dineroToMoney(opts: DineroOptions): Money {
     let currency: Currency;
     if (opts.currency) {
         currency = new Currency(opts.currency);
-    } else if (defaultCurrency) {
-        currency = defaultCurrency;
     } else {
-        throw new Error("Cannot create money object from dinero options due to no currency being specified.");
+        currency = defaultCurrency;
     }
 
     return new Money(opts.amount, currency);
