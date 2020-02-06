@@ -1,18 +1,9 @@
 {
     "name": "cashmoney",
-    "version": "0.5.0",
     "description": "Everything you need to handle monetary values sensibly in JS.",
-    "keywords": ["cashmoney", "money", "currency", "moneyphp"],
-    "author": "Matthew Gamble <git@matthewgamble.net>",
-    "homepage": "https://github.com/djmattyg007/js-cashmoney",
+    "version": "0.5.0",
     "license": "MIT",
-    "main": "dist/index.js",
-    "types": "dist/index.d.ts",
-    "scripts": {
-        "build": "tsc",
-        "test": "node run-tests.js 'tests/**/*.test.ts'",
-        "gen-money-factory": "ts-node bin/generate-money-factory.ts"
-    },
+    "author": "Matthew Gamble <git@matthewgamble.net>",
     "dependencies": {
         "trim-strings": "^1.0.5"
     },
@@ -22,5 +13,19 @@
         "tsconfig-paths": "^3.9.0",
         "typescript": "^3.7.5"
     },
-    "sideEffects": false
+    "scripts": {
+        "build": "tsc",
+        "test": "node run-tests.js 'tests/**/*.test.ts'",
+        "gen-money-factory": "ts-node bin/generate-money-factory.ts"
+    },
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "files": ["src/**/*.ts", "dist/**/*.js", "dist/**/*.d.ts", "dist/**/*.js.map"],
+    "sideEffects": false,
+    "homepage": "https://github.com/djmattyg007/js-cashmoney",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/djmattyg007/js-cashmoney.git"
+    },
+    "keywords": ["cashmoney", "money", "currency", "moneyphp"]
 }
