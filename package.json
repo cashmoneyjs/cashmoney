@@ -1,5 +1,5 @@
 {
-    "name": "cashmoney",
+    "name": "@cashmoney/core",
     "description": "Everything you need to handle monetary values sensibly in JS.",
     "version": "0.5.0",
     "license": "MIT",
