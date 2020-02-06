@@ -20,7 +20,7 @@
     },
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
-    "files": ["src/**/*.ts", "dist/**/*.js", "dist/**/*.d.ts", "dist/**/*.js.map"],
+    "files": ["src/**/*.ts", "dist/**/*.js", "dist/**/*.d.ts", "dist/**/*.js.map", "tsconfig.json"],
     "sideEffects": false,
     "homepage": "https://github.com/djmattyg007/js-cashmoney",
     "repository": {
