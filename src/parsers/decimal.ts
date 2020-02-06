@@ -2,7 +2,7 @@ import { trimStart } from "trim-strings";
 
 import Money from "../money";
 import Currency from "../currency";
-import Num from "../number";
+import Num from "../_number";
 import CurrencyList from "../currencylist";
 import MoneyParser from "../parser";
 import { stringPhpSubstr } from "../_util";

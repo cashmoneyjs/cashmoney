@@ -1,6 +1,6 @@
 import { trimStart } from "trim-strings";
 
-import Num from "../number";
+import Num from "../_number";
 import { RoundingMode } from "../rounding";
 import Calculator from "../calculator";
 import { IntString, numeric } from "../types";

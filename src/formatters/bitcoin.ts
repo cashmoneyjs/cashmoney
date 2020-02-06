@@ -1,4 +1,4 @@
-import Num from "../number";
+import Num from "../_number";
 import Money from "../money";
 import MoneyFormatter from "../formatter";
 import CurrencyList from "../currencylist";

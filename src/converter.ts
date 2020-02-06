@@ -2,7 +2,7 @@ import Money from "./money";
 import Currency from "./currency";
 import CurrencyList from "./currencylist";
 import Exchange from "./exchange";
-import Num from "./number";
+import Num from "./_number";
 import { RoundingMode } from "./rounding";
 
 export default class Converter {

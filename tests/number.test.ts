@@ -1,6 +1,6 @@
 import { TestFixture, Test, TestCases, Expect } from "alsatian";
 
-import Num from "src/number";
+import Num from "src/_number";
 
 @TestFixture("Number")
 export default class NumberTest {

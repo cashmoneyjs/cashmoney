@@ -1,7 +1,7 @@
 import Calculator from "./calculator";
 import CalculatorRegistry from "./calculator-registry";
 import Currency from "./currency";
-import Num from "./number";
+import Num from "./_number";
 import { RoundingMode } from "./rounding";
 import { numeric } from "./types";
 import { arraySum, mapKeysWithSearch, objectKeysWithSearch } from "./_util";
