@@ -70,6 +70,16 @@ export default class DecimalMoneyParser implements MoneyParser {
         return new Money(decimal, forceCurrency);
     }
 
+    public parseMultiple(monies: string[], forceCurrency?: Currency): Money[] {
+        const moneyObjs: Money[] = [];
+
+        for (const money of monies) {
+            moneyObjs.push(this.parse(money, forceCurrency));
+        }
+
+        return moneyObjs;
+    }
+
     public parseNumber(money: number, forceCurrency: Currency): Money {
         const subunits = this.currencyList.subunitFor(forceCurrency);
         return this.parse(money.toFixed(subunits), forceCurrency);

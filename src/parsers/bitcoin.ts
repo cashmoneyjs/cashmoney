@@ -48,4 +48,14 @@ export default class BitcoinMoneyParser implements MoneyParser {
 
         return new Money(decimal, forceCurrency);
     }
+
+    public parseMultiple(monies: string[], forceCurrency?: Currency): Money[] {
+        const moneyObjs: Money[] = [];
+
+        for (const money of monies) {
+            moneyObjs.push(this.parse(money, forceCurrency));
+        }
+
+        return moneyObjs;
+    }
 }

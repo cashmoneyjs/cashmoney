@@ -23,4 +23,14 @@ export default class AggregateMoneyParser implements MoneyParser {
 
         throw new Error("Unable to parse " + money);
     }
+
+    public parseMultiple(monies: string[], forceCurrency?: Currency): Money[] {
+        const moneyObjs: Money[] = [];
+
+        for (const money of monies) {
+            moneyObjs.push(this.parse(money, forceCurrency));
+        }
+
+        return moneyObjs;
+    }
 }
