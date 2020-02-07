@@ -15,7 +15,7 @@ export default class BitcoinMoneyParser implements MoneyParser {
         this.fractionDigits = fractionDigits;
     }
 
-    parse(money: string, forceCurrency?: Currency): Money {
+    public parse(money: string, forceCurrency?: Currency): Money {
         if (money.indexOf(BITCOIN_SYMBOL) === -1) {
             throw new Error("Value cannot be parsed as Bitcoin");
         }

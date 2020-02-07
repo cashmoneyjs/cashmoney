@@ -17,7 +17,7 @@ export default class DecimalMoneyParser implements MoneyParser {
         this.currencyList = currencyList;
     }
 
-    parse(money: string, forceCurrency?: Currency): Money {
+    public parse(money: string, forceCurrency?: Currency): Money {
         if (!forceCurrency) {
             throw new Error("DecimalMoneyParser cannot parse currency symbols. Use forceCurrency argument");
         }
