@@ -43,7 +43,7 @@ const { AUD } = MoneyFactory;
 const fiveAud = new Money(500, new Currency("AUD"));
 const tenAud = fiveAud.add(fiveAud);
 
-// Or alternatively
+// Alternatively:
 const fiveAudAlt = AUD(500);
 const tenAudAlt = AUD(1000);
 
@@ -63,7 +63,7 @@ const parser = new DecimalMoneyParser(currencies);
 
 const AUD = new Currency("AUD");
 const fiveAud = parser.parse("5.00", AUD);
-console.log(fiveAud); // outputs '{"amount":"500","currency":"AUD"}'
+console.log(JSON.stringify(fiveAud)); // outputs '{"amount":"500","currency":"AUD"}'
 ```
 
 ### Formatting
@@ -95,7 +95,7 @@ console.log(usFormatter.format(fiveUsd)); // outputs '$5.00'
 
 ## Tests
 
-To run the test suite, run ``yarn run test`` in the root of this repository.
+To run the test suite, run ``yarn run test`` in the root of the repository.
 
 ## License
 
