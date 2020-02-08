@@ -2,10 +2,10 @@ import { trimStart } from "trim-strings";
 
 import Num from "../_number";
 import { RoundingMode } from "../rounding";
-import Calculator from "../calculator";
+import { ICalculator } from "../calculator";
 import { IntString, numeric } from "../types";
 
-export default class JsNumberCalculator implements Calculator {
+export default class JsNumberCalculator implements ICalculator {
     public compare(a: numeric, b: numeric): number {
         let aN: number;
         if (typeof a === "string") {

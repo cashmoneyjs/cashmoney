@@ -5,6 +5,7 @@
     "license": "MIT",
     "author": "Matthew Gamble <git@matthewgamble.net>",
     "dependencies": {
+        "bignumber.js": "^9.0.0",
         "trim-strings": "^1.0.5"
     },
     "devDependencies": {
@@ -20,12 +21,23 @@
     },
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
-    "files": ["src/**/*.ts", "dist/**/*.js", "dist/**/*.d.ts", "dist/**/*.js.map", "tsconfig.json"],
+    "files": [
+        "src/**/*.ts",
+        "dist/**/*.js",
+        "dist/**/*.d.ts",
+        "dist/**/*.js.map",
+        "tsconfig.json"
+    ],
     "sideEffects": false,
     "homepage": "https://github.com/djmattyg007/js-cashmoney",
     "repository": {
         "type": "git",
         "url": "https://github.com/djmattyg007/js-cashmoney.git"
     },
-    "keywords": ["cashmoney", "money", "currency", "moneyphp"]
+    "keywords": [
+        "cashmoney",
+        "money",
+        "currency",
+        "moneyphp"
+    ]
 }
