@@ -7,4 +7,5 @@ export enum RoundingMode {
     ROUND_DOWN = 6,
     ROUND_HALF_POSITIVE_INFINITY = 7,
     ROUND_HALF_NEGATIVE_INFINITY = 8,
+    ROUND_TRUNCATE = 9,
 };

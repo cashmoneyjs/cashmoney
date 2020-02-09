@@ -1,9 +1,11 @@
+import BigNumber from "bignumber.mjs";
 import Calculator from "./calculator";
 import CalculatorRegistry from "./calculator-registry";
 import Currency from "./currency";
 import Num from "./_number";
+import Num2 from "./_number2";
 import { RoundingMode } from "./rounding";
-import { numeric } from "./types";
+import { numeric2 } from "./types";
 import { arraySum, mapKeysWithSearch, objectKeysWithSearch } from "./_util";
 
 interface NamedRatios {
@@ -15,30 +17,29 @@ interface NamedMoneyMap {
 }
 
 export default class Money {
-    public readonly amount: string;
+    private readonly _amount: Num2;
     public readonly currency: Currency;
 
-    public constructor(amount: numeric, currency: Currency) {
-        if (typeof amount === "number") {
-            if (Number.isInteger(amount) === false) {
-                throw new Error("Amount must be an integer(ish) value");
-            }
-
-            this.amount = String(amount);
+    public constructor(amount: numeric2 | Num2, currency: Currency) {
+        if (amount instanceof Num2) {
+            this._amount = amount;
         } else {
-            const numObj = Num.fromString(amount);
-            if (numObj.isInteger === false) {
-                throw new Error("Amount must be an integer(ish) value");
-            }
-
-            this.amount = numObj.integerPart;
+            this._amount = new Num2(amount);
         }
 
         this.currency = currency;
     }
 
-    private newInstance(amount: numeric): Money {
+    private newInstance(amount: Num2 | numeric2): Money {
         return new Money(amount, this.currency);
+    }
+
+    public get amount(): string {
+        return this._amount.toString();
+    }
+
+    public get value(): BigNumber {
+        return this._amount.num;
     }
 
     public isSameCurrency(other: Money): boolean {
@@ -52,7 +53,7 @@ export default class Money {
     }
 
     public equals(other: Money): boolean {
-        return this.isSameCurrency(other) && this.amount === other.amount;
+        return this.isSameCurrency(other) && this._amount.equals(other._amount);
     }
 
     /**
@@ -65,7 +66,7 @@ export default class Money {
     public compare(other: Money): number {
         this.assertSameCurrency(other);
 
-        return this.calculator.compare(this.amount, other.amount);
+        return this._amount.compare(other._amount);
     }
 
     public greaterThan(other: Money): boolean {
@@ -85,16 +86,13 @@ export default class Money {
     }
 
     public add(...addends: Money[]): Money {
-        let amount = this.amount;
-        const calculator = this.calculator;
-
-        for (const addend of addends) {
-            this.assertSameCurrency(addend);
-
-            amount = calculator.add(amount, addend.amount);
-        }
-
-        return new Money(amount, this.currency);
+        const genFunc = (): Generator<Num2> => {
+            for (const addend of addends) {
+                this.assertSameCurrency(addend);
+                yield addend._amount;
+            }
+        };
+        return this.newInstance(Num2.add(this._amount, genFunc()));
     }
 
     public plus(...addends: Money[]): Money {
@@ -102,97 +100,62 @@ export default class Money {
     }
 
     public subtract(...subtrahends: Money[]): Money {
-        let amount = this.amount;
-        const calculator = this.calculator;
-
-        for (const subtrahend of subtrahends) {
-            this.assertSameCurrency(subtrahend);
-
-            amount = calculator.subtract(amount, subtrahend.amount);
-        }
-
-        return new Money(amount, this.currency);
+        const genFunc = (): Generator<Num2> => {
+            for (const subtrahend of subtrahends) {
+                this.assertSameCurrency(subtrahend);
+                yield subtrahend._amount;
+            }
+        };
+        return this.newInstance(Num2.subtract(this._amount, genFunc()));
     }
 
     public minus(...subtrahends: Money[]): Money {
         return this.subtract(...subtrahends);
     }
 
-    private assertOperand(operand: numeric): asserts operand is numeric {
-        const operandType = typeof(operand);
-        if (["string", "number"].includes(operandType) === false) {
-            throw new Error(
-                "Operand should be a numeric value, " + operandType + " given."
-            );
-        }
+    public multiply(multiplier: numeric2): Money {
+        return this.newInstance(this._amount.multiply(multiplier));
     }
 
-    public multiply(multiplier: numeric, roundingMode: RoundingMode = RoundingMode.ROUND_HALF_UP): Money {
-        this.assertOperand(multiplier);
-
-        const product = this.round(
-            this.calculator.multiply(this.amount, multiplier),
-            roundingMode,
-        );
-
-        return this.newInstance(product);
+    public times(multiplier: numeric2): Money {
+        return this.multiply(multiplier);
     }
 
-    public times(multiplier: numeric, roundingMode: RoundingMode = RoundingMode.ROUND_HALF_UP): Money {
-        return this.multiply(multiplier, roundingMode);
+    public multipliedBy(multiplier: numeric2): Money {
+        return this.multiply(multiplier);
     }
 
-    public divide(divisor: numeric, roundingMode: RoundingMode = RoundingMode.ROUND_HALF_UP): Money {
-        this.assertOperand(divisor);
+    public divide(divisor: numeric2): Money {
+        return this.newInstance(this._amount.divide(divisor));
+    }
 
-        const divisorS = String(Num.fromNumber(divisor));
-
-        if (this.calculator.compare(divisorS, "0") === 0) {
-            throw new Error("Division by zero");
-        }
-
-        const quotient = this.round(
-            this.calculator.divide(this.amount, divisorS),
-            roundingMode,
-        );
-
-        return this.newInstance(quotient);
+    public dividedBy(divisor: numeric2): Money {
+        return this.divide(divisor);
     }
 
     public mod(divisor: Money): Money {
         this.assertSameCurrency(divisor);
 
-        return new Money(
-            this.calculator.mod(this.amount, divisor.amount),
-            this.currency,
-        );
+        return this.newInstance(this._amount.mod(divisor._amount));
     }
 
-    public percentage(percent: number, roundingMode: RoundingMode = RoundingMode.ROUND_HALF_UP): Money {
-        if (percent < 0 || percent > 100) {
-            throw new RangeError("Percentage values must be between 0 and 100.");
-        }
-
-        return this.multiply(percent / 100, roundingMode);
+    public percentage(percent: number): Money {
+        return this.newInstance(this._amount.percent(percent));
     }
 
-    public percent(percent: number, roundingMode: RoundingMode = RoundingMode.ROUND_HALF_UP): Money {
+    public percent(percent: number): Money {
         return this.percentage(percent, roundingMode);
     }
 
-    public subtractPercentage(percent: number, roundingMode: RoundingMode = RoundingMode.ROUND_HALF_UP): Money {
+    public subtractPercentage(percent: number): Money {
         if (percent < 0 || percent > 100) {
             throw new RangeError("Percentage values must be between 0 and 100.");
         }
 
-        const percentFraction = percent / 100;
-        const percentage = this.calculator.multiply(this.amount, percentFraction);
-        const result = this.calculator.subtract(this.amount, percentage);
-        const roundedResult = this.round(result, roundingMode);
-        return this.newInstance(roundedResult);
+        return this.newInstance(this._amount.subtractPercent(percent));
     }
 
-    public subtractPercent(percent: number, roundingMode: RoundingMode = RoundingMode.ROUND_HALF_UP): Money {
+    public subtractPercent(percent: number): Money {
         return this.subtractPercentage(percent, roundingMode);
     }
 
