@@ -1,7 +1,7 @@
 {
     "name": "@cashmoney/core",
     "description": "Everything you need to handle monetary values sensibly in JS.",
-    "version": "0.5.1",
+    "version": "0.5.2",
     "license": "MIT",
     "author": "Matthew Gamble <git@matthewgamble.net>",
     "dependencies": {
