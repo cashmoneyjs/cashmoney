@@ -176,7 +176,11 @@ export default class Money {
         return this.multiply(percent / 100, roundingMode);
     }
 
-    public subtractPercent(percent: number, roundingMode: RoundingMode = RoundingMode.ROUND_HALF_UP): Money {
+    public percent(percent: number, roundingMode: RoundingMode = RoundingMode.ROUND_HALF_UP): Money {
+        return this.percentage(percent, roundingMode);
+    }
+
+    public subtractPercentage(percent: number, roundingMode: RoundingMode = RoundingMode.ROUND_HALF_UP): Money {
         if (percent < 0 || percent > 100) {
             throw new RangeError("Percentage values must be between 0 and 100.");
         }
@@ -186,6 +190,10 @@ export default class Money {
         const result = this.calculator.subtract(this.amount, percentage);
         const roundedResult = this.round(result, roundingMode);
         return this.newInstance(roundedResult);
+    }
+
+    public subtractPercent(percent: number, roundingMode: RoundingMode = RoundingMode.ROUND_HALF_UP): Money {
+        return this.subtractPercentage(percent, roundingMode);
     }
 
     public allocate(ratios: number[]): Money[] {

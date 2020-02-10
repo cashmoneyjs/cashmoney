@@ -24,19 +24,29 @@ export default class JsNumberCalculator implements Calculator {
         return (aN < bN) ? -1 : ((aN > bN) ? 1 : 0);
     }
 
-    public add(amount: IntString, addend: IntString): IntString {
+    public add(amount: IntString, addend: numeric): string {
         const amountN = parseInt(amount);
-        const addendN = parseInt(addend);
+        let addendN: number;
+        if (typeof addend === "string") {
+            addendN = parseFloat(addend);
+        } else {
+            addendN = addend;
+        }
 
         const result = amountN + addendN;
         return String(result);
     }
 
-    public subtract(amount: IntString, subtrahend: IntString): IntString {
+    public subtract(amount: IntString, subtrahend: numeric): string {
         const amountN = parseInt(amount);
-        const addendN = parseInt(subtrahend);
+        let subtrahendN: number;
+        if (typeof subtrahend === "string") {
+            subtrahendN = parseFloat(subtrahend);
+        } else {
+            subtrahendN = subtrahend;
+        }
 
-        const result = amountN - addendN;
+        const result = amountN - subtrahendN;
         return String(result);
     }
 

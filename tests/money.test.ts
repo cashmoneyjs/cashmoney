@@ -1,3 +1,4 @@
+/// <reference path="./alsatian-ambient.d.ts" />
 import { TestFixture, Test, TestCases, Expect } from "alsatian";
 
 import Money from "src/money";
@@ -196,6 +197,18 @@ export default class MoneyTest {
 
         Expect(smallerMoney instanceof Money).toBeTruthy();
         Expect(smallerMoney.amount).toBe(expected);
+        Expect(smallerMoney).toBeLessThanOrEqual(money);
+    }
+
+    @TestCases(MoneyTest.subtractPercentageExamples)
+    @Test("it subtracts a percentage")
+    public itSubtractsAPercentage(amount: number, percent: number, expected: string) {
+        const money = new Money(amount, new Currency(CURRENCY));
+        const smallerMoney = money.subtractPercentage(percent);
+
+        Expect(smallerMoney instanceof Money).toBeTruthy();
+        Expect(smallerMoney.amount).toBe(expected);
+        Expect(smallerMoney).toBeLessThanOrEqual(money);
     }
 
     @TestCases(MoneyTest.invalidPercentageExamples)
@@ -407,6 +420,18 @@ export default class MoneyTest {
             [10, 25, RoundingMode.ROUND_HALF_DOWN, '2'],
             [100, 25, RoundingMode.ROUND_HALF_UP, '25'],
             [100, 25, RoundingMode.ROUND_HALF_DOWN, '25'],
+        ];
+    }
+
+    public static subtractPercentageExamples() {
+        return [
+            [100, 25, '75'],
+            [80, 25, '60'],
+            [80, 75, '20'],
+            [60, 70, '18'],
+            [9999, 15, '8499'],
+            [50, 0, '50'],
+            [250, 100, '0'],
         ];
     }
 

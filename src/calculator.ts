@@ -3,8 +3,8 @@ import { IntString, numeric } from "./types";
 
 export default interface Calculator {
     compare(a: numeric, b: numeric): number;
-    add(amount: IntString, addend: IntString): IntString;
-    subtract(amount: IntString, subtrahend: IntString): IntString;
+    add(amount: IntString, addend: numeric): string;
+    subtract(amount: IntString, subtrahend: numeric): string;
     multiply(amount: IntString, multiplier: numeric): string;
     divide(amount: IntString, divisor: numeric): string;
     ceil(num: numeric): IntString;
