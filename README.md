@@ -16,7 +16,7 @@ functionality is all available.
 
 ## Features
 
-- JSON Serialization
+- JSON serialization
 - Money formatting using built-in JS Intl functionality
 - Money exchange (conversion rates must be supplied manually)
 
@@ -99,7 +99,7 @@ To run the test suite, run ``yarn run test`` in the root of the repository.
 
 ## License
 
-This library is made available under the MIT License (MIT). Please see the [license file](LICENSE)
+This library is made available under the MIT License (MIT). Please see the [license file](LICENSE.txt)
 for more information.
 
 ## Acknowledgements
