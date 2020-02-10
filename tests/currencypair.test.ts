@@ -1,3 +1,4 @@
+/// <reference path="./alsatian-ambient.d.ts" />
 import { TestFixture, Test, Expect } from "alsatian";
 
 import Currency from "src/currency";
