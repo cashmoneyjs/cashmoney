@@ -3,6 +3,7 @@ import CurrencyList from "../currencylist";
 
 export const CODE = "XBT";
 export const SYMBOL = "\xC9\x83";
+export const SUBUNIT = 8;
 
 export default class BitcoinCurrencyList implements CurrencyList {
     public contains(currency: Currency): boolean {
@@ -26,7 +27,7 @@ export default class BitcoinCurrencyList implements CurrencyList {
             );
         }
 
-        return 8;
+        return SUBUNIT;
     }
 
     public *[Symbol.iterator](): Generator<Currency> {

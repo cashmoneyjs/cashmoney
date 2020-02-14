@@ -1,5 +1,5 @@
-import Money from "../money";
 import MoneyFormatter from "../formatter";
+import RoundedMoney from "../roundedmoney";
 
 interface MoneyFormatterMap {
     [currencyCode: string]: MoneyFormatter;
@@ -10,13 +10,13 @@ export default class AggregateMoneyFormatter implements MoneyFormatter {
 
     public constructor(formatters: MoneyFormatterMap) {
         if (Object.keys(formatters).length === 0) {
-            throw new Error("Cannot initialize aggregate money formatter without any child formatters");
+            throw new Error("Cannot initialize aggregate money formatter without any child formatters.");
         }
 
         this.formatters = Object.assign({}, formatters);
     }
 
-    public format(money: Money): string {
+    public format(money: RoundedMoney): string {
         const currencyCode = money.currency.code;
 
         if (typeof this.formatters[currencyCode] !== "undefined") {

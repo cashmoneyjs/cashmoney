@@ -1,36 +1,25 @@
-import Money from "../money";
-import Currency from "../currency";
 import MoneyParser from "../parser";
+import PreciseMoney from "../precisemoney";
 
 export default class AggregateMoneyParser implements MoneyParser {
     private readonly parsers: ReadonlyArray<MoneyParser>;
 
-    public constructor(parsers: Array<MoneyParser>) {
+    public constructor(parsers: ReadonlyArray<MoneyParser>) {
         if (parsers.length === 0) {
             throw new Error("Cannot initialize aggregate money parser without any child parsers");
         }
 
-        this.parsers = parsers.slice(0);
+        this.parsers = parsers;
     }
 
-    public parse(money: string, forceCurrency?: Currency): Money {
+    public parse(input: string): PreciseMoney {
         for (const parser of this.parsers) {
             try {
-                return parser.parse(money, forceCurrency);
+                return parser.parse(input);
             } catch (e) {
             }
         }
 
-        throw new Error("Unable to parse " + money);
-    }
-
-    public parseMultiple(monies: string[], forceCurrency?: Currency): Money[] {
-        const moneyObjs: Money[] = [];
-
-        for (const money of monies) {
-            moneyObjs.push(this.parse(money, forceCurrency));
-        }
-
-        return moneyObjs;
+        throw new Error("Cannot parse '" + input + "' to Money.");
     }
 }

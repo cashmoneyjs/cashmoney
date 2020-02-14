@@ -1,7 +1,5 @@
-import Money from "./money";
-import Currency from "./currency";
+import PreciseMoney from "./precisemoney";
 
 export default interface MoneyParser {
-    parse(money: string, forceCurrency?: Currency): Money;
-    parseMultiple(monies: string[], forceCurrency?: Currency): Money[];
+    parse(input: string): PreciseMoney;
 }

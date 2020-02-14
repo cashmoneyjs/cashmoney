@@ -1,4 +1,4 @@
-import { RoundingMode as Mode } from "../../src/rounding";
+import { RoundingMode as Mode } from "@cashmoney/number";
 
 export const ceilExamples = [
     [1.2, '2'],

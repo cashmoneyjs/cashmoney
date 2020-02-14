@@ -1,10 +1,11 @@
+import { Num, numeric } from "@cashmoney/number";
 import Exchange from "../exchange";
 import Currency from "../currency";
 import CurrencyPair from "../currencypair";
 
 interface CurrencyRatioMap {
     [baseCurrencyCode: string]: {
-        [counterCurrencyCode: string]: number;
+        [counterCurrencyCode: string]: Num | numeric;
     };
 }
 

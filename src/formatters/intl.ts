@@ -1,7 +1,5 @@
-import Money from "../money";
 import MoneyFormatter from "../formatter";
-import CurrencyList from "../currencylist";
-import { stringPhpSubstr, stringPhpSubstrBroke } from "../_util";
+import RoundedMoney from "../roundedmoney";
 
 export interface IntlNumberFormatterSettings {
     locales?: string | string[];
@@ -14,7 +12,6 @@ export interface IntlNumberFormatterSettings {
 }
 
 export default class IntlMoneyFormatter implements MoneyFormatter {
-    private readonly currencyList: CurrencyList;
     private readonly locales?: string | string[];
     private readonly style: string = "decimal";
     private readonly currencyDisplay: string = "symbol";
@@ -24,11 +21,8 @@ export default class IntlMoneyFormatter implements MoneyFormatter {
     private readonly normaliseWhitespace: boolean = false;
 
     public constructor(
-        currencyList: CurrencyList,
         formatOptions: IntlNumberFormatterSettings = {},
     ) {
-        this.currencyList = currencyList;
-
         if (formatOptions.locales !== undefined) {
             this.locales = formatOptions.locales;
         }
@@ -58,48 +52,21 @@ export default class IntlMoneyFormatter implements MoneyFormatter {
         }
     }
 
-    public format(money: Money): string {
-        let valueBase = money.amount;
-        let negative = false;
-
-        if (valueBase[0] === "-") {
-            negative = true;
-            valueBase = stringPhpSubstr(valueBase, 1);
-        }
-
-        const subunit = this.currencyList.subunitFor(money.currency);
-        const valueLength = valueBase.length;
-
-        let formatted: string;
-        if (valueLength > subunit) {
-            formatted = stringPhpSubstrBroke(valueBase, 0, valueLength - subunit);
-            const decimalDigits = stringPhpSubstrBroke(valueBase, valueLength - subunit);
-
-            if (decimalDigits.length > 0) {
-                formatted += "." + decimalDigits;
-            }
-        } else {
-            formatted = "0." + "0".repeat(subunit - valueLength) + valueBase;
-        }
-
-        if (negative === true) {
-            formatted = "-" + formatted;
-        }
-
-        const amountF = parseFloat(formatted);
-        let amountS = amountF.toLocaleString(this.locales, {
+    public format(money: RoundedMoney): string {
+        const amountF = parseFloat(money.amount);
+        let formattedAmount = amountF.toLocaleString(this.locales, {
             style: this.style,
             currency: money.currency.code,
             currencyDisplay: this.currencyDisplay,
             useGrouping: this.useGrouping,
-            minimumFractionDigits: this.minFractionDigits !== undefined ? this.minFractionDigits : subunit,
+            minimumFractionDigits: this.minFractionDigits !== undefined ? this.minFractionDigits : money.subunit,
             maximumFractionDigits: this.maxFractionDigits,
         });
 
         if (this.normaliseWhitespace === true) {
-            amountS = amountS.replace(/\s/g, " ");
+            formattedAmount = formattedAmount.replace(/\s/g, " ");
         }
 
-        return amountS;
+        return formattedAmount;
     }
 }

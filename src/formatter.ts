@@ -1,5 +1,5 @@
-import Money from "./money";
+import RoundedMoney from "./roundedmoney";
 
 export default interface MoneyFormatter {
-    format(money: Money): string;
+    format(money: RoundedMoney): string;
 }

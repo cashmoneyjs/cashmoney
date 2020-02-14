@@ -1,38 +1,37 @@
-import Money from "src/money";
+import PreciseMoney from "src/precisemoney";
 import Currency from "src/currency";
-import { numeric } from "src/types";
 
 const EUR = new Currency("EUR");
 
-function M(value: numeric): Money {
-    return new Money(value, EUR);
+function PM(value: number): PreciseMoney {
+    return new PreciseMoney(value, EUR);
 }
 
 export const sumExamples = [
-    [[M(5), M(10), M(15)], M(30)],
-    [[M(-5), M(-10), M(-15)], M(-30)],
-    [[M(0)], M(0)],
-    [[M(-5), M(0), M(5)], M(0)],
+    [[PM(5), PM(10), PM(15)], PM(30)],
+    [[PM(-5), PM(-10), PM(-15)], PM(-30)],
+    [[PM(0)], PM(0)],
+    [[PM(-5), PM(0), PM(5)], PM(0)],
 ];
 
 export const minExamples = [
-    [[M(5), M(10), M(15)], M(5)],
-    [[M(-5), M(-10), M(-15)], M(-15)],
-    [[M(0)], M(0)],
-    [[M(-5), M(5)], M(-5)],
+    [[PM(5), PM(10), PM(15)], PM(5)],
+    [[PM(-5), PM(-10), PM(-15)], PM(-15)],
+    [[PM(0)], PM(0)],
+    [[PM(-5), PM(5)], PM(-5)],
 ];
 
 export const maxExamples = [
-    [[M(5), M(10), M(15)], M(15)],
-    [[M(-5), M(-10), M(-15)], M(-5)],
-    [[M(0)], M(0)],
-    [[M(-5), M(5)], M(5)],
+    [[PM(5), PM(10), PM(15)], PM(15)],
+    [[PM(-5), PM(-10), PM(-15)], PM(-5)],
+    [[PM(0)], PM(0)],
+    [[PM(-5), PM(5)], PM(5)],
 ];
 
 export const avgExamples = [
-    [[M(5), M(10), M(15)], M(10)],
-    [[M(-5), M(-10), M(-15)], M(-10)],
-    [[M(0)], M(0)],
-    [[M(-5), M(5)], M(0)],
-    [[M(-5), M(0), M(5)], M(0)],
+    [[PM(5), PM(10), PM(15)], PM(10)],
+    [[PM(-5), PM(-10), PM(-15)], PM(-10)],
+    [[PM(0)], PM(0)],
+    [[PM(-5), PM(5)], PM(0)],
+    [[PM(-5), PM(0), PM(5)], PM(0)],
 ];

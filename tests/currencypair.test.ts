@@ -1,4 +1,4 @@
-/// <reference path="./alsatian-ambient.d.ts" />
+/// <reference path="../src/alsatian-ambient.d.ts" />
 import { TestFixture, Test, Expect } from "alsatian";
 
 import Currency from "src/currency";
@@ -15,7 +15,7 @@ export default class CurrencyPairTest {
 
     @Test("it converts to JSON")
     public itConvertsToJson() {
-        const expectedJson = '{"baseCurrency":"EUR","counterCurrency":"USD","ratio":1.25}';
+        const expectedJson = '{"baseCurrency":"EUR","counterCurrency":"USD","ratio":"1.25"}';
 
         const pair = new CurrencyPair(new Currency("EUR"), new Currency("USD"), 1.25);
         const actualJson = JSON.stringify(pair);

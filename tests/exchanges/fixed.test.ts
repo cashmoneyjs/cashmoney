@@ -1,5 +1,7 @@
 import { TestFixture, Test, Expect } from "alsatian";
 
+import { Num } from "@cashmoney/number";
+
 import FixedExchange from "src/exchanges/fixed";
 import Currency from "src/currency";
 import CurrencyPair from "src/currencypair";
@@ -22,6 +24,6 @@ export default class FixedExchangeTest {
 
         Expect(currencyPair.baseCurrency).toBe(baseCurrency);
         Expect(currencyPair.counterCurrency).toBe(counterCurrency);
-        Expect(currencyPair.conversionRatio).toBe(1.25);
+        Expect(currencyPair.conversionRatio).toBe(new Num(1.25));
     }
 }
