@@ -664,11 +664,6 @@ through2@^3.0.1:
   dependencies:
     readable-stream "2 || 3"
 
-trim-strings@^1.0.5:
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/trim-strings/-/trim-strings-1.0.5.tgz#ecde80b3fab047e9ea30089036a513d1e30d2046"
-  integrity sha512-Vt3dm4BwI7WZHovWUVEUxR/qDbHuM7TZ8UP31IftoAYInTifw+/9Bnaui0DMqY2bqN9Tjzi1RD6ZA4JZC/5KoQ==
-
 ts-node@^8.3.0, ts-node@^8.6.2:
   version "8.6.2"
   resolved "https://registry.yarnpkg.com/ts-node/-/ts-node-8.6.2.tgz#7419a01391a818fbafa6f826a33c1a13e9464e35"

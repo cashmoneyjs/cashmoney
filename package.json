@@ -6,8 +6,7 @@
     "author": "Matthew Gamble <git@matthewgamble.net>",
     "dependencies": {
         "@cashmoney/number": "^2.1.0",
-        "bignumber.js": "^9.0.0",
-        "trim-strings": "^1.0.5"
+        "bignumber.js": "^9.0.0"
     },
     "devDependencies": {
         "alsatian": "^3.2.1",
