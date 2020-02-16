@@ -297,6 +297,169 @@ export default class RoundedMoneyTest {
         Expect(toJsonOutput).toEqual({"amount": "350.00", "subunit": 2, "currency": "EUR"});
     }
 
+    @TestCases(RoundedMoneyTest.allocationNamedExamples)
+    @Test("it allocates named amounts")
+    public itAllocatesNamedAmount(money: RoundedMoney, ratios: { [name: string]: number }, results: { [name: string]: string }) {
+        const allocated = money.allocateNamed(ratios);
+
+        for (const [name, allocatedMoney] of Object.entries(allocated)) {
+            const compareTo = new RoundedMoney(results[name], money.subunit, money.currency);
+            Expect(allocatedMoney).toBe(compareTo);
+        }
+    }
+
+    public static allocationNamedExamples() {
+        const EUR = new Currency("EUR");
+        const JPY = new Currency("JPY");
+
+        return [
+            [new RoundedMoney("101.00", 2, EUR), {"foo": 7, "bar": 3}, {"foo": "70.70", "bar": "30.30"}],
+            [new RoundedMoney("101", 0, JPY), {"foo": 7, "bar": 3}, {"foo": "71", "bar": "30"}],
+        ];
+    }
+
+    @TestCases(RoundedMoneyTest.allocationTargetExamples)
+    @Test("It allocates amount to N targets")
+    public itAllocatesAmountToNTargets(money: RoundedMoney, target: number, results: number[]) {
+        const allocated = money.allocateTo(target);
+
+        for (const [key, allocatedMoney] of allocated.entries()) {
+            const compareTo = new RoundedMoney(results[key], money.subunit, money.currency);
+            Expect(compareTo).toBe(allocatedMoney);
+        }
+    }
+
+    public static allocationTargetExamples() {
+        const EUR = new Currency("EUR");
+        const JPY = new Currency("JPY");
+
+        return [
+            [new RoundedMoney("10.00", 2, EUR), 2, ["5.00", "5.00"]],
+            [new RoundedMoney("0.10", 2, EUR), 2, ["0.05", "0.05"]],
+            [new RoundedMoney("15.00", 2, EUR), 2, ["7.50", "7.50"]],
+            [new RoundedMoney("0.15", 2, EUR), 2, ["0.08", "0.07"]],
+            [new RoundedMoney("20.00", 2, EUR), 2, ["10.00", "10.00"]],
+            [new RoundedMoney("0.20", 2, EUR), 2, ["0.10", "0.10"]],
+            [new RoundedMoney("10.00", 2, EUR), 3, ["3.34", "3.33", "3.33"]],
+            [new RoundedMoney("0.10", 2, EUR), 3, ["0.04", "0.03", "0.03"]],
+            [new RoundedMoney("15.00", 2, EUR), 3, ["5.00", "5.00", "5.00"]],
+            [new RoundedMoney("0.15", 2, EUR), 3, ["0.05", "0.05", "0.05"]],
+            [new RoundedMoney("20.00", 2, EUR), 3, ["6.67", "6.67", "6.66"]],
+            [new RoundedMoney("0.20", 2, EUR), 3, ["0.07", "0.07", "0.06"]],
+            [new RoundedMoney("1000", 0, JPY), 2, ["500", "500"]],
+            [new RoundedMoney("10", 0, JPY), 2, ["5", "5"]],
+            [new RoundedMoney("1500", 0, JPY), 2, ["750", "750"]],
+            [new RoundedMoney("15", 0, JPY), 2, ["8", "7"]],
+            [new RoundedMoney("2000", 0, JPY), 2, ["1000", "1000"]],
+            [new RoundedMoney("20", 0, JPY), 2, ["10", "10"]],
+            [new RoundedMoney("1000", 0, JPY), 3, ["334", "333", "333"]],
+            [new RoundedMoney("10", 0, JPY), 3, ["4", "3", "3"]],
+            [new RoundedMoney("1500", 0, JPY), 3, ["500", "500", "500"]],
+            [new RoundedMoney("15", 0, JPY), 3, ["5", "5", "5"]],
+            [new RoundedMoney("2000", 0, JPY), 3, ["667", "667", "666"]],
+            [new RoundedMoney("20", 0, JPY), 3, ["7", "7", "6"]],
+        ];
+    }
+
+    @TestCases(RoundedMoneyTest.comparatorExamples)
+    @Test("it has comparators")
+    public itHasComparators(amount: numeric, isZero: boolean, isPositive: boolean, isNegative: boolean) {
+        const money = new RoundedMoney(amount, 2, new Currency("AUD"));
+
+        Expect(money.isZero).toBe(isZero);
+        Expect(money.isPositive).toBe(isPositive);
+        Expect(money.isNegative).toBe(isNegative);
+    }
+
+    public static comparatorExamples() {
+        return [
+            [1, false, true, false],
+            ["0.01", false, true, false],
+            [0, true, false, false],
+            ["0.00", true, false, false],
+            [-1, false, false, true],
+            ["-1.50", false, false, true],
+        ];
+    }
+
+    @TestCases(RoundedMoneyTest.absoluteExamples)
+    @Test("it calculates the absolute amount")
+    public itCalculatesTheAbsoluteAmount(amount: numeric, expected: string) {
+        const currency = new Currency("EUR");
+        const money = new RoundedMoney(amount, 2, currency);
+
+        const absoluteMoney = money.absolute();
+        Expect(absoluteMoney instanceof RoundedMoney).toBeTruthy();
+        Expect(absoluteMoney).toBe(new RoundedMoney(expected, 2, currency));
+        Expect(absoluteMoney.amount).toBe(expected);
+
+        const absMoney = money.abs();
+        Expect(absMoney).toBe(absoluteMoney);
+    }
+
+    public static absoluteExamples() {
+        return [
+            ["1", "1.00"],
+            ["0.01", "0.01"],
+            ["0", "0.00"],
+            ["0.00", "0.00"],
+            ["-1", "1.00"],
+            ["-1.50", "1.50"],
+        ];
+    }
+
+    @TestCases(RoundedMoneyTest.negativeExamples)
+    @Test("it calculates the negative amount")
+    public itCalculatesTheNegativeAmount(amount: numeric, expected: string) {
+        const currency = new Currency("EUR");
+        const money = new RoundedMoney(amount, 2, currency);
+
+        const negativeMoney = money.negative();
+        Expect(negativeMoney instanceof RoundedMoney).toBeTruthy();
+        Expect(negativeMoney).toBe(new RoundedMoney(expected, 2, currency));
+        Expect(negativeMoney.amount).toBe(expected);
+
+        const negateMoney = money.negate();
+        Expect(negateMoney).toBe(negativeMoney);
+
+        const negatedMoney = money.negated();
+        Expect(negatedMoney).toBe(negatedMoney);
+    }
+
+    public static negativeExamples() {
+        return [
+            ["1", "-1.00"],
+            ["1.50", "-1.50"],
+            ["0", "0"],
+            ["-0", "0"], // negative zero is always normalized to zero
+            ["0.00", "0"],
+            ["-0.00", "0"], // negative zero is always normalized to zero
+            ["-2", "2.00"],
+            ["-3.45", "3.45"],
+        ];
+    }
+
+    @Test("it converts to JSON")
+    public itConvertsToJson() {
+        const intMoney = new RoundedMoney(100, 2, new Currency("AUD"));
+        const intMoneyJsonString = JSON.stringify(intMoney);
+        Expect(intMoneyJsonString).toBe('{"amount":"100.00","subunit":2,"currency":"AUD"}');
+        const intMoneyJsonObj = intMoney.toJSON();
+        Expect(intMoneyJsonObj).toBe({"amount": "100.00", "subunit": 2, "currency": "AUD"});
+
+        const decimalMoney = new RoundedMoney("123.45", 2, new Currency("USD"));
+        const decimalMoneyJsonString = JSON.stringify(decimalMoney);
+        Expect(decimalMoneyJsonString).toBe('{"amount":"123.45","subunit":2,"currency":"USD"}');
+        const decimalMoneyJsonObj = decimalMoney.toJSON();
+        Expect(decimalMoneyJsonObj).toBe({"amount": "123.45", "subunit": 2, "currency": "USD"});
+
+        const zeroSubunitMoney = new RoundedMoney("789", 0, new Currency("JPY"));
+        const zeroSubunitMoneyJsonString = JSON.stringify(zeroSubunitMoney);
+        Expect(zeroSubunitMoneyJsonString).toBe('{"amount":"789","subunit":2,"currency":"JPY"}');
+        const zeroSubunitMoneyJsonObj = zeroSubunitMoney.toJSON();
+        Expect(zeroSubunitMoneyJsonObj).toBe({"amount": "789", "subunit": 2, "currency": "JPY"});
+    }
+
     @Test("it converts to a string")
     public itConvertsToString() {
         const intMoney = new RoundedMoney(100, 2, new Currency("AUD"));

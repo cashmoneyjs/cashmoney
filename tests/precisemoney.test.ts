@@ -265,47 +265,6 @@ export default class PreciseMoneyTest {
         Expect(throwFn).toThrow();
     }
 
-    /*
-    @TestCases(PreciseMoneyTest.allocationNamedExamples)
-    @Test("it allocates named amounts")
-    public itAllocatesNamedAmounts(amount: number, ratios: { [name: string]: number }, results: { [name: string]: number }) {
-        const money = new PreciseMoney(amount, new Currency("EUR"));
-        const allocated = money.allocateNamed(ratios);
-
-        for (const [key, money] of Object.entries(allocated)) {
-            const compareTo = new PreciseMoney(results[key], money.currency);
-            Expect(money).toBe(compareTo);
-        }
-    }
-
-    public static allocationNamedExamples() {
-        return [
-            [101, {'foo': 7, 'bar': 3}, {'foo': 71, 'bar': 30}],
-        ];
-    }
-
-    @TestCases(PreciseMoneyTest.allocationTargetExamples)
-    @Test("it allocates amount to N targets")
-    public itAllocatesAmountToNTargets(amount: number, target: number, results: number[]) {
-        const money = new PreciseMoney(amount, new Currency("EUR"));
-        const allocated = money.allocateTo(target);
-
-        for (const [key, money] of allocated.entries()) {
-            const compareTo = new PreciseMoney(results[key], money.currency);
-            Expect(compareTo).toBe(money);
-        }
-    }
-
-    public static allocationTargetExamples() {
-        return [
-            [15, 2, [8, 7]],
-            [10, 2, [5, 5]],
-            [15, 3, [5, 5, 5]],
-            [10, 3, [4, 3, 3]],
-        ];
-    }
-   */
-
     @TestCases(PreciseMoneyTest.comparatorExamples)
     @Test("it has comparators")
     public itHasComparators(amount: numeric, isZero: boolean, isPositive: boolean, isNegative: boolean) {
