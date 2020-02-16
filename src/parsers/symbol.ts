@@ -10,7 +10,7 @@ const PREFIX_PATTERN = /^([^\s]{1,3})\s?(-?(?:0|[1-9]\d*)[\.,](?:\d+))$/;
 const SUFFIX_PATTERN = /^(-?(?:0|[1-9]\d*)[\.,](?:\d+))\s?([^\s]{1,3})$/;
 
 export default class SymbolMoneyParser implements MoneyParser {
-    private symbolMapping: SymbolMapping;
+    private readonly symbolMapping: SymbolMapping;
 
     public constructor(symbolMapping: SymbolMapping) {
         this.symbolMapping = symbolMapping;

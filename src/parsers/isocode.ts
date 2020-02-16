@@ -18,7 +18,7 @@ const CODE_SUFFIX_PATTERNS = [
 ] as ReadonlyArray<RegExp>;
 
 export default class ISOCodeMoneyParser implements MoneyParser {
-    private currencyList: CurrencyList | null;
+    private readonly currencyList: CurrencyList | null;
 
     public constructor(currencyList?: CurrencyList) {
         this.currencyList = currencyList || null;

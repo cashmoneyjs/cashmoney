@@ -10,7 +10,7 @@ interface CurrencyRatioMap {
 }
 
 export default class FixedExchange implements Exchange {
-    private list: CurrencyRatioMap;
+    private readonly list: CurrencyRatioMap;
 
     public constructor(list: CurrencyRatioMap) {
         this.list = list;

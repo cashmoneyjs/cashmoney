@@ -4,8 +4,8 @@ import CurrencyList from "./currencylist";
 import Exchange from "./exchange";
 
 export default class Converter {
-    private currencyList: CurrencyList;
-    private exchange: Exchange;
+    private readonly currencyList: CurrencyList;
+    private readonly exchange: Exchange;
 
     public constructor(currencyList: CurrencyList, exchange: Exchange) {
         this.currencyList = currencyList;

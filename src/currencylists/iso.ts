@@ -11,7 +11,7 @@ export interface ISOCurrencies {
 }
 
 export default class ISOCurrencyList implements CurrencyList {
-    private isoCurrencies: ISOCurrencies;
+    private readonly isoCurrencies: ISOCurrencies;
 
     public constructor(isoCurrencies: ISOCurrencies) {
         this.isoCurrencies = isoCurrencies;
