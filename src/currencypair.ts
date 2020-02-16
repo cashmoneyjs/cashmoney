@@ -52,8 +52,8 @@ export default class CurrencyPair {
 
     public toJSON(): object {
         return {
-            baseCurrency: this.baseCurrency,
-            counterCurrency: this.counterCurrency,
+            baseCurrency: this.baseCurrency.toJSON(),
+            counterCurrency: this.counterCurrency.toJSON(),
             ratio: this.conversionRatio.toJSON(),
         };
     }
