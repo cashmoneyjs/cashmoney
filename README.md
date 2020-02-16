@@ -193,36 +193,103 @@ const twentyZzz = parser.parse("ZZZ 20"); // throws Error("Unknown currency code
 
 #### Symbol parser
 
-TODO: Write this section
+The Symbol parser parses strings with symbol identifiers. You need to specify what each symbol
+means manually. Symbols cannot be longer than three characters in length.
+
+```typescript
+import { Currency, SymbolMoneyParser } from "@cashmoney/core";
+
+const symbolMapping = { "$": "AUD", "US$": "USD", "€": "EUR" };
+const parser = new SymbolMoneyParser(symbolMapping);
+
+const AUD = new Currency("AUD");
+const USD = new Currency("USD");
+
+const audAmount = parser.parse("$5.00");
+assert(audAmount.currency.equals(AUD));
+
+const usdAmount = parser.parse("US$5.00");
+assert(usdAmount.currency.equals(USD));
+```
+
+Similarly to the ISO Code parser, the Symbol parser can recognise strings formatted for
+different regions.
+
+```typescript
+const audAmountAlt = parser.parse("5.00 $");
+assert(audAmountAlt.currency.equals(AUD));
+
+const usdAmountAlt = parser.parse("5,00 US$");
+assert(usdAmountAlt.currency.equals(USD));
+
+const EUR = new Currency("EUR");
+const eurAmount = parser.parse("10,00 €");
+assert(eurAmount.currency.equals(EUR));
+```
 
 ### Formatting
 
-TODO: Rewrite this section to use rounded money
+You can only format Rounded Money objects. This is by design, as it avoids complications
+with formatters needing to work out how many subunits a particular currency has.
+
+#### Intl formatter
+
+Most of the time you're probably going to want to use the Intl money formatter. This uses
+the built-in internationalisation APIs provided by up-to-date JS runtimes.
 
 ```typescript
-import { MoneyFactory, CustomCurrencyList, IntlMoneyFormatter } from "@cashmoney/core";
-const { AUD, EUR, USD } = MoneyFactory;
+import { RoundedMoneyFactory, IntlMoneyFormatter } from "@cashmoney/core";
+const { AUD, EUR, JPY, USD } = RoundedMoneyFactory;
 
-const currencies = new CustomCurrencyList({ AUD: 2, EUR: 2, USD: 2 });
-const fiveAud = AUD(500);
-const fiveEur = EUR(500);
-const fiveUsd = USD(500);
+const fiveAud = AUD("5.00");
+const fiveEur = EUR("5.00");
+const fiveJpy = JPY("5");
+const fiveUsd = USD("5.00");
 
-const auFormatter = new IntlMoneyFormatter(currencies, { locales: "en-AU", style: "currency" });
-console.log(auFormatter.format(fiveAud)); // outputs '$5.00'
-console.log(auFormatter.format(fiveEur)); // outputs 'EUR 5.00'
-console.log(auFormatter.format(fiveUsd)); // outputs 'USD 5.00'
+const auFormatter = new IntlMoneyFormatter({ locales: "en-AU", style: "currency" });
+auFormatter.format(fiveAud); // '$5.00'
+auFormatter.format(fiveEur); // 'EUR 5.00'
+auFormatter.format(fiveJpy); // 'JPY 5'
+auFormatter.format(fiveUsd); // 'USD 5.00'
 
-const euFormatter = new IntlMoneyFormatter(currencies, { locales: "es-ES", style: "currency" });
-console.log(euFormatter.format(fiveAud)); // outputs '5,00 AUD'
-console.log(euFormatter.format(fiveEur)); // outputs '5,00 €'
-console.log(euFormatter.format(fiveUsd)); // outputs '5,00 US$'
+const euFormatter = new IntlMoneyFormatter({ locales: "es-ES", style: "currency" });
+euFormatter.format(fiveAud); // '5,00 AUD'
+euFormatter.format(fiveEur); // '5,00 €'
+euFormatter.format(fiveJpy); // '5 JPY'
+euFormatter.format(fiveUsd); // '5,00 US$'
 
-const usFormatter = new IntlMoneyFormatter(currencies, { locales: "en-US", style: "currency" });
-console.log(usFormatter.format(fiveAud)); // outputs 'A$5.00'
-console.log(usFormatter.format(fiveEur)); // outputs '€5.00'
-console.log(usFormatter.format(fiveUsd)); // outputs '$5.00'
+const jpFormatter = new IntlMoneyFormatter({ locales: "jp-JP", style: "currency" });
+jpFormatter.format(fiveAud); // '$5.00'
+jpFormatter.format(fiveEur); // 'EUR 5.00'
+jpFormatter.format(fiveJpy); // 'JPY 5'
+jpFormatter.format(fiveUsd); // 'USD 5.00'
+
+const usFormatter = new IntlMoneyFormatter({ locales: "en-US", style: "currency" });
+usFormatter.format(fiveAud); // 'A$5.00'
+usFormatter.format(fiveEur); // '€5.00'
+usFormatter.format(fiveJpy); // '¥5'
+usFormatter.format(fiveUsd); // '$5.00'
 ```
+
+You should be careful with this, however. The JS Intl number formatter will only
+deal with numbers, not strings containing numbers. This means the value of the
+money object must first be cast to a float before formatting, which has the potential
+to cause a loss of precision.
+
+### Decimal formatter
+
+The Decimal formatter simply outputs the raw value of a Rounded Money object.
+
+```typescript
+import { RoundedMoneyFactory, DecimalMoneyFormatter } from "@cashmoney/core";
+
+const fiveAud = RoundedMoneyFactory.AUD(5);
+const formatter = new DecimalMoneyFormatter();
+console.log(formatter.format(fiveAud)) // outputs '5.00'
+```
+
+This works solely with strings, which means there's no risk of losing precision for
+very large numbers.
 
 ## Tests
 
