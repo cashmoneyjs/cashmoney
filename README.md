@@ -118,7 +118,12 @@ doesn't scale very well, so there's a dedicated Money Rounder class you can
 use to generalise this process.
 
 ```typescript
-import { PreciseMoneyFactory, RoundedMoneyFactory, CustomCurrencyList, MoneyRounder } from "@cashmoney/core";
+import {
+    PreciseMoneyFactory,
+    RoundedMoneyFactory,
+    CustomCurrencyList,
+    MoneyRounder,
+} from "@cashmoney/core";
 const { AUD: PAUD } = PreciseMoneyFactory;
 const { AUD: RAUD } = RoundedMoneyFactory;
 
