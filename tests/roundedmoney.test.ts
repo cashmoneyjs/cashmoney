@@ -286,17 +286,6 @@ export default class RoundedMoneyTest {
         ];
     }
 
-    @Test("it converts to JSON")
-    public itConvertsToJson() {
-        const money = new RoundedMoney(350, 2, new Currency("EUR"));
-
-        const jsonStringifyOutput = JSON.stringify(money);
-        Expect(jsonStringifyOutput).toBe('{"amount":"350.00","subunit":2,"currency":"EUR"}');
-
-        const toJsonOutput = money.toJSON();
-        Expect(toJsonOutput).toEqual({"amount": "350.00", "subunit": 2, "currency": "EUR"});
-    }
-
     @TestCases(RoundedMoneyTest.allocationNamedExamples)
     @Test("it allocates named amounts")
     public itAllocatesNamedAmount(money: RoundedMoney, ratios: { [name: string]: number }, results: { [name: string]: string }) {
@@ -430,10 +419,10 @@ export default class RoundedMoneyTest {
         return [
             ["1", "-1.00"],
             ["1.50", "-1.50"],
-            ["0", "0"],
-            ["-0", "0"], // negative zero is always normalized to zero
-            ["0.00", "0"],
-            ["-0.00", "0"], // negative zero is always normalized to zero
+            ["0", "0.00"],
+            ["-0", "0.00"], // negative zero is always normalized to zero
+            ["0.00", "0.00"],
+            ["-0.00", "0.00"], // negative zero is always normalized to zero
             ["-2", "2.00"],
             ["-3.45", "3.45"],
         ];
@@ -445,19 +434,19 @@ export default class RoundedMoneyTest {
         const intMoneyJsonString = JSON.stringify(intMoney);
         Expect(intMoneyJsonString).toBe('{"amount":"100.00","subunit":2,"currency":"AUD"}');
         const intMoneyJsonObj = intMoney.toJSON();
-        Expect(intMoneyJsonObj).toBe({"amount": "100.00", "subunit": 2, "currency": "AUD"});
+        Expect(intMoneyJsonObj).toEqual({"amount": "100.00", "subunit": 2, "currency": "AUD"});
 
         const decimalMoney = new RoundedMoney("123.45", 2, new Currency("USD"));
         const decimalMoneyJsonString = JSON.stringify(decimalMoney);
         Expect(decimalMoneyJsonString).toBe('{"amount":"123.45","subunit":2,"currency":"USD"}');
         const decimalMoneyJsonObj = decimalMoney.toJSON();
-        Expect(decimalMoneyJsonObj).toBe({"amount": "123.45", "subunit": 2, "currency": "USD"});
+        Expect(decimalMoneyJsonObj).toEqual({"amount": "123.45", "subunit": 2, "currency": "USD"});
 
         const zeroSubunitMoney = new RoundedMoney("789", 0, new Currency("JPY"));
         const zeroSubunitMoneyJsonString = JSON.stringify(zeroSubunitMoney);
-        Expect(zeroSubunitMoneyJsonString).toBe('{"amount":"789","subunit":2,"currency":"JPY"}');
+        Expect(zeroSubunitMoneyJsonString).toBe('{"amount":"789","subunit":0,"currency":"JPY"}');
         const zeroSubunitMoneyJsonObj = zeroSubunitMoney.toJSON();
-        Expect(zeroSubunitMoneyJsonObj).toBe({"amount": "789", "subunit": 2, "currency": "JPY"});
+        Expect(zeroSubunitMoneyJsonObj).toEqual({"amount": "789", "subunit": 0, "currency": "JPY"});
     }
 
     @Test("it converts to a string")
@@ -476,6 +465,99 @@ export default class RoundedMoneyTest {
         const zeroSubunitMoneyStr = zeroSubunitMoney.toString();
         Expect(zeroSubunitMoneyStr).toBe("JPY 789");
         Expect(String(zeroSubunitMoney)).toBe(zeroSubunitMoneyStr);
+    }
+
+    @TestCases(RoundedMoneyTest.sumExamples)
+    @Test("it calculates sum")
+    public itCalculatesSum(values: RoundedMoney[], sum: RoundedMoney) {
+        Expect(RoundedMoney.sum(...values)).toBe(sum);
+    }
+
+    public static sumExamples() {
+        const EUR = new Currency("EUR");
+        const RM2 = (value: string): RoundedMoney => {
+            return new RoundedMoney(value, 2, EUR);
+        };
+
+        const JPY = new Currency("JPY");
+        const RM0 = (value: string): RoundedMoney => {
+            return new RoundedMoney(value, 0, JPY);
+        };
+
+        return [
+            [[RM2("5.00"), RM2("10.00"), RM2("15.00")], RM2("30.00")],
+            [[RM2("-5.00"), RM2("-10.00"), RM2("-15.00")], RM2("-30.00")],
+            [[RM2("0.00")], RM2("0.00")],
+            [[RM2("0.00"), RM2("0")], RM2("0.00")],
+            [[RM2("-5.00"), RM2("0.00"), RM2("5.00")], RM2("0.00")],
+            [[RM0("5"), RM0("10"), RM0("15")], RM0("30")],
+            [[RM0("-5"), RM0("-10"), RM0("-15")], RM0("-30")],
+            [[RM0("0")], RM0("0")],
+            [[RM0("0"), RM0("0")], RM0("0")],
+            [[RM0("-5"), RM0("0"), RM0("5")], RM0("0")],
+        ];
+    }
+
+    @TestCases(RoundedMoneyTest.minExamples)
+    @Test("it calculates min")
+    public itCalculatesMin(values: RoundedMoney[], min: RoundedMoney) {
+        Expect(RoundedMoney.min(...values)).toBe(min);
+    }
+
+    public static minExamples() {
+        const EUR = new Currency("EUR");
+        const RM2 = (value: string): RoundedMoney => {
+            return new RoundedMoney(value, 2, EUR);
+        };
+
+        const JPY = new Currency("JPY");
+        const RM0 = (value: string): RoundedMoney => {
+            return new RoundedMoney(value, 0, JPY);
+        };
+
+        return [
+            [[RM2("5.00"), RM2("10.00"), RM2("15.00")], RM2("5.00")],
+            [[RM2("-5.00"), RM2("-10.00"), RM2("-15.00")], RM2("-15.00")],
+            [[RM2("0.00")], RM2("0.00")],
+            [[RM2("0.00"), RM2("0")], RM2("0.00")],
+            [[RM2("-5.00"), RM2("0.00"), RM2("5.00")], RM2("-5.00")],
+            [[RM0("5"), RM0("10"), RM0("15")], RM0("5")],
+            [[RM0("-5"), RM0("-10"), RM0("-15")], RM0("-15")],
+            [[RM0("0")], RM0("0")],
+            [[RM0("0"), RM0("0")], RM0("0")],
+            [[RM0("-5"), RM0("0"), RM0("5")], RM0("-5")],
+        ];
+    }
+
+    @TestCases(RoundedMoneyTest.maxExamples)
+    @Test("it calculates max")
+    public itCalculatesMax(values: RoundedMoney[], max: RoundedMoney) {
+        Expect(RoundedMoney.max(...values)).toBe(max);
+    }
+
+    public static maxExamples() {
+        const EUR = new Currency("EUR");
+        const RM2 = (value: string): RoundedMoney => {
+            return new RoundedMoney(value, 2, EUR);
+        };
+
+        const JPY = new Currency("JPY");
+        const RM0 = (value: string): RoundedMoney => {
+            return new RoundedMoney(value, 0, JPY);
+        };
+
+        return [
+            [[RM2("5.00"), RM2("10.00"), RM2("15.00")], RM2("15.00")],
+            [[RM2("-5.00"), RM2("-10.00"), RM2("-15.00")], RM2("-5.00")],
+            [[RM2("0.00")], RM2("0.00")],
+            [[RM2("0.00"), RM2("0")], RM2("0.00")],
+            [[RM2("-5.00"), RM2("0.00"), RM2("5.00")], RM2("5.00")],
+            [[RM0("5"), RM0("10"), RM0("15")], RM0("15")],
+            [[RM0("-5"), RM0("-10"), RM0("-15")], RM0("-5")],
+            [[RM0("0")], RM0("0")],
+            [[RM0("0"), RM0("0")], RM0("0")],
+            [[RM0("-5"), RM0("0"), RM0("5")], RM0("5")],
+        ];
     }
 
     public static diffCurrencyRefusalExamples() {
