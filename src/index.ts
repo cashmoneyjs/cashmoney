@@ -26,6 +26,8 @@ import BitcoinMoneyParser from "./parsers/bitcoin";
 import ISOCodeMoneyParser from "./parsers/isocode";
 import SymbolMoneyParser from "./parsers/symbol";
 
+import MoneyRounder from "./rounder";
+
 import { Num, RoundingMode, numeric } from "@cashmoney/number";
 
 export {
@@ -58,6 +60,8 @@ export {
     BitcoinMoneyParser,
     ISOCodeMoneyParser,
     SymbolMoneyParser,
+
+    MoneyRounder,
 };
 
 export {

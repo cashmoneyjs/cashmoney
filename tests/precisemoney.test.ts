@@ -73,6 +73,16 @@ export default class PreciseMoneyTest {
         ];
     }
 
+    @Test("it refuses to compare amounts with different currencies")
+    public itRefusesToCompareAmountsWithDifferentCurrencies() {
+        const money = new PreciseMoney(20, new Currency("USD"));
+        const other = new PreciseMoney(20, new Currency("AUD"));
+
+        const throwFn = () => money.compare(other);
+
+        Expect(throwFn).toThrow();
+    }
+
     @TestCases(PreciseMoneyTest.addExamples)
     @Test("it adds one or more amounts")
     public itAddsAmounts(addendAmounts: string[], expected: string) {

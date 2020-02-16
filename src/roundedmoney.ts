@@ -62,8 +62,18 @@ export default class RoundedMoney {
         }
     }
 
+    public isSamePrecision(other: RoundedMoney): boolean {
+        return this.subunit === other.subunit;
+    }
+
+    private assertSamePrecision(other: RoundedMoney): void {
+        if (this.isSamePrecision(other) === false) {
+            throw new Error("Rounded precisions must be identical.");
+        }
+    }
+
     public equals(other: RoundedMoney): boolean {
-        return this.isSameCurrency(other) && this.num.equals(other.num);
+        return this.isSameCurrency(other) && this.isSamePrecision(other) && this.num.equals(other.num);
     }
 
     public equalTo(other: RoundedMoney): boolean {
@@ -80,6 +90,7 @@ export default class RoundedMoney {
 
     public compare(other: RoundedMoney): number {
         this.assertSameCurrency(other);
+        this.assertSamePrecision(other);
 
         return this.num.compare(other.num);
     }
@@ -133,6 +144,7 @@ export default class RoundedMoney {
         const genFunc = function*(): Generator<Num> {
             for (const addend of addends) {
                 self.assertSameCurrency(addend);
+                self.assertSamePrecision(addend);
                 yield addend.num;
             }
         }
@@ -148,6 +160,7 @@ export default class RoundedMoney {
         const genFunc = function*(): Generator<Num> {
             for (const subtrahend of subtrahends) {
                 self.assertSameCurrency(subtrahend);
+                self.assertSamePrecision(subtrahend);
                 yield subtrahend.num;
             }
         };

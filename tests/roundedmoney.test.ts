@@ -97,6 +97,27 @@ export default class RoundedMoneyTest {
         ];
     }
 
+    @Test("it refuses to compare amounts with different currencies")
+    public itRefusesToCompareAmountsWithDifferentCurrencies() {
+        const money = new RoundedMoney(10, 2, new Currency("AUD"));
+        const other = new RoundedMoney(10, 2, new Currency("USD"));
+
+        const throwFn = () => money.compare(other);
+
+        Expect(throwFn).toThrow();
+    }
+
+    @Test("it refuses to compare amounts with different precisions")
+    public itRefusesToCompareAmountsWithDifferentPrecisions() {
+        const currency = new Currency("USD");
+        const money = new RoundedMoney("23.45", 2, currency);
+        const other = new RoundedMoney("23.4567", 4, currency);
+
+        const throwFn = () => money.compare(other);
+
+        Expect(throwFn).toThrow();
+    }
+
     @TestCases(RoundedMoneyTest.addExamples)
     @Test("it adds one or more amounts")
     public itAddsAmounts(addendAmounts: string[], expected: string) {
@@ -140,6 +161,17 @@ export default class RoundedMoneyTest {
         const money = new RoundedMoney("100.00", 2, currency);
 
         const throwFn = () => money.add(...addendMonies);
+
+        Expect(throwFn).toThrow();
+    }
+
+    @Test("it refuses to add amounts with different precisions")
+    public itRefusesToAddAmountsWithDifferentPrecisions() {
+        const currency = new Currency("NZD");
+        const money = new RoundedMoney("34.56", 2, currency);
+        const other = new RoundedMoney("34.5678", 4, currency);
+
+        const throwFn = () => money.add(other);
 
         Expect(throwFn).toThrow();
     }
@@ -190,6 +222,17 @@ export default class RoundedMoneyTest {
         const money = new RoundedMoney("100.00", 2, currency);
 
         const throwFn = () => money.subtract(...subtrahendMonies);
+
+        Expect(throwFn).toThrow();
+    }
+
+    @Test("it refuses to subtract amounts with different precisions")
+    public itRefusesToSubtractAmountsWithDifferentCurrencies() {
+        const currency = new Currency("CAD");
+        const money = new RoundedMoney("45.67", 2, currency);
+        const other = new RoundedMoney("45.6789", 4, currency);
+
+        const throwFn = () => money.add(other);
 
         Expect(throwFn).toThrow();
     }
