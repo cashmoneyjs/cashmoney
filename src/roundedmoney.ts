@@ -34,6 +34,10 @@ export default class RoundedMoney {
         return new RoundedMoney(amount, this.subunit, this.currency);
     }
 
+    public toString(): string {
+        return `${this.currency.code} ${this.amount}`;
+    }
+
     public get amount(): string {
         let amountStr = this.num.toString();
 

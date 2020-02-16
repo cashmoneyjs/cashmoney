@@ -7,16 +7,12 @@ import { Num, numeric } from "@cashmoney/number";
 
 import { sumExamples, minExamples, maxExamples, avgExamples } from "fixtures/aggregate";
 
-const AMOUNT = 10;
-const CURRENCY = "EUR";
-const OTHER_CURRENCY = "USD";
-
 @TestFixture("Precise Money")
 export default class PreciseMoneyTest {
     @TestCases(PreciseMoneyTest.equalityExamples)
     @Test("it equals to another money")
-    public itEqualsToAnotherMoney(amount: number, currency: Currency, equality: boolean) {
-        const money = new PreciseMoney(AMOUNT, new Currency(CURRENCY));
+    public itEqualsToAnotherMoney(amount: numeric, currency: Currency, equality: boolean) {
+        const money = new PreciseMoney(10, new Currency("EUR"));
 
         const compareTo = new PreciseMoney(amount, currency);
         Expect(money.equals(compareTo)).toBe(equality);
@@ -27,22 +23,22 @@ export default class PreciseMoneyTest {
 
     public static equalityExamples() {
         return [
-            [AMOUNT, new Currency(CURRENCY), true],
-            [AMOUNT + 1, new Currency(CURRENCY), false],
-            [AMOUNT, new Currency(OTHER_CURRENCY), false],
-            [AMOUNT + 1, new Currency(OTHER_CURRENCY), false],
-            [String(AMOUNT), new Currency(CURRENCY), true],
-            [String(AMOUNT) + ".000", new Currency(CURRENCY), true],
-            [String(AMOUNT), new Currency(OTHER_CURRENCY), false],
-            [String(AMOUNT) + ".000", new Currency(OTHER_CURRENCY), false],
+            [10, new Currency("EUR"), true],
+            [11, new Currency("EUR"), false],
+            [10, new Currency("USD"), false],
+            [11, new Currency("USD"), false],
+            ["10", new Currency("EUR"), true],
+            ["10.000", new Currency("EUR"), true],
+            ["10", new Currency("USD"), false],
+            ["10.000", new Currency("USD"), false],
         ];
     }
 
     @TestCases(PreciseMoneyTest.comparisonExamples)
     @Test("it compares two amounts")
-    public itComparesTwoAmounts(otherAmount: number, result: 0 | 1 | -1) {
-        const money = new PreciseMoney(AMOUNT, new Currency(CURRENCY));
-        const other = new PreciseMoney(otherAmount, new Currency(CURRENCY));
+    public itComparesTwoAmounts(otherAmount: numeric, result: 0 | 1 | -1) {
+        const money = new PreciseMoney(10, new Currency("EUR"));
+        const other = new PreciseMoney(otherAmount, new Currency("EUR"));
 
         Expect(money.compare(other)).toBe(result);
         Expect(money.greaterThan(other)).toBe(result === 1);
@@ -63,17 +59,25 @@ export default class PreciseMoneyTest {
 
     public static comparisonExamples() {
         return [
-            [AMOUNT, 0],
-            [AMOUNT - 1, 1],
-            [AMOUNT + 1, -1],
+            [10, 0],
+            ["10.00", 0],
+            ["9.9999", 1],
+            [9, 1],
+            [8, 1],
+            [1, 1],
+            [-1, 1],
+            [11, -1],
+            [12, -1],
+            [50, -1],
+            ["10.001", -1],
         ];
     }
 
     @TestCases(PreciseMoneyTest.addExamples)
     @Test("it adds one or more amounts")
     public itAddsAmounts(addendAmounts: string[], expected: string) {
-        const currency = new Currency(CURRENCY);
-        const money = new PreciseMoney(AMOUNT, currency);
+        const currency = new Currency("EUR");
+        const money = new PreciseMoney(10, currency);
 
         const addendMonies = addendAmounts.map(amount => new PreciseMoney(amount, currency));
         const addResult = money.add(...addendMonies);
@@ -96,6 +100,7 @@ export default class PreciseMoneyTest {
             [["-100"], "-90"],
             [["5", "5", "5"], "25"],
             [["2.5"], "12.5"],
+            [["0.1", "0.2"], "10.3"],
             [["0.1", "0.2", "0.3"], "10.6"],
             [["-0.5", "-1.5"], "8"],
             [["-2", "2"], "10"],
@@ -107,8 +112,8 @@ export default class PreciseMoneyTest {
     @TestCases(PreciseMoneyTest.diffCurrencyRefusalExamples)
     @Test("it refuses to add amounts of different currencies")
     public itRefusesToAddAmountsOfDifferentCurrencies(addendMonies: PreciseMoney[]) {
-        const currency = new Currency(CURRENCY);
-        const money = new PreciseMoney(AMOUNT, currency);
+        const currency = new Currency("EUR");
+        const money = new PreciseMoney(10, currency);
 
         const throwFn = () => money.add(...addendMonies);
 
@@ -118,8 +123,8 @@ export default class PreciseMoneyTest {
     @TestCases(PreciseMoneyTest.subtractExamples)
     @Test("it subtracts one or more amounts")
     public itSubtractsAmounts(subtrahendAmounts: string[], expected: string) {
-        const currency = new Currency(CURRENCY);
-        const money = new PreciseMoney(AMOUNT, currency);
+        const currency = new Currency("EUR");
+        const money = new PreciseMoney(10, currency);
 
         const subtrahendMonies = subtrahendAmounts.map(amount => new PreciseMoney(amount, currency));
         const subtractResult = money.subtract(...subtrahendMonies);
@@ -142,6 +147,7 @@ export default class PreciseMoneyTest {
             [["-100"], "110"],
             [["5", "5", "5"], "-5"],
             [["2.5"], "7.5"],
+            [["0.1", "0.2"], "9.7"],
             [["0.1", "0.2", "0.3"], "9.4"],
             [["-0.5", "-1.5"], "12"],
             [["-2", "2"], "10"],
@@ -153,8 +159,8 @@ export default class PreciseMoneyTest {
     @TestCases(PreciseMoneyTest.diffCurrencyRefusalExamples)
     @Test("it refuses to subtract amounts of different currencies")
     public itRefusesToSubtrahendAmountsOfDifferentCurrencies(subtrahendMonies: PreciseMoney[]) {
-        const currency = new Currency(CURRENCY);
-        const money = new PreciseMoney(AMOUNT, currency);
+        const currency = new Currency("EUR");
+        const money = new PreciseMoney(10, currency);
 
         const throwFn = () => money.subtract(...subtrahendMonies);
 
@@ -164,7 +170,7 @@ export default class PreciseMoneyTest {
     @TestCases(PreciseMoneyTest.multiplyExamples)
     @Test("it multiplies the amount")
     public itMultipliesTheAmount(multiplier: string) {
-        const currency = new Currency(CURRENCY);
+        const currency = new Currency("EUR");
         const money = new PreciseMoney(1, currency);
         const multiplyMoney = money.multiply(multiplier);
 
@@ -182,7 +188,7 @@ export default class PreciseMoneyTest {
     @TestCases(PreciseMoneyTest.multiplyExamples)
     @Test("multiplying by zero always gives zero")
     public multiplyingByZeroAlwaysGivesZero(amount: string) {
-        const currency = new Currency(CURRENCY);
+        const currency = new Currency("EUR");
         const money = new PreciseMoney(amount, currency);
         const multipliedMoney = money.multiply(0);
 
@@ -194,7 +200,7 @@ export default class PreciseMoneyTest {
     @TestCases(PreciseMoneyTest.multiplyExamples)
     @Test("multiplying by one gives same amount")
     public multiplyingByOneGivesSameAmount(amount: string) {
-        const money = new PreciseMoney(amount, new Currency(CURRENCY));
+        const money = new PreciseMoney(amount, new Currency("EUR"));
         const multipliedMoney = money.multiply(1);
 
         Expect(multipliedMoney instanceof PreciseMoney).toBeTruthy();
@@ -210,7 +216,7 @@ export default class PreciseMoneyTest {
     @TestCases(PreciseMoneyTest.invalidOperandExamples)
     @Test("it throws an exception when operand is invalid during multiplication")
     public itThrowsAnExceptionWhenOperandIsInvalidDuringMultiplication(operand: any) {
-        const money = new PreciseMoney(1, new Currency(CURRENCY));
+        const money = new PreciseMoney(1, new Currency("EUR"));
         const throwFn = () => money.multiply(operand as numeric);
         Expect(throwFn).toThrow();
     }
@@ -218,8 +224,8 @@ export default class PreciseMoneyTest {
     @TestCases(PreciseMoneyTest.divideExamples)
     @Test("it divides the amount")
     public itDividesTheAmount(divisor: string, expected: string) {
-        const currency = new Currency(CURRENCY);
-        const money = new PreciseMoney(AMOUNT, currency);
+        const currency = new Currency("EUR");
+        const money = new PreciseMoney(10, currency);
         const dividedMoney = money.divide(divisor);
 
         Expect(dividedMoney instanceof PreciseMoney).toBeTruthy();
@@ -230,7 +236,7 @@ export default class PreciseMoneyTest {
     @TestCases(PreciseMoneyTest.divideExamples)
     @Test("dividing by one gives same amount")
     public dividingByOneGivesSameAmount(amount: string) {
-        const money = new PreciseMoney(amount, new Currency(CURRENCY));
+        const money = new PreciseMoney(amount, new Currency("EUR"));
         const dividedMoney = money.divide(1);
 
         Expect(dividedMoney instanceof PreciseMoney).toBeTruthy();
@@ -254,51 +260,16 @@ export default class PreciseMoneyTest {
     @TestCases(PreciseMoneyTest.invalidOperandExamples)
     @Test("it throws an exception when operand is invalid during division")
     public itThrowsAnExceptionWhenOperandIsInvalidDuringDivision(operand: any) {
-        const money = new PreciseMoney(1, new Currency(CURRENCY));
+        const money = new PreciseMoney(1, new Currency("EUR"));
         const throwFn = () => money.divide(operand as numeric);
         Expect(throwFn).toThrow();
     }
 
     /*
-    @TestCases(PreciseMoneyTest.allocationExamples)
-    @Test("it allocates amount")
-    public itAllocatesAmount(amount: number, ratios: number[], results: number[]) {
-        const money = new PreciseMoney(amount, new Currency(CURRENCY));
-        const allocated = money.allocate(ratios);
-
-        for (const [key, money] of allocated.entries()) {
-            const compareTo = new PreciseMoney(results[key], money.currency);
-            Expect(money).toBe(compareTo);
-        }
-    }
-
-    public static allocationExamples() {
-        return [
-            [100, [1, 1, 1], [34, 33, 33]],
-            [101, [1, 1, 1], [34, 34, 33]],
-            [5, [3, 7], [2, 3]],
-            [5, [7, 3], [4, 1]],
-            [5, [7, 3, 0], [4, 1, 0]],
-            [-5, [7, 3], [-3, -2]],
-            [5, [0, 7, 3], [0, 4, 1]],
-            [5, [7, 0, 3], [4, 0, 1]],
-            [5, [0, 0, 1], [0, 0, 5]],
-            [5, [0, 3, 7], [0, 2, 3]],
-            [0, [0, 0, 1], [0, 0, 0]],
-            [2, [1, 1, 1], [1, 1, 0]],
-            [1, [1, 1], [1, 0]],
-            [1, [0.33, 0.66], [0, 1]],
-            [101, [3, 7], [30, 71]],
-            [101, [7, 3], [71, 30]],
-            [500, [1, 1, 1], [167, 167, 166]],
-            [1000, [1, 1, 1], [334, 333, 333]],
-        ];
-    }
-
     @TestCases(PreciseMoneyTest.allocationNamedExamples)
     @Test("it allocates named amounts")
     public itAllocatesNamedAmounts(amount: number, ratios: { [name: string]: number }, results: { [name: string]: number }) {
-        const money = new PreciseMoney(amount, new Currency(CURRENCY));
+        const money = new PreciseMoney(amount, new Currency("EUR"));
         const allocated = money.allocateNamed(ratios);
 
         for (const [key, money] of Object.entries(allocated)) {
@@ -316,7 +287,7 @@ export default class PreciseMoneyTest {
     @TestCases(PreciseMoneyTest.allocationTargetExamples)
     @Test("it allocates amount to N targets")
     public itAllocatesAmountToNTargets(amount: number, target: number, results: number[]) {
-        const money = new PreciseMoney(amount, new Currency(CURRENCY));
+        const money = new PreciseMoney(amount, new Currency("EUR"));
         const allocated = money.allocateTo(target);
 
         for (const [key, money] of allocated.entries()) {
@@ -338,7 +309,7 @@ export default class PreciseMoneyTest {
     @TestCases(PreciseMoneyTest.comparatorExamples)
     @Test("it has comparators")
     public itHasComparators(amount: numeric, isZero: boolean, isPositive: boolean, isNegative: boolean) {
-        const money = new PreciseMoney(amount, new Currency(CURRENCY));
+        const money = new PreciseMoney(amount, new Currency("EUR"));
 
         Expect(money.isZero).toBe(isZero);
         Expect(money.isPositive).toBe(isPositive);
@@ -359,7 +330,7 @@ export default class PreciseMoneyTest {
     @TestCases(PreciseMoneyTest.absoluteExamples)
     @Test("it calculates the absolute amount")
     public itCalculatesTheAbsoluteAmount(amount: numeric, expected: string) {
-        const currency = new Currency(CURRENCY);
+        const currency = new Currency("EUR");
         const money = new PreciseMoney(amount, currency);
 
         const absoluteMoney = money.absolute();
@@ -385,7 +356,7 @@ export default class PreciseMoneyTest {
     @TestCases(PreciseMoneyTest.negativeExamples)
     @Test("it calculates the negative amount")
     public itCalculatesTheNegativeAmount(amount: numeric, expected: string) {
-        const currency = new Currency(CURRENCY);
+        const currency = new Currency("EUR");
         const money = new PreciseMoney(amount, currency);
 
         const negativeMoney = money.negative();
@@ -414,7 +385,7 @@ export default class PreciseMoneyTest {
     @TestCases(PreciseMoneyTest.modExamples)
     @Test("it calculates the modulus of an amount")
     public itCalculatesTheModulusOfAnAmount(left: number, right: number, expected: string) {
-        const currency = new Currency(CURRENCY);
+        const currency = new Currency("EUR");
         const leftMoney = new PreciseMoney(left, currency);
         const rightMoney = new PreciseMoney(right, currency);
 
@@ -438,8 +409,8 @@ export default class PreciseMoneyTest {
 
     @Test("it refuses to calculate the modulus of amounts with different currencies")
     public itRefusesToCalculateTheModulusOfAmountsWithDifferentCurrencies() {
-        const money = new PreciseMoney(AMOUNT, new Currency(CURRENCY));
-        const divisor = new PreciseMoney(AMOUNT, new Currency(OTHER_CURRENCY));
+        const money = new PreciseMoney(10, new Currency("EUR"));
+        const divisor = new PreciseMoney(10, new Currency("USD"));
 
         const throwFn = () => money.mod(divisor);
 
@@ -449,7 +420,7 @@ export default class PreciseMoneyTest {
     @TestCases(PreciseMoneyTest.percentageExamples)
     @Test("it calculates percentages")
     public itCalculatesPercentages(amount: number, percent: number, expected: string) {
-        const currency = new Currency(CURRENCY);
+        const currency = new Currency("EUR");
         const money = new PreciseMoney(amount, currency);
         const smallerMoney = money.percentage(percent);
 
@@ -477,7 +448,7 @@ export default class PreciseMoneyTest {
     @TestCases(PreciseMoneyTest.subtractPercentageExamples)
     @Test("it subtracts a percentage")
     public itSubtractsAPercentage(amount: number, percent: number, expected: string) {
-        const currency = new Currency(CURRENCY);
+        const currency = new Currency("EUR");
         const money = new PreciseMoney(amount, currency);
         const smallerMoney = money.subtractPercentage(percent);
 
@@ -502,7 +473,7 @@ export default class PreciseMoneyTest {
     @TestCases(PreciseMoneyTest.invalidPercentageExamples)
     @Test("it throws for invalid percentages")
     public itThrowsForInvalidPercentages(percent: number) {
-        const money = new PreciseMoney(AMOUNT, new Currency(CURRENCY));
+        const money = new PreciseMoney(10, new Currency("EUR"));
 
         const percentageThrowFn = () => money.percentage(percent);
         Expect(percentageThrowFn).toThrowError(RangeError, "Percentage values must be between 0 and 100.");
@@ -533,11 +504,24 @@ export default class PreciseMoneyTest {
         Expect(toJsonOutput).toEqual({"amount": "350", "currency": "EUR"});
     }
 
+    @Test("it converts to a string")
+    public itConvertsToString() {
+        const intMoney = new PreciseMoney(100, new Currency("AUD"));
+        const intMoneyStr = intMoney.toString();
+        Expect(intMoneyStr).toBe("AUD 100");
+        Expect(String(intMoney)).toBe(intMoneyStr);
+
+        const decimalMoney = new PreciseMoney("123.45", new Currency("USD"));
+        const decimalMoneyStr = decimalMoney.toString();
+        Expect(decimalMoneyStr).toBe("USD 123.45");
+        Expect(String(decimalMoney)).toBe(decimalMoneyStr);
+    }
+
     @Test("it supports max safe integer")
     public itSupportsMaxSafeInteger() {
-        const currency = new Currency(CURRENCY);
+        const currency = new Currency("EUR");
 
-        const one = new PreciseMoney(1, new Currency(CURRENCY));
+        const one = new PreciseMoney(1, new Currency("EUR"));
 
         const maxInt = new PreciseMoney(Number.MAX_SAFE_INTEGER, currency);
         const maxIntPlusOne = (new PreciseMoney(Number.MAX_SAFE_INTEGER, currency)).add(one);
@@ -551,7 +535,7 @@ export default class PreciseMoneyTest {
     // TODO: Consider only allowing ratios of roundedmoney
     @Test("it returns ratio of")
     public itReturnsRatioOf() {
-        const currency = new Currency(CURRENCY);
+        const currency = new Currency("EUR");
 
         const zero = new PreciseMoney(0, currency);
         const three = new PreciseMoney(3, currency);
@@ -565,7 +549,7 @@ export default class PreciseMoneyTest {
 
     @Test("it throws when calculating ratio of zero")
     public itThrowsWhenCalculatingRatioOfZero() {
-        const currency = new Currency(CURRENCY);
+        const currency = new Currency("EUR");
 
         const zero = new PreciseMoney(0, currency);
         const six = new PreciseMoney(6, currency);
@@ -610,28 +594,28 @@ export default class PreciseMoneyTest {
     }
 
     public static diffCurrencyRefusalExamples() {
-        const currency = new Currency(CURRENCY);
-        const otherCurrency = new Currency(OTHER_CURRENCY);
+        const currency = new Currency("EUR");
+        const otherCurrency = new Currency("AUD");
         return [
             [
-                new PreciseMoney(AMOUNT, otherCurrency),
+                new PreciseMoney(10, otherCurrency),
             ],
             [
-                new PreciseMoney(AMOUNT, otherCurrency),
-                new PreciseMoney(AMOUNT, otherCurrency),
+                new PreciseMoney(11, otherCurrency),
+                new PreciseMoney(12, otherCurrency),
             ],
             [
-                new PreciseMoney(AMOUNT, otherCurrency),
-                new PreciseMoney(AMOUNT, otherCurrency),
-                new PreciseMoney(AMOUNT, otherCurrency),
+                new PreciseMoney("13", otherCurrency),
+                new PreciseMoney("14.5", otherCurrency),
+                new PreciseMoney("15.60", otherCurrency),
             ],
             [
-                new PreciseMoney(AMOUNT, currency),
-                new PreciseMoney(AMOUNT, otherCurrency),
+                new PreciseMoney("17.89", currency),
+                new PreciseMoney("12.34", otherCurrency),
             ],
             [
-                new PreciseMoney(AMOUNT, otherCurrency),
-                new PreciseMoney(AMOUNT, currency),
+                new PreciseMoney("99.99", otherCurrency),
+                new PreciseMoney("-99", currency),
             ],
         ];
     }

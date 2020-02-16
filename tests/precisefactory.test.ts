@@ -1,3 +1,4 @@
+/// <reference path="../src/alsatian-ambient.d.ts" />
 import { TestFixture, Test, Expect } from "alsatian";
 
 import PreciseMoney from "src/precisemoney";
@@ -8,7 +9,7 @@ import { USD } from "src/precisefactory";
 export default class PreciseMoneyFactoryTest {
     @Test("it creates precise money objects")
     public itCreatesPreciseMoneyObjects() {
-        const manufacturedMoney = USD(20);
+        const manufacturedMoney = USD(20.0);
         Expect(manufacturedMoney instanceof PreciseMoney).toBeTruthy();
 
         const naturalMoney = new PreciseMoney(20, new Currency("USD"));

@@ -21,6 +21,10 @@ export default class PreciseMoney {
         return new PreciseMoney(amount, this.currency);
     }
 
+    public toString(): string {
+        return `${this.currency.code} ${this.amount}`;
+    }
+
     public get amount(): string {
         return this.num.toString();
     }
