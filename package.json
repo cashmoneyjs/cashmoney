@@ -29,10 +29,10 @@
         "tsconfig.json"
     ],
     "sideEffects": false,
-    "homepage": "https://github.com/djmattyg007/js-cashmoney",
+    "homepage": "https://github.com/cashmoneyjs/cashmoney",
     "repository": {
         "type": "git",
-        "url": "https://github.com/djmattyg007/js-cashmoney.git"
+        "url": "https://github.com/cashmoneyjs/cashmoney.git"
     },
     "keywords": [
         "cashmoney",
