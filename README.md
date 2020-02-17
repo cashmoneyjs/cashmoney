@@ -40,7 +40,7 @@ $ npm add @cashmoney/core
 
 ### Money
 
-There are two types of money: Precise and Rouned. Which one you want depends
+There are two types of money: Precise and Rounded. Which one you want depends
 on what you plan to do with the relevant amount(s).
 
 #### Precise Money
