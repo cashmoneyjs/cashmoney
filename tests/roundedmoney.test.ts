@@ -7,6 +7,27 @@ import { numeric } from "@cashmoney/number";
 
 @TestFixture("Rounded Money")
 export default class RoundedMoneyTest {
+    @Test("it can create an array of money objects")
+    public itCanCreateAnArrayOfMoneyObjects() {
+        const amounts = ["1.23", "4.56", "7.89"];
+        const currency = new Currency("CAD");
+
+        const monies = RoundedMoney.fromArray(amounts, 2, currency);
+        Expect(monies.length).toBe(3);
+
+        Expect(monies[0] instanceof RoundedMoney).toBeTruthy();
+        Expect(monies[0].amount).toBe("1.23");
+        Expect(monies[0].currency).toBe(currency);
+
+        Expect(monies[0] instanceof RoundedMoney).toBeTruthy();
+        Expect(monies[1].amount).toBe("4.56");
+        Expect(monies[1].currency).toBe(currency);
+
+        Expect(monies[0] instanceof RoundedMoney).toBeTruthy();
+        Expect(monies[2].amount).toBe("7.89");
+        Expect(monies[2].currency).toBe(currency);
+    }
+
     @TestCases(RoundedMoneyTest.inaccurateSubunitExamples)
     @Test("it throws an error when subunit is not accurate")
     public itThrowsWhenSubunitIsNotAccurate(amount: string, subunit: number) {

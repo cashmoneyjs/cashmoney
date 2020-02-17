@@ -9,6 +9,27 @@ import { sumExamples, minExamples, maxExamples, avgExamples } from "fixtures/agg
 
 @TestFixture("Precise Money")
 export default class PreciseMoneyTest {
+    @Test("it can create an array of money objects")
+    public itCanCreateAnArrayOfMoneyObjects() {
+        const amounts = ["1.23", "4.5678", "9.0123456"];
+        const currency = new Currency("CAD");
+
+        const monies = PreciseMoney.fromArray(amounts, currency);
+        Expect(monies.length).toBe(3);
+
+        Expect(monies[0] instanceof PreciseMoney).toBeTruthy();
+        Expect(monies[0].amount).toBe("1.23");
+        Expect(monies[0].currency).toBe(currency);
+
+        Expect(monies[1] instanceof PreciseMoney).toBeTruthy();
+        Expect(monies[1].amount).toBe("4.5678");
+        Expect(monies[1].currency).toBe(currency);
+
+        Expect(monies[2] instanceof PreciseMoney).toBeTruthy();
+        Expect(monies[2].amount).toBe("9.0123456");
+        Expect(monies[2].currency).toBe(currency);
+    }
+
     @TestCases(PreciseMoneyTest.equalityExamples)
     @Test("it equals to another money")
     public itEqualsToAnotherMoney(amount: numeric, currency: Currency, equality: boolean) {

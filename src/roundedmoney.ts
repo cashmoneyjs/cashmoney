@@ -30,6 +30,10 @@ export default class RoundedMoney {
         this.currency = currency;
     }
 
+    public static fromArray(amounts: (Num | numeric)[], subunit: number, currency: Currency): RoundedMoney[] {
+        return amounts.map(amount => new RoundedMoney(amount, subunit, currency));
+    }
+
     private newInstance(amount: Num | numeric): RoundedMoney {
         return new RoundedMoney(amount, this.subunit, this.currency);
     }
