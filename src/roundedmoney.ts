@@ -1,6 +1,7 @@
-import { Num, numeric } from "@cashmoney/number";
+import { Num, RoundingMode, numeric } from "@cashmoney/number";
 
 import Currency from "./currency";
+import PreciseMoney from "./precisemoney";
 
 interface NamedRatios {
     [name: string]: number;
@@ -36,6 +37,10 @@ export default class RoundedMoney {
 
     private newInstance(amount: Num | numeric): RoundedMoney {
         return new RoundedMoney(amount, this.subunit, this.currency);
+    }
+
+    private newPrecise(amount: Num | numeric): PreciseMoney {
+        return new PreciseMoney(amount, this.currency);
     }
 
     public toString(): string {
@@ -173,6 +178,34 @@ export default class RoundedMoney {
 
     public minus(...subtrahends: RoundedMoney[]): RoundedMoney {
         return this.subtract(...subtrahends);
+    }
+
+    public multiply(multiplier: Num | numeric): PreciseMoney {
+        return this.newPrecise(this.num.multiply(multiplier));
+    }
+
+    public times(multiplier: Num | numeric): PreciseMoney {
+        return this.multiply(multiplier);
+    }
+
+    public multipliedBy(multiplier: Num | numeric): PreciseMoney {
+        return this.multiply(multiplier);
+    }
+
+    public multiplyAndRound(multiplier: Num | numeric, roundingMode: RoundingMode = RoundingMode.ROUND_HALF_EVEN): RoundedMoney {
+        return this.multiply(multiplier).roundToDecimalPlaces(this.subunit, roundingMode);
+    }
+
+    public divide(divisor: Num | numeric): PreciseMoney {
+        return this.newPrecise(this.num.divide(divisor));
+    }
+
+    public dividedBy(divisor: Num | numeric): PreciseMoney {
+        return this.divide(divisor);
+    }
+
+    public divideAndRound(divisor: Num | numeric, roundingMode: RoundingMode = RoundingMode.ROUND_HALF_EVEN): RoundedMoney {
+        return this.divide(divisor).roundToDecimalPlaces(this.subunit, roundingMode);
     }
 
     public absolute(): RoundedMoney {

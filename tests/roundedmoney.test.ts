@@ -2,6 +2,7 @@
 import { TestFixture, Test, TestCases, Expect } from "alsatian";
 
 import RoundedMoney from "src/roundedmoney";
+import PreciseMoney from "src/precisemoney";
 import Currency from "src/currency";
 import { numeric } from "@cashmoney/number";
 
@@ -19,11 +20,11 @@ export default class RoundedMoneyTest {
         Expect(monies[0].amount).toBe("1.23");
         Expect(monies[0].currency).toBe(currency);
 
-        Expect(monies[0] instanceof RoundedMoney).toBeTruthy();
+        Expect(monies[1] instanceof RoundedMoney).toBeTruthy();
         Expect(monies[1].amount).toBe("4.56");
         Expect(monies[1].currency).toBe(currency);
 
-        Expect(monies[0] instanceof RoundedMoney).toBeTruthy();
+        Expect(monies[2] instanceof RoundedMoney).toBeTruthy();
         Expect(monies[2].amount).toBe("7.89");
         Expect(monies[2].currency).toBe(currency);
     }
@@ -255,6 +256,106 @@ export default class RoundedMoneyTest {
 
         const throwFn = () => money.add(other);
 
+        Expect(throwFn).toThrow();
+    }
+
+    @TestCases(RoundedMoneyTest.multiplyExamples)
+    @Test("it multiplies the amount")
+    public itMultipliesTheAmount(multiplier: string, subunit: number) {
+        const currency = new Currency("EUR");
+        const money = new RoundedMoney(1, subunit, currency);
+        const multiplyMoney = money.multiply(multiplier);
+
+        Expect(multiplyMoney instanceof PreciseMoney).toBeTruthy();
+        Expect(multiplyMoney).toBe(new PreciseMoney(multiplier, currency));
+        Expect(multiplyMoney.amount).toBe(multiplier);
+
+        const timesMoney = money.times(multiplier);
+        Expect(timesMoney).toBe(multiplyMoney);
+
+        const multipliedByMoney = money.multipliedBy(multiplier);
+        Expect(multipliedByMoney).toBe(multiplyMoney);
+    }
+
+    @TestCases(RoundedMoneyTest.multiplyExamples)
+    @Test("multiplying by zero always gives zero")
+    public multiplyingByZeroAlwaysGivesZero(amount: string, subunit: number) {
+        const currency = new Currency("EUR");
+        const money = new RoundedMoney(amount, subunit, currency);
+        const multipliedMoney = money.multiply(0);
+
+        Expect(multipliedMoney instanceof PreciseMoney).toBeTruthy();
+        Expect(multipliedMoney).toBe(new PreciseMoney(0, currency));
+        Expect(multipliedMoney.amount).toBe("0");
+    }
+
+    @TestCases(RoundedMoneyTest.multiplyExamples)
+    @Test("multiplying by one gives same amount")
+    public multiplyingByOneGivesSameAmount(amount: string, subunit: number) {
+        const currency = new Currency("EUR");
+        const money = new RoundedMoney(amount, subunit, currency);
+        const multipliedMoney = money.multiply(1);
+
+        Expect(multipliedMoney instanceof PreciseMoney).toBeTruthy();
+        Expect(multipliedMoney).toBe(new PreciseMoney(amount, currency));
+        Expect(multipliedMoney.amount).toBe(amount);
+    }
+
+    public static multiplyExamples() {
+        const numbers = ['1', '0.1', '0.5', '2', '10', '10.5', '100', '0', '-0.1', '-0.5', '-1', '-2', '-10', '-15.8', '-100'];
+        return numbers.map(num => [num, 2]);
+    }
+
+    @TestCases(RoundedMoneyTest.invalidOperandExamples)
+    @Test("it throws an exception when operand is invalid during multiplication")
+    public itThrowsAnExceptionWhenOperandIsInvalidDuringMultiplication(operand: any) {
+        const money = new RoundedMoney(1, 2, new Currency("EUR"));
+        const throwFn = () => money.multiply(operand as numeric);
+        Expect(throwFn).toThrow();
+    }
+
+    @TestCases(RoundedMoneyTest.divideExamples)
+    @Test("it divides the amount")
+    public itDividesTheAmount(divisor: string, _subunit: number, expected: string) {
+        const currency = new Currency("EUR");
+        const money = new RoundedMoney("10.00", 2, currency);
+        const dividedMoney = money.divide(divisor);
+
+        Expect(dividedMoney instanceof PreciseMoney).toBeTruthy();
+        Expect(dividedMoney).toBe(new PreciseMoney(expected, currency));
+        Expect(dividedMoney.amount).toBe(expected);
+    }
+
+    @TestCases(RoundedMoneyTest.divideExamples)
+    @Test("dividing by one gives same amount")
+    public dividingByOneGivesSameAmount(amount: string, subunit: number) {
+        const currency = new Currency("EUR");
+        const money = new RoundedMoney(amount, subunit, currency);
+        const dividedMoney = money.divide(1);
+
+        Expect(dividedMoney instanceof PreciseMoney).toBeTruthy();
+        Expect(dividedMoney).toEqual(new PreciseMoney(amount, currency));
+        Expect(dividedMoney.amount).toBe(amount);
+    }
+
+    public static divideExamples() {
+        return [
+            ["2", 2, "5"],
+            ["5", 2, "2"],
+            ["3", 2, "3.33333333333333333333"],
+            ["2.5", 2, "4"],
+            ["1", 2, "10"],
+            ["0.5", 2, "20"],
+            ["0.25", 2, "40"],
+            ["0.2", 2, "50"],
+        ];
+    }
+
+    @TestCases(RoundedMoneyTest.invalidOperandExamples)
+    @Test("it throws an exception when operand is invalid during division")
+    public itThrowsAnExceptionWhenOperandIsInvalidDuringDivision(operand: any) {
+        const money = new RoundedMoney(1, 2, new Currency("EUR"));
+        const throwFn = () => money.divide(operand as numeric);
         Expect(throwFn).toThrow();
     }
 
@@ -621,6 +722,16 @@ export default class RoundedMoneyTest {
             [[RM0("0")], RM0("0")],
             [[RM0("0"), RM0("0")], RM0("0")],
             [[RM0("-5"), RM0("0"), RM0("5")], RM0("5")],
+        ];
+    }
+
+    public static invalidOperandExamples() {
+        return [
+            [[]],
+            [false],
+            ['operand'],
+            [null],
+            [{}],
         ];
     }
 
