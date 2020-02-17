@@ -593,6 +593,58 @@ export default class RoundedMoneyTest {
         ];
     }
 
+    @TestCases(RoundedMoneyTest.percentageExamples)
+    @Test("it calculates percentages")
+    public itCalculatesPercentages(amount: string, subunit: number, percent: number, expected: string) {
+        const currency = new Currency("EUR");
+        const money = new RoundedMoney(amount, subunit, currency);
+        const smallerMoney = money.percentage(percent);
+
+        Expect(smallerMoney instanceof PreciseMoney).toBeTruthy();
+        Expect(smallerMoney).toBe(new PreciseMoney(expected, currency));
+        Expect(smallerMoney.amount).toBe(expected);
+    }
+
+    public static percentageExamples() {
+        return [
+            ["350.00", 2, 0, "0"],
+            ["350.00", 2, 100, "350"],
+            ["350.00", 2, 50, "175"],
+            ["10.00", 2, 100, "10"],
+            ["10.00", 2, 30, "3"],
+            ["10.00", 2, 25, "2.5"],
+            ["10.00", 2, 24, "2.4"],
+            ["100.00", 2, 25, "25"],
+            ["99.99", 2, 25, "24.9975"],
+        ];
+    }
+
+    @TestCases(RoundedMoneyTest.subtractPercentageExamples)
+    @Test("it subtracts a percentage")
+    public itSubtractsAPercentage(amount: number, subunit: number, percent: number, expected:string) {
+        const currency = new Currency("EUR");
+        const money = new RoundedMoney(amount, subunit, currency);
+        const smallerMoney = money.subtractPercentage(percent);
+
+        Expect(smallerMoney instanceof PreciseMoney).toBeTruthy();
+        Expect(smallerMoney).toBe(new PreciseMoney(expected, currency));
+        Expect(smallerMoney.amount).toBe(expected);
+    }
+
+    public static subtractPercentageExamples() {
+        return [
+            ["350.00", 2, 0, "350"],
+            ["350.00", 2, 100, "0"],
+            ["350.00", 2, 50, "175"],
+            ["10.00", 2, 100, "0"],
+            ["10.00", 2, 30, "7"],
+            ["10.00", 2, 25, "7.5"],
+            ["10.00", 2, 24, "7.6"],
+            ["100.00", 2, 25, "75"],
+            ["99.99", 2, 25, "74.9925"],
+        ];
+    }
+
     @Test("it converts to JSON")
     public itConvertsToJson() {
         const intMoney = new RoundedMoney(100, 2, new Currency("AUD"));

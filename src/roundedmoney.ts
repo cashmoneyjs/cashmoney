@@ -208,6 +208,22 @@ export default class RoundedMoney {
         return this.divide(divisor).roundToDecimalPlaces(this.subunit, roundingMode);
     }
 
+    public percentage(percent: number): PreciseMoney {
+        return this.newPrecise(this.num.percent(percent));
+    }
+
+    public percent(percent: number): PreciseMoney {
+        return this.percentage(percent);
+    }
+
+    public subtractPercentage(percent: number): PreciseMoney {
+        return this.newPrecise(this.num.subtractPercentage(percent));
+    }
+
+    public subtractPercent(percent: number): PreciseMoney {
+        return this.subtractPercentage(percent);
+    }
+
     public absolute(): RoundedMoney {
         return this.newInstance(this.num.absolute());
     }

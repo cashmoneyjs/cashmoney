@@ -409,7 +409,7 @@ export default class PreciseMoneyTest {
 
     @TestCases(PreciseMoneyTest.percentageExamples)
     @Test("it calculates percentages")
-    public itCalculatesPercentages(amount: number, percent: number, expected: string) {
+    public itCalculatesPercentages(amount: string, percent: number, expected: string) {
         const currency = new Currency("EUR");
         const money = new PreciseMoney(amount, currency);
         const smallerMoney = money.percentage(percent);
@@ -422,16 +422,16 @@ export default class PreciseMoneyTest {
 
     public static percentageExamples() {
         return [
-            [350, 0, '0'],
-            [350, 100, '350'],
-            [350, 50, '175'],
-            [10, 100, '10'],
-            [10, 30, '3'],
-            [10, 25, '2.5'],
-            [10, 24, '2.4'],
-            [100, 25, '25'],
-            [100, 25, '25'],
-            [1, 20, '0.2'],
+            ["350", 0, '0'],
+            ["350", 100, '350'],
+            ["350", 50, '175'],
+            ["10", 100, '10'],
+            ["10", 30, '3'],
+            ["10", 25, '2.5'],
+            ["10", 24, '2.4'],
+            ["100", 25, '25'],
+            ["99.99", 25, '24.9975'],
+            ["1", 20, '0.2'],
         ];
     }
 
