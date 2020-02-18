@@ -59,7 +59,7 @@ const sevenPointFiveAud = new PreciseMoney("7.5", currency);
 // Alternatively:
 const fiveAudAlt = AUD(5);
 const tenAudAlt = AUD(10);
-const sevenPointFiveAud = AUD(7.5);
+const sevenPointFiveAudAlt = AUD(7.5);
 
 assert(tenAud.subtract(fiveAud).equals(fiveAud));
 assert(tenAud.subtract(new PreciseMoney("2.5", currency)).equals(sevenPointFiveAud);
@@ -154,7 +154,7 @@ All parsers return instances of ``PreciseMoney``.
 
 #### ISO Code parser
 
-The ISO Code parser parses strings of the form ``"AUD 1.23"`` and "AUD 100".
+The ISO Code parser parses strings of the form ``"AUD 1.23"`` and ``"AUD 100"``.
 
 ```typescript
 import { PreciseMoneyFactory, ISOCodeMoneyParser } from "@cashmoney/core";
