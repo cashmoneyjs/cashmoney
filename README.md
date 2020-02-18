@@ -148,6 +148,9 @@ const rMoneyHalfUp = rounder.round(pMoneyMultiplied); // equals "1.88"
 const rMoneyHalfDown = rounder.round(pMoneyMultiplied, RoundingMode.ROUND_HALF_DOWN); // equals "1.87"
 ```
 
+Note that this is another departure from MoneyPHP, which simply defaults to
+"round half up".
+
 ### Parsing
 
 All parsers return instances of ``PreciseMoney``.
