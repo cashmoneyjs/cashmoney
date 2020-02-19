@@ -314,6 +314,18 @@ export default class RoundedMoneyTest {
         Expect(throwFn).toThrow();
     }
 
+    @Test("it can multiply and round back to the correct precision")
+    public itCanMultiplyAndRoundImmediately() {
+        const currency = new Currency("NZD");
+        const money = new RoundedMoney("43.99", 2, currency);
+        const multipliedMoney = money.multiplyAndRound(1.25);
+        const expectedAmount = "54.99";
+
+        Expect(multipliedMoney instanceof RoundedMoney).toBeTruthy();
+        Expect(multipliedMoney).toBe(new RoundedMoney(expectedAmount, 2, currency));
+        Expect(multipliedMoney.amount).toBe(expectedAmount);
+    }
+
     @TestCases(RoundedMoneyTest.divideExamples)
     @Test("it divides the amount")
     public itDividesTheAmount(divisor: string, _subunit: number, expected: string) {
@@ -357,6 +369,18 @@ export default class RoundedMoneyTest {
         const money = new RoundedMoney(1, 2, new Currency("EUR"));
         const throwFn = () => money.divide(operand as numeric);
         Expect(throwFn).toThrow();
+    }
+
+    @Test("it can divide and round back to the correct precision")
+    public itCanDivideAndRoundImmediately() {
+        const currency = new Currency("NZD");
+        const money = new RoundedMoney("43.99", 2, currency);
+        const dividedMoney = money.divideAndRound(1.25);
+        const expectedAmount = "35.19";
+
+        Expect(dividedMoney instanceof RoundedMoney).toBeTruthy();
+        Expect(dividedMoney).toBe(new RoundedMoney(expectedAmount, 2, currency));
+        Expect(dividedMoney.amount).toBe(expectedAmount);
     }
 
     @TestCases(RoundedMoneyTest.allocationExamples)
@@ -603,6 +627,9 @@ export default class RoundedMoneyTest {
         Expect(smallerMoney instanceof PreciseMoney).toBeTruthy();
         Expect(smallerMoney).toBe(new PreciseMoney(expected, currency));
         Expect(smallerMoney.amount).toBe(expected);
+
+        const smallerMoneyAlt = money.percent(percent);
+        Expect(smallerMoneyAlt).toBe(smallerMoney);
     }
 
     public static percentageExamples() {
@@ -629,6 +656,9 @@ export default class RoundedMoneyTest {
         Expect(smallerMoney instanceof PreciseMoney).toBeTruthy();
         Expect(smallerMoney).toBe(new PreciseMoney(expected, currency));
         Expect(smallerMoney.amount).toBe(expected);
+
+        const smallerMoneyAlt = money.subtractPercent(percent);
+        Expect(smallerMoneyAlt).toBe(smallerMoney);
     }
 
     public static subtractPercentageExamples() {
@@ -643,6 +673,18 @@ export default class RoundedMoneyTest {
             ["100.00", 2, 25, "75"],
             ["99.99", 2, 25, "74.9925"],
         ];
+    }
+
+    @Test("it subtracts a percentage and rounds back to the correct precision")
+    public itSubtractsAPercentageAndRoundsImmediately() {
+        const currency = new Currency("NZD");
+        const money = new RoundedMoney("89.99", 2, currency);
+        const smallerMoney = money.subtractPercentageAndRound(15);
+        const expectedAmount = "76.49";
+
+        Expect(smallerMoney instanceof RoundedMoney).toBeTruthy();
+        Expect(smallerMoney).toBe(new RoundedMoney(expectedAmount, 2, currency));
+        Expect(smallerMoney.amount).toBe(expectedAmount);
     }
 
     @Test("it converts to JSON")
