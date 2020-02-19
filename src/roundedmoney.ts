@@ -224,6 +224,10 @@ export default class RoundedMoney {
         return this.subtractPercentage(percent);
     }
 
+    public subtractPercentageAndRound(percent: number): RoundedMoney {
+        return this.subtractPercentage(percent).roundToDecimalPlaces(this.subunit, roundingMode);
+    }
+
     public absolute(): RoundedMoney {
         return this.newInstance(this.num.absolute());
     }
