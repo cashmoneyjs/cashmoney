@@ -16,7 +16,7 @@ export default class ISOCurrencyList implements CurrencyList {
     private static readonly currencyData: ISOCurrencies = {};
 
     public contains(currency: Currency): boolean {
-        return typeof this.isoCurrencies[currency.code] !== "undefined";
+        return typeof ISOCurrencyList.currencyData[currency.code] !== "undefined";
     }
 
     public nameFor(currency: Currency): string {
@@ -24,7 +24,7 @@ export default class ISOCurrencyList implements CurrencyList {
             throw new Error(`Cannot find ISO currency ${currency.code}.`);
         }
 
-        return this.isoCurrencies[currency.code]["currency"];
+        return ISOCurrencyList.currencyData[currency.code]["currency"];
     }
 
     public subunitFor(currency: Currency): number {
@@ -32,7 +32,7 @@ export default class ISOCurrencyList implements CurrencyList {
             throw new Error(`Cannot find ISO currency ${currency.code}.`);
         }
 
-        return this.isoCurrencies[currency.code]["minorUnit"];
+        return ISOCurrencyList.currencyData[currency.code]["minorUnit"];
     }
 
     public numericCodeFor(currency: Currency): number {
@@ -40,11 +40,11 @@ export default class ISOCurrencyList implements CurrencyList {
             throw new Error(`Cannot find ISO currency ${currency.code}.`);
         }
 
-        return this.isoCurrencies[currency.code]["numericCode"];
+        return ISOCurrencyList.currencyData[currency.code]["numericCode"];
     }
 
     public *[Symbol.iterator](): Generator<Currency> {
-        for (const code of Object.keys(this.isoCurrencies)) {
+        for (const code of Object.keys(ISOCurrencyList.currencyData)) {
             yield new Currency(code);
         }
     }
