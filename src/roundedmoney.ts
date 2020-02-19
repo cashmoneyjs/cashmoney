@@ -224,7 +224,7 @@ export default class RoundedMoney {
         return this.subtractPercentage(percent);
     }
 
-    public subtractPercentageAndRound(percent: number): RoundedMoney {
+    public subtractPercentageAndRound(percent: number, roundingMode: RoundingMode = RoundingMode.ROUND_HALF_EVEN): RoundedMoney {
         return this.subtractPercentage(percent).roundToDecimalPlaces(this.subunit, roundingMode);
     }
 
