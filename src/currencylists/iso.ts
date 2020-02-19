@@ -23,7 +23,7 @@ export default class ISOCurrencyList implements CurrencyList {
 
     public nameFor(currency: Currency): string {
         if (this.contains(currency) === false) {
-            throw new Error("Cannot find ISO currency " + currency.code);
+            throw new Error(`Cannot find ISO currency ${currency.code}.`);
         }
 
         return this.isoCurrencies[currency.code]["currency"];
@@ -31,7 +31,7 @@ export default class ISOCurrencyList implements CurrencyList {
 
     public subunitFor(currency: Currency): number {
         if (this.contains(currency) === false) {
-            throw new Error("Cannot find ISO currency " + currency.code);
+            throw new Error(`Cannot find ISO currency ${currency.code}.`);
         }
 
         return this.isoCurrencies[currency.code]["minorUnit"];
@@ -39,7 +39,7 @@ export default class ISOCurrencyList implements CurrencyList {
 
     public numericCodeFor(currency: Currency): number {
         if (this.contains(currency) === false) {
-            throw new Error("Cannot find ISO currency " + currency.code);
+            throw new Error(`Cannot find ISO currency ${currency.code}.`);
         }
 
         return this.isoCurrencies[currency.code]["numericCode"];

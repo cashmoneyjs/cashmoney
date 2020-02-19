@@ -3,7 +3,7 @@ export default class Currency {
 
     public constructor(code: string) {
         if (code.length === 0) {
-            throw new Error("Currency code should not be empty string");
+            throw new Error("Currency code must not be an empty string.");
         }
 
         this.code = code;

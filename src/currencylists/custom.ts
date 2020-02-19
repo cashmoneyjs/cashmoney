@@ -12,7 +12,7 @@ export default class CustomCurrencyList implements CurrencyList {
         for (const [code, subunit] of Object.entries(currencies)) {
             if (Number.isInteger(subunit) === false || subunit < 0) {
                 throw new Error(
-                    "Currency " + code + " does not have a valid minor unit. Must be a positive integer."
+                    `Currency ${code} does not have a valid minor unit. Must be a positive integer.`
                 );
             }
         }
@@ -26,7 +26,7 @@ export default class CustomCurrencyList implements CurrencyList {
 
     public nameFor(currency: Currency): string {
         if (this.contains(currency) === false) {
-            throw new Error("Cannot find currency " + currency.code);
+            throw new Error(`Cannot find currency ${currency.code}.`);
         }
 
         return currency.code;
@@ -34,7 +34,7 @@ export default class CustomCurrencyList implements CurrencyList {
 
     public subunitFor(currency: Currency): number {
         if (this.contains(currency) === false) {
-            throw new Error("Cannot find currency " + currency.code);
+            throw new Error(`Cannot find currency ${currency.code}.`);
         }
 
         return this.currencies[currency.code];

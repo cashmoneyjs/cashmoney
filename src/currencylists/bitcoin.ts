@@ -13,7 +13,7 @@ export default class BitcoinCurrencyList implements CurrencyList {
     public nameFor(currency: Currency): string {
         if (currency.code !== CODE) {
             throw new Error(
-                currency.code + " is not bitcoin and is not supported by this currency repository"
+                `${currency.code} is not bitcoin and is not supported by this currency list.`
             );
         }
 
@@ -23,7 +23,7 @@ export default class BitcoinCurrencyList implements CurrencyList {
     public subunitFor(currency: Currency): number {
         if (currency.code !== CODE) {
             throw new Error(
-                currency.code + " is not bitcoin and is not supported by this currency repository"
+                `${currency.code} is not bitcoin and is not supported by this currency list.`
             );
         }
 

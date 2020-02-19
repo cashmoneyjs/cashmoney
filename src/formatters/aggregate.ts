@@ -27,6 +27,6 @@ export default class AggregateMoneyFormatter implements MoneyFormatter {
             return this.formatters["*"].format(money);
         }
 
-        throw new Error("No formatter found for currency " + currencyCode);
+        throw new Error(`No formatter found for currency ${currencyCode}.`);
     }
 }

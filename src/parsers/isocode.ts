@@ -44,7 +44,7 @@ export default class ISOCodeMoneyParser implements MoneyParser {
             }
         }
 
-        throw new Error("Cannot parse '" + input + "' to Money.");
+        throw new Error(`Cannot parse '${input}' to Money.`);
     }
 
     private make(amount: string, currencyCode: string): PreciseMoney {

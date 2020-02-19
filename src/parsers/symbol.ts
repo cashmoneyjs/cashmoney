@@ -37,8 +37,9 @@ export default class SymbolMoneyParser implements MoneyParser {
 
     private make(amount: string, symbol: string): PreciseMoney {
         if (typeof this.symbolMapping[symbol] === "undefined") {
-            throw new Error("Unrecognised currency symbol.");
+            throw new Error(`Unrecognised currency symbol '${symbol}'.`);
         }
+
         const currency = new Currency(this.symbolMapping[symbol]);
 
         amount = amount.replace(",", ".");

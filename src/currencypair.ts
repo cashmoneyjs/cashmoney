@@ -26,14 +26,14 @@ export default class CurrencyPair {
         const match = isoRegex.exec(iso);
         if (!match) {
             throw new Error(
-                "Cannot create currency pair from ISO string '" + iso + "', format of string is invalid."
+                `Cannot create currency pair from ISO string '${iso}', format of string is invalid.`
             );
         }
 
         const ratio = parseFloat(match[3]);
         if (isNaN(ratio)) {
             throw new Error(
-                "Cannot create currency pair from ISO string '" + iso + "', conversion ratio is not a valid number."
+                `Cannot create currency pair from ISO string '${iso}', conversion ratio is not a valid number.`
             );
         }
 

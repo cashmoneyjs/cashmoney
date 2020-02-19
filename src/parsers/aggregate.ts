@@ -6,7 +6,7 @@ export default class AggregateMoneyParser implements MoneyParser {
 
     public constructor(parsers: ReadonlyArray<MoneyParser>) {
         if (parsers.length === 0) {
-            throw new Error("Cannot initialize aggregate money parser without any child parsers");
+            throw new Error("Cannot initialize aggregate money parser without any child parsers.");
         }
 
         this.parsers = parsers;
@@ -20,6 +20,6 @@ export default class AggregateMoneyParser implements MoneyParser {
             }
         }
 
-        throw new Error("Cannot parse '" + input + "' to Money.");
+        throw new Error(`Cannot parse '${input}' to Money.`);
     }
 }

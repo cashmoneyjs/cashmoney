@@ -29,7 +29,7 @@ export default class FixedExchange implements Exchange {
         }
 
         throw new Error(
-            "Cannot resolve a currency pair for currencies: " + baseCurrency.code + "/" + counterCurrency.code
+            `Cannot resolve a currency pair for currencies: ${baseCurrency.code}/${counterCurrency.code}.`
         );
     }
 }
