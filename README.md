@@ -48,7 +48,11 @@ on what you plan to do with the relevant amount(s).
 Precise Money objects accept values of any precision, as strings or numbers.
 
 ```typescript
-import { PreciseMoney, Currency, PreciseMoneyFactory } from "@cashmoney/core";
+import {
+    PreciseMoney,
+    Currency,
+    PreciseMoneyFactory,
+} from "@cashmoney/core";
 const { AUD } = PreciseMoneyFactory;
 
 const currency = new Currency("AUD");
@@ -70,7 +74,11 @@ assert(tenAud.subtract(new PreciseMoney("2.5", currency)).equals(sevenPointFiveA
 Rounded Money objects require that the expected precision of the currency is supplied.
 
 ```typescript
-import { RoundedMoney, Currency, RoundedMoneyFactory } from "@cashmoney/core";
+import {
+    RoundedMoney,
+    Currency,
+    RoundedMoneyFactory,
+} from "@cashmoney/core";
 
 // AUD uses 2 decimal places
 const fiveAud = new RoundedMoney("5.00", 2, new Currency("AUD"));
@@ -85,7 +93,11 @@ assert(part3.equals(AUD("3.33")));
 If you use the factory functions, they supply the precision for you.
 
 ```typescript
-import { RoundedMoney, Currency, RoundedMoneyFactory } from "@cashmoney/core";
+import {
+    RoundedMoney,
+    Currency,
+    RoundedMoneyFactory,
+} from "@cashmoney/core";
 const { AUD } = RoundedMoneyFactory;
 
 const fiveAud = new RoundedMoney("1.23", 2, new Currency("AUD"));
@@ -279,7 +291,7 @@ deal with numbers, not strings containing numbers. This means the value of the
 money object must first be cast to a float before formatting, which has the potential
 to cause a loss of precision.
 
-### Decimal formatter
+#### Decimal formatter
 
 The Decimal formatter simply outputs the raw value of a Rounded Money object.
 
