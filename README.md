@@ -127,7 +127,8 @@ assert(fiveRoundedAud.equals(fiveRoundedAudAlt));
 However, this requires that you always know the precision of every currency
 you're dealing with, everywhere that you want to do this in your code. That
 doesn't scale very well, so there's a dedicated Money Rounder class you can
-use to generalise this process.
+use to generalise this process. The Money Rounder requires a currency list,
+which is discussed in the next section.
 
 ```typescript
 import {
@@ -162,6 +163,120 @@ const rMoneyHalfDown = rounder.round(pMoneyMultiplied, RoundingMode.ROUND_HALF_D
 
 Note that this is another departure from MoneyPHP, which simply defaults to
 "round half up".
+
+### Currency Lists
+
+In CashMoney, You can construct currency objects at any time with any currency
+code (as you've seen in the above examples). As a result, these currency objects
+don't contain any information about the currency itself. Most importantly, this
+means they can't tell you how many minor units a currency has (eg. AUD uses 2
+minor units while JPY uses 0). Instead, this information is provided by *Currency
+List* objects.
+
+#### ISO Currency List
+
+Most of the time, you're probably going to want to use the ISO Currency List.
+This provides all the data you're going to need about pretty much every
+currency you're going to work with in most applications.
+
+```typescript
+import { Currency, ISOCurrencyList } from "@cashmoney/core";
+
+const AUD = new Currency("AUD");
+const JPY = new CUrrency("JPY");
+const isoCurrencyList = new ISOCurrencyList();
+
+assert(isoCurrencyList.contains(AUD));
+assert(isoCurrencyList.contains(JPY));
+console.log(isoCurrencyList.nameFor(AUD)); // outputs 'Australian Dollar'
+console.log(isoCurrencyList.subunitFor(AUD)); // outputs 2
+console.log(isoCurrencyList.nameFor(JPY)); // outputs 'Yen'
+console.log(isoCurrencyList.subunitFor(JPY)); // outputs 0
+```
+
+The ISO Currency List class doesn't pull its data out of thin air. Without
+any additional configuration, instances of ``ISOCurrencyList`` won't return
+any data at all. This is where the [CashMoney ISO Currencies](https://github.com/cashmoneyjs/iso-currencies)
+package comes in.
+
+```bash
+$ yarn add @cashmoney/iso-currencies
+```
+
+```typescript
+import { ISOCurrencyList } from "@cashmoney/core";
+import * as currencies from "@cashmoney/iso-currencies/resources/current";
+
+ISOCurrencyList.registerCurrencies(currencies);
+```
+
+If you only need a few currencies, you can import them individually in a
+manner that should be friendly to tree-shaking.
+
+```typescript
+import { ISOCurrencyList } from "@cashmoney/core";
+import { AUD, JPY } from "@cashmoney/iso-currencies/resources/current";
+
+ISOCurrencyList.registerCurrency("AUD", AUD);
+ISOCurrencyList.registerCurrency("JPY", JPY);
+```
+
+See the readme for the [CashMoney ISO Currencies](https://github.com/cashmoneyjs/iso-currencies)
+package for more information about the data available in the package.
+
+#### Custom Currency List
+
+For various reasons it may not be practical to use the CashMoney ISO Currencies
+package. If you still require the services of a currency list, you can construct
+one manually with as few details as necessary. The next example should produce
+the same results as the previous example.
+
+```typescript
+import { CustomCurrencyList } from "@cashmoney/core";
+
+const currencyData = { AUD: 2, JPY: 2 };
+const customCurrencyList = new CustomCurrencyList(currencyData);
+```
+
+#### Bitcoin Currency List
+
+CashMoney supports Bitcoin too. The Bitcoin Currency List has hard-coded data
+about Bitcoin only.
+
+```typescript
+import { Currency, BitcoinCurrencyList } from "@cashmoney/core";
+
+const XBT = new Currency("XBT");
+const EUR = new Currency("EUR");
+const currencyList = new BitcoinCurrencyList();
+
+assert(currencyList.contains(XBT));
+assert(currencyList.contains(AUD) === false);
+console.log(currencyList.nameFor(XBT)); // outputs 'Bitcoin'
+console.log(currencyList.subunitFor(XBT)); // outputs 8
+console.log(currencyList.nameFor(AUD)); // throws Error('AUD is not bitcoin and is not supported by this currency list.'
+console.log(currencyList.subunitFor(AUD)); // throws Error('AUD is not bitcoin and is not supported by this currency list.'
+```
+
+#### Aggregate Currency List
+
+What do you do when your application needs to support ISO Currencies, Bitcoin,
+and potentially other currencies too? You use the Aggregate currency list. It's
+accepted everywhere other currency lists are.
+
+```typescript
+import {
+    AggregateCurrencyList,
+    BitcoinCurrencyList,
+    ISOCurrencyList,
+} from "@cashmoney/core";
+
+const currencyList = new AggregateCurrencyList(
+    new BitcoinCurrencyList(),
+    new ISOCurrencyList(),
+    new CustomCurrencyList({ ZZZ: 42 }),
+);
+```
 
 ### Parsing
 
@@ -198,11 +313,18 @@ If you supply it with a list of valid currencies, it will validate the currency 
 An exception will be thrown if the currency code isn't in the list.
 
 ```typescript
-import { CustomCurrencyList, ISOCodeMoneyParser } from "@cashmoney/core";
+import {
+    ISOCodeMoneyParser,
+    CustomCurrencyList,
+    ISOCurrencyList,
+} from "@cashmoney/core";
 
-const currencies = new CustomCurrencyList({ AUD: 2 });
-const parser = new ISOCodeMoneyParser(currencies);
+const customCurrencies = new CustomCurrencyList({ AUD: 2 });
+const parser1 = new ISOCodeMoneyParser(currencies);
+const twentyNzd = parser.parse("NZD 20"); // throws Error("Unknown currency code.")
 
+const isoCurrencies = new ISOCurrencyList();
+const parser2 = new ISOCodeMoneyParser(isoCurrencies);
 const twentyZzz = parser.parse("ZZZ 20"); // throws Error("Unknown currency code.")
 ```
 

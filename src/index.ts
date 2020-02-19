@@ -9,7 +9,7 @@ import CurrencyList from "./currencylist";
 import AggregateCurrencyList from "./currencylists/aggregate";
 import BitcoinCurrencyList from "./currencylists/bitcoin";
 import CustomCurrencyList from "./currencylists/custom";
-import ISOCurrencyList, { ISOCurrencies } from "./currencylists/iso";
+import ISOCurrencyList, { ISOCurrencyData, ISOCurrencies } from "./currencylists/iso";
 
 import Exchange from "./exchange";
 import FixedExchange from "./exchanges/fixed";
@@ -43,6 +43,7 @@ export {
     BitcoinCurrencyList,
     CustomCurrencyList,
     ISOCurrencyList,
+    ISOCurrencyData,
     ISOCurrencies,
 
     Exchange,

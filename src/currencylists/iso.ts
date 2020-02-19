@@ -1,21 +1,19 @@
 import Currency from "../currency";
 import CurrencyList from "../currencylist";
 
+export interface ISOCurrencyData {
+    alphabeticCode: string;
+    currency: string;
+    minorUnit: number;
+    numericCode: number;
+}
+
 export interface ISOCurrencies {
-    [code: string]: {
-        alphabeticCode: string;
-        currency: string;
-        minorUnit: number;
-        numericCode: number;
-    };
+    [currencyCode: string]: ISOCurrencyData;
 }
 
 export default class ISOCurrencyList implements CurrencyList {
-    private readonly isoCurrencies: ISOCurrencies;
-
-    public constructor(isoCurrencies: ISOCurrencies) {
-        this.isoCurrencies = isoCurrencies;
-    }
+    private static readonly currencyData: ISOCurrencies = {};
 
     public contains(currency: Currency): boolean {
         return typeof this.isoCurrencies[currency.code] !== "undefined";
@@ -48,6 +46,16 @@ export default class ISOCurrencyList implements CurrencyList {
     public *[Symbol.iterator](): Generator<Currency> {
         for (const code of Object.keys(this.isoCurrencies)) {
             yield new Currency(code);
+        }
+    }
+
+    public static registerCurrency(currencyCode: string, currencyData: ISOCurrencyData): void {
+        ISOCurrencyList.currencyData[currencyCode] = Object.assign({}, currencyData);
+    }
+
+    public static registerCurrencies(currenciesData: ISOCurrencies): void {
+        for (const [currencyCode, currencyData] of Object.entries(currenciesData)) {
+            ISOCurrencyList.registerCurrency(currencyCode, currencyData);
         }
     }
 }
