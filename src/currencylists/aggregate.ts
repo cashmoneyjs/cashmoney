@@ -25,7 +25,7 @@ export default class AggregateCurrencyList implements CurrencyList {
             }
         }
 
-        throw new Error("Cannot find currency " + currency.code);
+        throw new Error(`Cannot find currency ${currency.code}.`);
     }
 
     public subunitFor(currency: Currency): number {
@@ -35,7 +35,7 @@ export default class AggregateCurrencyList implements CurrencyList {
             }
         }
 
-        throw new Error("Cannot find currency " + currency.code);
+        throw new Error(`Cannot find currency ${currency.code}.`);
     }
 
     public *[Symbol.iterator](): Generator<Currency> {
