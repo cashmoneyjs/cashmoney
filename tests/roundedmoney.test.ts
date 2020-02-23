@@ -726,6 +726,21 @@ export default class RoundedMoneyTest {
         Expect(String(zeroSubunitMoney)).toBe(zeroSubunitMoneyStr);
     }
 
+    @Test("it supports max safe integer")
+    public itSUpportsMaxSafeInteger() {
+        const currency = new Currency("EUR");
+
+        const one = new RoundedMoney(1, 2, currency);
+
+        const maxInt = new RoundedMoney(Number.MAX_SAFE_INTEGER, 2, currency);
+        const maxIntPlusOne = (new RoundedMoney(Number.MAX_SAFE_INTEGER, 2, currency)).add(one);
+        const maxIntMinusOne = (new RoundedMoney(Number.MAX_SAFE_INTEGER, 2, currency)).subtract(one);
+
+        Expect(maxInt instanceof RoundedMoney).toBeTruthy();
+        Expect(maxIntPlusOne instanceof RoundedMoney).toBeTruthy();
+        Expect(maxIntMinusOne instanceof RoundedMoney).toBeTruthy();
+    }
+
     @TestCases(RoundedMoneyTest.sumExamples)
     @Test("it calculates sum")
     public itCalculatesSum(values: RoundedMoney[], sum: RoundedMoney) {

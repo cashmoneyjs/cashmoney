@@ -511,7 +511,7 @@ export default class PreciseMoneyTest {
     public itSupportsMaxSafeInteger() {
         const currency = new Currency("EUR");
 
-        const one = new PreciseMoney(1, new Currency("EUR"));
+        const one = new PreciseMoney(1, currency);
 
         const maxInt = new PreciseMoney(Number.MAX_SAFE_INTEGER, currency);
         const maxIntPlusOne = (new PreciseMoney(Number.MAX_SAFE_INTEGER, currency)).add(one);
