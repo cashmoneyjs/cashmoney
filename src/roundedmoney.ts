@@ -288,6 +288,18 @@ export default class RoundedMoney {
         return this.num.ratioOf(other.num);
     }
 
+    public roundToDecimalPlaces(places: number, roundingMode: RoundingMode = RoundingMode.ROUND_HALF_EVEN): RoundedMoney {
+        if (places > this.subunit) {
+            throw new Error(`Cannot round to more decimal places (${places}) than are available (${this.subunit}).`);
+        }
+
+        return new RoundedMoney(
+            this.num.roundToDecimalPlaces(places, roundingMode),
+            places,
+            this.currency,
+        );
+    }
+
     public toJSON(): object {
         return {
             amount: this.amount,
