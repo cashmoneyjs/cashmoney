@@ -428,6 +428,113 @@ console.log(formatter.format(fiveAud)) // outputs '5.00'
 This works solely with strings, which means there's no risk of losing precision for
 very large numbers.
 
+### Cash Rounding
+
+In many currencies, the smallest cash denomination is not the same as the smallest
+possible unit of currency. Many countries ditched the 1 cent and 2 cent coins
+many years ago, leaving 5 cent coins as the smallest unit of cash. Some countries
+have now ditched the 5 cent coin too.
+
+CashMoney has a dedicated tool to help you with this - the cash rounder.
+
+```typescript
+import {
+    PreciseMoney,
+    Currency,
+    CashRounder,
+    ISOCurrencyList,
+    CustomCashDenominationList,
+} from "@cashmoney/core";
+
+const currencyList = new ISOCurrencyList();
+const denominationList = new CustomCashDenominationList({ AUD: 5, NZD: 10 });
+const cashRounder = new CashRounder(currencyList, denominationList);
+
+const aud = new Currency("AUD");
+const pMoney = new PreciseMoney("1.23", aud);
+
+const pMoneyRounded = cashRounder.round(pMoney);
+assert(pMoneyRounded.equals(new PreciseMoney("1.25", aud)));
+```
+
+The cash rounder can also round instances of ``RoundedMoney``, with a slightly
+different method.
+
+```typescript
+import { RoundedMoney } from "@cashmoney/core";
+
+const rMoney = new RoundedMoney("3.21", 2, aud);
+
+const rMoneyAdjusted = cashRounder.adjust(rMoney);
+assert(rMoneyAdjusted.equals(new RoundedMoney("3.20", 2, aud)));
+```
+
+The default rounding mode for the cash rounder is "round half to even", like
+the other rounding operations in CashMoney. However, this can result in what
+may appear to be inconsistent behaviour with rounding values of 5 cents when
+dealing with currencies such as ``NZD``, whose smallest unit of cash is 10
+cents. To get around this, you can override the default rounding mode.
+
+```typescript
+import { RoundingMode } from "@cashmoney/core";
+
+const nzdCashRounder = new CashRounder(
+    currencyList,
+    denominationList,
+    RoundingMode.ROUND_HALF_UP,
+);
+
+const nzd = new Currency("NZD");
+const rMoneyNzd = new RoundedMoney("1.45", 2, nzd);
+
+const rMoneyNzdAdjustedUp = nzdCashRounder.adjust(rMoneyNzd);
+assert(rMoneyNzdAdjustedUp.equals(new RoundedMoney("1.50", 2, nzd)));
+
+const rMoneyNzdAdjustedDown = nzdCashRounder.adjust(rMoneyNzd, RoundingMode.ROUND_HALF_DOWN);
+assert(rMoneyNzdAdjustedDown.equals(new RoundedMoney("1.40", 2, nzd)));
+```
+
+### Cash Denomination lists
+
+The cash rounder relies on being supplied a cash denomination list that can
+tell it what the cash rounding step is. At the moment, there is no precise
+list for all currencies that you can use.
+
+#### Custom Cash Denomination list
+
+This should be self-explanatory.
+
+```typescript
+import { Currency, CustomCashDenominationList } from "@cashmoney/core";
+
+const denominationList = new CustomCashDenominationList({ USD: 1, AUD: 5 });
+const usd = new Currency("USD");
+const aud = new Currency("AUD");
+
+assert(denominationList.stepFor(usd) === 1);
+assert(denominationList.stepFor(aud) === 5);
+```
+
+#### Aggregate Cash Denomination list
+
+This operates in a similar manner to the aggregate currency list, allowing you
+to combine multiple sources of data in an easy fashion.
+
+```typescript
+import {
+    Currency,
+    AggregateCashDenominationList,
+    CustomCashDenominationList,
+} from "@cashmoney/core";
+
+const denominationList = new AggregateCashDenominationList(
+    new CustomCashDenominationList({ NZD: 10 }),
+);
+const nzd = new Currency("NZD");
+
+assert(denominationList.stepFor(nzd) === 10);
+```
+
 ## Tests
 
 To run the test suite, run ``yarn run test`` in the root of the repository.
