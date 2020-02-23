@@ -11,6 +11,10 @@ import BitcoinCurrencyList from "./currencylists/bitcoin";
 import CustomCurrencyList from "./currencylists/custom";
 import ISOCurrencyList, { ISOCurrencyData, ISOCurrencies } from "./currencylists/iso";
 
+import CashDenominationList from "./cashdenominationlist";
+import AggregateCashDenominationList from "./cashdenominationlists/aggregate";
+import CustomCashDenominationList from "./cashdenominationlists/custom";
+
 import Exchange from "./exchange";
 import FixedExchange from "./exchanges/fixed";
 
@@ -27,6 +31,7 @@ import ISOCodeMoneyParser from "./parsers/isocode";
 import SymbolMoneyParser from "./parsers/symbol";
 
 import MoneyRounder from "./rounder";
+import CashRounder from "./cashrounder";
 
 import { Num, RoundingMode, numeric } from "@cashmoney/number";
 
@@ -46,6 +51,10 @@ export {
     ISOCurrencyData,
     ISOCurrencies,
 
+    CashDenominationList,
+    AggregateCashDenominationList,
+    CustomCashDenominationList,
+
     Exchange,
     FixedExchange,
 
@@ -63,6 +72,7 @@ export {
     SymbolMoneyParser,
 
     MoneyRounder,
+    CashRounder,
 };
 
 export {
