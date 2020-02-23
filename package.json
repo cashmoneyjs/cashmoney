@@ -5,7 +5,7 @@
     "license": "MIT",
     "author": "Matthew Gamble <git@matthewgamble.net>",
     "dependencies": {
-        "@cashmoney/number": "^2.2.1",
+        "@cashmoney/number": "^2.3.0",
         "bignumber.js": "^9.0.0"
     },
     "devDependencies": {

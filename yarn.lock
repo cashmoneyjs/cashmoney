@@ -9,10 +9,10 @@
   dependencies:
     regenerator-runtime "^0.13.2"
 
-"@cashmoney/number@^2.2.1":
-  version "2.2.1"
-  resolved "https://registry.yarnpkg.com/@cashmoney/number/-/number-2.2.1.tgz#c8cdca47dbeee9cc6dd00d264555055ad8af6a12"
-  integrity sha512-OaWWB+V6CPTtdgw9mAqB2mBsokuqaf2S2wlhcdYE/w3hYCe9/iUhJk1KOTRRl9nw68sQ3r+flpPHt6x5A4BHSA==
+"@cashmoney/number@^2.3.0":
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/@cashmoney/number/-/number-2.3.0.tgz#abdbbe0eb59b571a7e185dffe44bffe45023561f"
+  integrity sha512-ByXmMahOkHZAD9W1UYa/AIaZiOJJBAtsLR3rCz/zh1P/NQ/19GjCB/sTXUOvzIb6xDocwPqoMQBKAF5yVQw0Lw==
   dependencies:
     bignumber.js "^9.0.0"
 
