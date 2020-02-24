@@ -687,6 +687,68 @@ export default class RoundedMoneyTest {
         Expect(smallerMoney.amount).toBe(expectedAmount);
     }
 
+    @TestCases(RoundedMoneyTest.roundToDecimalPlacesExamples)
+    @Test("it rounds to X decimal places")
+    public itRoundsToXDecimalPlaces(amount: string, oldPlaces: number, newPlaces: number, expected: string) {
+        const currency = new Currency("AUD");
+        const rMoneyOld = new RoundedMoney(amount, oldPlaces, currency);
+
+        const rMoneyNew = rMoneyOld.roundToDecimalPlaces(newPlaces);
+
+        Expect(rMoneyNew instanceof RoundedMoney).toBeTruthy();
+        Expect(rMoneyNew).toBe(new RoundedMoney(expected, newPlaces, currency));
+        Expect(rMoneyNew.amount).toBe(expected);
+    }
+
+    public static roundToDecimalPlacesExamples() {
+        return [
+            ["0", 2, 2, "0.00"],
+            ["0", 2, 1, "0.0"],
+            ["0", 2, 0, "0"],
+            ["1", 2, 2, "1.00"],
+            ["1", 2, 1, "1.0"],
+            ["1", 2, 0, "1"],
+            ["1.25", 2, 1, "1.2"],
+            ["1.35", 2, 1, "1.4"],
+            ["1.25", 3, 2, "1.25"],
+            ["1.25", 3, 1, "1.2"],
+            ["1.35", 3, 1, "1.4"],
+            ["84.4915", 4, 4, "84.4915"],
+            ["84.4915", 4, 3, "84.492"],
+            ["84.4915", 4, 2, "84.49"],
+            ["350", 0, 0, "350"],
+            ["250.55", 2, 0, "251"],
+        ];
+    }
+
+    @TestCases(RoundedMoneyTest.invalidRoundToDecimalPlacesExamples)
+    @Test("it throws an error when trying to increase precision while rounding")
+    public itThrowsWhenIncreasingPrecisionWhileRounding(amount: string, places: number) {
+        const currency = new Currency("USD");
+        const rMoney = new RoundedMoney(amount, places, currency);
+
+        const throwFn = (newPlaces: number) => rMoney.roundToDecimalPlaces(newPlaces);
+
+        const msgTemplate = (newPlaces: number): string => `Cannot round to more decimal places (${newPlaces}) than are available (${places}).`;
+        Expect(throwFn.bind(this, places + 1)).toThrowError(Error, msgTemplate(places + 1));
+        Expect(throwFn.bind(this, places + 2)).toThrowError(Error, msgTemplate(places + 2));
+        Expect(throwFn.bind(this, places + 3)).toThrowError(Error, msgTemplate(places + 3));
+    }
+
+    public static invalidRoundToDecimalPlacesExamples() {
+        return [
+            ["0", 0],
+            ["0", 1],
+            ["1", 0],
+            ["1", 1],
+            ["1", 2],
+            ["1.25", 2],
+            ["84.4915", 4],
+            ["350", 0],
+            ["250.55", 2],
+        ];
+    }
+
     @Test("it converts to JSON")
     public itConvertsToJson() {
         const intMoney = new RoundedMoney(100, 2, new Currency("AUD"));

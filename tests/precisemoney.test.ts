@@ -3,6 +3,7 @@ import { TestFixture, Test, TestCases, Expect } from "alsatian";
 
 import PreciseMoney from "src/precisemoney";
 import Currency from "src/currency";
+import RoundedMoney from "src/roundedmoney";
 import { Num, numeric } from "@cashmoney/number";
 
 import { sumExamples, minExamples, maxExamples, avgExamples } from "fixtures/aggregate";
@@ -480,6 +481,31 @@ export default class PreciseMoneyTest {
             [-0.01],
             [-1],
             [-101],
+        ];
+    }
+
+    @TestCases(PreciseMoneyTest.roundToDecimalPlacesExamples)
+    @Test("it rounds to X decimal places")
+    public itRoundsToXDecimalPlaces(amount: string, places: number, expected: string) {
+        const currency = new Currency("AUD");
+        const pMoney = new PreciseMoney(amount, currency);
+
+        const rMoney = pMoney.roundToDecimalPlaces(places);
+
+        Expect(rMoney instanceof RoundedMoney).toBeTruthy();
+        Expect(rMoney).toBe(new RoundedMoney(expected, places, currency));
+        Expect(rMoney.amount).toBe(expected);
+    }
+
+    public static roundToDecimalPlacesExamples() {
+        return [
+            ["0", 2, "0.00"],
+            ["1", 2, "1.00"],
+            ["1.25", 2, "1.25"],
+            ["84.4915", 2, "84.49"],
+            ["84.4915", 3, "84.492"],
+            ["350", 0, "350"],
+            ["250.55", 0, "251"],
         ];
     }
 
