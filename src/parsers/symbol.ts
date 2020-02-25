@@ -32,7 +32,7 @@ export default class SymbolMoneyParser implements MoneyParser {
             this.make(suffixMatches[1], suffixMatches[2]);
         }
 
-        throw new Error("Cannot parse '" + input + "' to Money.");
+        throw new Error(`Cannot parse '${input}' to Money.`);
     }
 
     private make(amount: string, symbol: string): PreciseMoney {
