@@ -11,7 +11,7 @@ import RoundedMoney from "src/roundedmoney";
 @TestFixture("Cash Rounder")
 export default class CashRounderTest {
     @TestCases(CashRounderTest.fiveCentRoundingExamples)
-    @Test("it rounds money to the nearest five cents")
+    @Test("it rounds precise money to the nearest five cents")
     public itRoundsToNearestFiveCents(amount: string, expected: string) {
         const currencies = new CustomCurrencyList({ AUD: 2 });
         const stepList = new CustomCashDenominationList({ AUD: 5 });
@@ -24,6 +24,22 @@ export default class CashRounderTest {
         Expect(rMoney instanceof RoundedMoney).toBeTruthy();
         Expect(rMoney).toBe(new RoundedMoney(expected, 2, currency));
         Expect(rMoney.amount).toBe(expected);
+    }
+
+    @TestCases(CashRounderTest.fiveCentRoundingExamples)
+    @Test("it adjusts rounded money to the nearest five cents")
+    public itAdjustsToNearestFiveCents(amount: string, expected: string) {
+        const currencies = new CustomCurrencyList({ AUD: 2 });
+        const stepList = new CustomCashDenominationList({ AUD: 5 });
+        const cashRounder = new CashRounder(currencies, stepList);
+
+        const currency = new Currency("AUD");
+        const rMoney = new RoundedMoney(amount, 2, currency);
+
+        const rMoneyAdjusted = cashRounder.adjust(rMoney);
+        Expect(rMoneyAdjusted instanceof RoundedMoney).toBeTruthy();
+        Expect(rMoneyAdjusted).toBe(new RoundedMoney(expected, 2, currency));
+        Expect(rMoneyAdjusted.amount).toBe(expected);
     }
 
     public static *fiveCentRoundingExamples() {
@@ -163,7 +179,7 @@ export default class CashRounderTest {
     }
 
     @TestCases(CashRounderTest.tenCentRoundingExamples)
-    @Test("it rounds money to the nearest ten cents")
+    @Test("it rounds precise money to the nearest ten cents")
     public itRoundsToNearestTenCents(amount: string, expected: string) {
         const currencies = new CustomCurrencyList({ NZD: 2 });
         const stepList = new CustomCashDenominationList({ NZD: 10 });
@@ -176,6 +192,22 @@ export default class CashRounderTest {
         Expect(rMoney instanceof RoundedMoney).toBeTruthy();
         Expect(rMoney).toBe(new RoundedMoney(expected, 2, currency));
         Expect(rMoney.amount).toBe(expected);
+    }
+
+    @TestCases(CashRounderTest.tenCentRoundingExamples)
+    @Test("it adjusts rounded money to the nearest ten cents")
+    public itAdjustsToNearestTenCents(amount: string, expected: string) {
+        const currencies = new CustomCurrencyList({ NZD: 2 });
+        const stepList = new CustomCashDenominationList({ NZD: 10 });
+        const cashRounder = new CashRounder(currencies, stepList);
+
+        const currency = new Currency("NZD");
+        const rMoney = new RoundedMoney(amount, 2, currency);
+
+        const rMoneyAdjusted = cashRounder.adjust(rMoney);
+        Expect(rMoneyAdjusted instanceof RoundedMoney).toBeTruthy();
+        Expect(rMoneyAdjusted).toBe(new RoundedMoney(expected, 2, currency));
+        Expect(rMoneyAdjusted.amount).toBe(expected);
     }
 
     public static *tenCentRoundingExamples() {
