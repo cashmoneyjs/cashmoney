@@ -278,6 +278,46 @@ const currencyList = new AggregateCurrencyList(
 );
 ```
 
+#### Create your own currency list
+
+It's pretty easy to make your own currency list class that integrates cleanly with
+the rest of CashMoney. The only important thing to remember is that ``nameFor()``
+and ``subunitFor()`` must throw an ``Error`` for currencies that don't apply for
+your custom list.
+
+```typescript
+import { Currency, CurrencyList } from "@cashmoney/core";
+
+class MyAppCurrency implements CurrencyList {
+    public contains(currency: Currnecy): boolean {
+        return currency.code === "123";
+    }
+
+    public nameFor(currency: Currency): string {
+        if (this.contains(currency) === false) {
+            throw new Error("Cannot handle non-app currencies.");
+        }
+
+        return "123 Currency";
+    }
+
+    public subunitFor(currency: Currency): number {
+        if (this.contains(currency) === false) {
+            throw new Error("Cannot handle non-app currencies.");
+        }
+
+        return 42;
+    }
+
+    public *[Symbol.iterator](): Generator<Currency> {
+        yield new Currency("123");
+    }
+}
+```
+
+The ``Symbol.iterator`` method can return any iterator - it doesn't have to
+be a generator.
+
 ### Parsing
 
 All parsers return instances of ``PreciseMoney``.
@@ -364,6 +404,43 @@ const eurAmount = parser.parse("10,00 €");
 assert(eurAmount.currency.equals(EUR));
 ```
 
+#### Create your own money parser
+
+What if you store values of your application's currency in a special format?
+
+```typescript
+import { PreciseMoney, Currency, MoneyParser } from "@cashmoney/core";
+
+class MyAppMoneyParser implements MoneyParser {
+    public parse(input: string): PreciseMoney {
+        if (input.startsWith("XXX") === false || input.endsWith("XXX") === false) {
+            throw new Error(`Cannot parse '${input} to money.`);
+        }
+
+        const amount = input.slice(3, -3);
+        const currency = new Currency("123");
+        return new PreciseMoney(amount, currency);
+    }
+}
+```
+
+Just remember to throw an ``Error`` for inputs you can't successfully parse.
+
+Maybe all you want to do is provide some additional type safety for your own
+custom currency symbol. In this case, you can just subclass ``SymbolMoneyParser``
+like so.
+
+```typescript
+import { SymbolMoneyParser } from "@cashmoney/core";
+
+class MyAppSymbolMoneyParser extends SymbolMoneyParser {
+    public constructor() {
+        const mapping = { "%#&": "123" };
+        super(mapping);
+    }
+}
+```
+
 ### Formatting
 
 You can only format Rounded Money objects. This is by design, as it avoids complications
@@ -427,6 +504,76 @@ console.log(formatter.format(fiveAud)) // outputs '5.00'
 
 This works solely with strings, which means there's no risk of losing precision for
 very large numbers.
+
+#### Bitcoin formatter
+
+There's a dedicated Bitcoin formatter. It will only format bitcoin.
+
+```typescript
+import { RoundedMoneyFactory, BitcoinMoneyFormatter } from "@cashmoney/core";
+
+const formatter = new BitcoinMoneyFormatter();
+
+const fiveBtc = RoundedMoneyFactory.XBT(5);
+console.log(formatter.format(fiveBtc)); // outputs 'É 5.00000000'
+
+const fiveGbp = RoundedMoneyFactory.GBP(5);
+formatter.format(fiveGbp); // throws Error("Bitcoin Formatter can only format Bitcoin currency.")
+```
+
+If you want to omit trailing zeroes, pass a boolean flag when constructing the formatter class.
+
+```typescript
+const trimmingFormatter = new BitcoinMoneyFactory(true);
+
+console.log(formatter.format(fiveBtc)); // outputs 'É 5'
+
+const moreBtc = RoundedMoneyFactory.XBT(5.5);
+console.log(formatter.format(moreBtc)); // outputs 'É 5.5'
+```
+
+#### Aggregate formatter
+
+The aggregate formatter lets you specify which formatter should be used for each
+currency code, with an optional fallback formatter if nothing else matches.
+
+```typescript
+import {
+    RoundedMoneyFactory,
+    AggregateMoneyFormatter,
+    IntlMoneyFormatter,
+    BitcoinMoneyFormatter,
+} from "@cashmoney/core";
+
+const formatter = new AggregateMoneyFormatter({
+    'XBT': new BitcoinMoneyFormatter(),
+    '*': new IntlMoneyFormatter({ locales: 'en-AU', style: 'currency' }),
+});
+
+const fiveAud = RoundedMoneyFactory.AUD(5);
+const fiveBtc = RoundedMoneyFactory.XBT(5);
+
+console.log(formatter.format(fiveAud)); // outputs '$5.00'
+console.log(formatter.format(fiveBtc)); // outputs 'É 5.00000000'
+```
+
+#### Create your own money formatter
+
+What if you need special formatting for your application's special currency?
+
+```typescript
+import { RoundedMoney, MoneyFormatter } from "@cashmoney/core";
+
+class MyAppMoneyFormatter implements MoneyFormatter {
+    public format(money: RoundedMoney): string {
+        if (money.currency.code !== "123") {
+            throw new Error("MyApp Formatter can only format MyApp currency.");
+        }
+
+        return "APP" + money.amount;
+    }
+}
+```
 
 ### Cash Rounding
 
@@ -534,6 +681,31 @@ const nzd = new Currency("NZD");
 
 assert(denominationList.stepFor(nzd) === 10);
 ```
+
+#### Create your own cash denomination list
+
+Similarly to other service classes in CashMoney, it's very easy to create your own
+cash denomination list.
+
+```typescript
+import { Currency, CashDenominationList } from "@cashmoney/core";
+
+class MyAppCashDenominationList implements CashDenominationList {
+    public contains(currency: Currency): boolean {
+        return currency.code === "123";
+    }
+
+    public stepFor(currency: Currency): number {
+        if (this.contains(currency) === false) {
+            throw new Error(`Cannot handle non-app currencies.`);
+        }
+
+        return 3;
+    }
+}
+```
+
+Be sure to throw an ``Error`` for currencies your list doesn't support.
 
 ## Tests
 
