@@ -35,7 +35,8 @@ function moneyFactory(amount: numeric, subunit: number, currencyCode: string): R
 
 const isoCurrenciesJson = fs.readFileSync(process.argv[2], "utf8");
 const isoCurrenciesData = JSON.parse(isoCurrenciesJson);
-const isoCurrencyList = new ISOCurrencyList(isoCurrenciesData);
+ISOCurrencyList.registerCurrencies(isoCurrenciesData);
+const isoCurrencyList = new ISOCurrencyList();
 
 const bitcoinCurrencyList = new BitcoinCurrencyList();
 const currencyList = new AggregateCurrencyList([
@@ -47,8 +48,8 @@ const currencies: Currency[] = Array.from(currencyList);
 currencies.sort();
 
 for (const currency of currencies) {
-    preciseCode += "export const " + currency.code + " = (amount: number) => moneyFactory(amount, '" + currency.code + "'); // " + currencyList.nameFor(currency) + "\n";
-    roundedCode += "export const " + currency.code + " = (amount: number) => moneyFactory(amount, " + currencyList.subunitFor(currency) + ", '" + currency.code + "'); //" + currencyList.nameFor(currency) + "\n";
+    preciseCode += `export const ${currency.code} = (amount: number) => moneyFactory(amount, '${currency.code}'); // ${currencyList.nameFor(currency)}` + "\n";
+    roundedCode += `export const ${currency.code} = (amount: number) => moneyFactory(amount, ${currencyList.subunitFor(currency)}, '${currency.code}'); // ${currencyList.nameFor(currency)}` + "\n";
 }
 
 fs.writeFileSync(path.join(__dirname, "..", "src", "precisefactory.ts"), preciseCode);

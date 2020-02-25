@@ -9,6 +9,11 @@
   dependencies:
     regenerator-runtime "^0.13.2"
 
+"@cashmoney/iso-currencies@^1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@cashmoney/iso-currencies/-/iso-currencies-1.1.1.tgz#45c171a312c73680a5f6a1c1cd01da9e4f6433a8"
+  integrity sha512-CAM7M9e4QirHoOmX1Jw3kuHwsbgPWGiUtgwj2sS62QfXto0slJOJeRN5qvgUOQDM1mJVAMkAfX8BvZopE7ZJLQ==
+
 "@cashmoney/number@^2.3.0":
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/@cashmoney/number/-/number-2.3.0.tgz#abdbbe0eb59b571a7e185dffe44bffe45023561f"

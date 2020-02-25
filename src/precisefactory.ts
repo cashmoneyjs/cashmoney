@@ -86,7 +86,7 @@ export const JPY = (amount: number) => moneyFactory(amount, 'JPY'); // Yen
 export const KES = (amount: number) => moneyFactory(amount, 'KES'); // Kenyan Shilling
 export const KGS = (amount: number) => moneyFactory(amount, 'KGS'); // Som
 export const KHR = (amount: number) => moneyFactory(amount, 'KHR'); // Riel
-export const KMF = (amount: number) => moneyFactory(amount, 'KMF'); // Comorian Franc 
+export const KMF = (amount: number) => moneyFactory(amount, 'KMF'); // Comorian Franc
 export const KPW = (amount: number) => moneyFactory(amount, 'KPW'); // North Korean Won
 export const KRW = (amount: number) => moneyFactory(amount, 'KRW'); // Won
 export const KWD = (amount: number) => moneyFactory(amount, 'KWD'); // Kuwaiti Dinar

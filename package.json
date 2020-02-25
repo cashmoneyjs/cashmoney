@@ -9,6 +9,7 @@
         "bignumber.js": "^9.0.0"
     },
     "devDependencies": {
+        "@cashmoney/iso-currencies": "^1.1.1",
         "alsatian": "^3.2.1",
         "ts-node": "^8.6.2",
         "tsconfig-paths": "^3.9.0",
@@ -17,7 +18,7 @@
     "scripts": {
         "build": "tsc",
         "test": "node run-tests.js 'tests/**/*.test.ts'",
-        "gen-money-factory": "ts-node bin/generate-money-factories.ts"
+        "gen-money-factories": "ts-node scripts/generate-money-factories.ts node_modules/@cashmoney/iso-currencies/resources/current.json"
     },
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
