@@ -345,4 +345,18 @@ export default class CashRounderTest {
             }
         }
     }
+
+    @Test("it refuses to adjust rounded money with unknown subunit values")
+    public itRejectsRoundedMoneyWithUnknownSubunit() {
+        const currencies = new CustomCurrencyList({ AUD: 2 });
+        const stepList = new CustomCashDenominationList({ AUD: 5 });
+        const cashRounder = new CashRounder(currencies, stepList);
+
+        const currency = new Currency("AUD");
+        const rMoney = new RoundedMoney("12.3456", 4, currency);
+
+        const throwFn = () => cashRounder.adjust(rMoney);
+
+        Expect(throwFn).toThrowError(Error, "Cannot adjust rounded money of unknown rounding for AUD.");
+    }
 }
