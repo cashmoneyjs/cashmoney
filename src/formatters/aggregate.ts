@@ -10,7 +10,7 @@ export default class AggregateMoneyFormatter implements MoneyFormatter {
 
     public constructor(formatters: MoneyFormatterMap) {
         if (Object.keys(formatters).length === 0) {
-            throw new Error("Cannot initialize aggregate money formatter without any child formatters.");
+            throw new Error("Cannot initialise aggregate money formatter without any child formatters.");
         }
 
         this.formatters = Object.assign({}, formatters);
