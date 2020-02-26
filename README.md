@@ -515,7 +515,7 @@ import { RoundedMoneyFactory, BitcoinMoneyFormatter } from "@cashmoney/core";
 const formatter = new BitcoinMoneyFormatter();
 
 const fiveBtc = RoundedMoneyFactory.XBT(5);
-console.log(formatter.format(fiveBtc)); // outputs 'É 5.00000000'
+console.log(formatter.format(fiveBtc)); // outputs 'É5.00000000'
 
 const fiveGbp = RoundedMoneyFactory.GBP(5);
 formatter.format(fiveGbp); // throws Error("Bitcoin Formatter can only format Bitcoin currency.")
@@ -526,10 +526,10 @@ If you want to omit trailing zeroes, pass a boolean flag when constructing the f
 ```typescript
 const trimmingFormatter = new BitcoinMoneyFactory(true);
 
-console.log(formatter.format(fiveBtc)); // outputs 'É 5'
+console.log(formatter.format(fiveBtc)); // outputs 'É5'
 
 const moreBtc = RoundedMoneyFactory.XBT(5.5);
-console.log(formatter.format(moreBtc)); // outputs 'É 5.5'
+console.log(formatter.format(moreBtc)); // outputs 'É5.5'
 ```
 
 #### Aggregate formatter
@@ -554,7 +554,7 @@ const fiveAud = RoundedMoneyFactory.AUD(5);
 const fiveBtc = RoundedMoneyFactory.XBT(5);
 
 console.log(formatter.format(fiveAud)); // outputs '$5.00'
-console.log(formatter.format(fiveBtc)); // outputs 'É 5.00000000'
+console.log(formatter.format(fiveBtc)); // outputs 'É5.00000000'
 ```
 
 #### Create your own money formatter
