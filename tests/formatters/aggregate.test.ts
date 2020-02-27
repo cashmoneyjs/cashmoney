@@ -18,7 +18,7 @@ export default class AggregateMoneyFormatterTest {
     @Test("it refuses to handle no delegate formatters being supplied")
     public itRefusesZeroDelegates() {
         const throwFn = () => new AggregateMoneyFormatter({});
-        Expect(throwFn).toThrowError(Error, "Cannot initialise aggregate money formatter without any child formatters.");
+        Expect(throwFn).toThrowError(Error, "Cannot initialise aggregate money formatter with no child formatters.");
     }
 
     @Test("it throws an error when no delegate can be found")
