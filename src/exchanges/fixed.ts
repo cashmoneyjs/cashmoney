@@ -4,16 +4,16 @@ import Currency from "../currency";
 import CurrencyPair from "../currencypair";
 
 interface CurrencyRatioMap {
-    [baseCurrencyCode: string]: {
+    [baseCurrencyCode: string]: Readonly<{
         [counterCurrencyCode: string]: Num | numeric;
-    };
+    }>;
 }
 
 export default class FixedExchange implements Exchange {
     private readonly list: CurrencyRatioMap;
 
     public constructor(list: CurrencyRatioMap) {
-        this.list = list;
+        this.list = Object.assign({}, list);
     }
 
     public quote(baseCurrency: Currency, counterCurrency: Currency): CurrencyPair {

@@ -9,7 +9,7 @@ export interface ISOCurrencyData {
 }
 
 export interface ISOCurrencies {
-    [currencyCode: string]: ISOCurrencyData;
+    [currencyCode: string]: Readonly<ISOCurrencyData>;
 }
 
 export default class ISOCurrencyList implements CurrencyList {

@@ -6,7 +6,7 @@ interface CustomCurrencies {
 }
 
 export default class CustomCurrencyList implements CurrencyList {
-    private readonly currencies: CustomCurrencies;
+    private readonly currencies: Readonly<CustomCurrencies>;
 
     public constructor(currencies: CustomCurrencies) {
         for (const [code, subunit] of Object.entries(currencies)) {
@@ -17,7 +17,7 @@ export default class CustomCurrencyList implements CurrencyList {
             }
         }
 
-        this.currencies = currencies;
+        this.currencies = Object.assign({}, currencies);
     }
 
     public contains(currency: Currency): boolean {

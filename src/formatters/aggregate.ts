@@ -6,7 +6,7 @@ interface MoneyFormatterMap {
 }
 
 export default class AggregateMoneyFormatter implements MoneyFormatter {
-    private readonly formatters: MoneyFormatterMap;
+    private readonly formatters: Readonly<MoneyFormatterMap>;
 
     public constructor(formatters: MoneyFormatterMap) {
         if (Object.keys(formatters).length === 0) {
