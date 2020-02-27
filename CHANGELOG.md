@@ -5,6 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.8.2] - 2020-02-28
+
+### Fixed
+
+- The symbol money parser now actually works.
+
+### Changed
+
+- Some minor adjustments to error messages.
+- Service classes are stricter about keeping their settings immutable.
+
+## [0.8.1] - 2020-02-25
+
+### Added
+
+- A new "trim trailing zeroes" flag is now available in the Bitcoin money formatter.
+
 ## [0.8.0] - 2020-02-24
 
 ### Added
