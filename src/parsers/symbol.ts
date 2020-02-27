@@ -6,13 +6,17 @@ interface SymbolMapping {
     [symbol: string]: string;
 }
 
-const PREFIX_PATTERN = /^([^\s]{1,3})\s?(-?(?:0|[1-9]\d*)[\.,](?:\d+))$/;
-const SUFFIX_PATTERN = /^(-?(?:0|[1-9]\d*)[\.,](?:\d+))\s?([^\s]{1,3})$/;
+const PREFIX_PATTERN = /^([^\s\.,0-9-]{1,3})\s?(-?(?:0|[1-9]\d*)[\.,](?:\d+))$/;
+const SUFFIX_PATTERN = /^(-?(?:0|[1-9]\d*)[\.,](?:\d+))\s?([^\s\.,0-9-]{1,3})$/;
 
 export default class SymbolMoneyParser implements MoneyParser {
     private readonly symbolMapping: Readonly<SymbolMapping>;
 
     public constructor(symbolMapping: SymbolMapping) {
+        if (Object.keys(symbolMapping).length === 0) {
+            throw new Error("Cannot initialise symbol money parser with no symbol-to-currency mappings.")
+        }
+
         this.symbolMapping = Object.assign({}, symbolMapping);
     }
 
@@ -24,12 +28,12 @@ export default class SymbolMoneyParser implements MoneyParser {
 
         const prefixMatches = PREFIX_PATTERN.exec(input);
         if (prefixMatches) {
-            this.make(prefixMatches[2], prefixMatches[1]);
+            return this.make(prefixMatches[2], prefixMatches[1]);
         }
 
         const suffixMatches = SUFFIX_PATTERN.exec(input);
         if (suffixMatches) {
-            this.make(suffixMatches[1], suffixMatches[2]);
+            return this.make(suffixMatches[1], suffixMatches[2]);
         }
 
         throw new Error(`Cannot parse '${input}' to Money.`);
