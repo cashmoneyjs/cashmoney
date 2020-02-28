@@ -27,7 +27,7 @@ export default class ISOCodeMoneyParser implements MoneyParser {
     public parse(input: string): PreciseMoney {
         input = input.trim();
         if (input === "") {
-            throw new Error("ISOCurrencyMoneyParser cannot parse empty input.");
+            throw new Error("ISOCodeMoneyParser cannot parse empty input.");
         }
 
         for (const pattern of CODE_PREFIX_PATTERNS) {
