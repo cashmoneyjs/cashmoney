@@ -9,7 +9,7 @@ import CurrencyList from "./currencylist";
 import AggregateCurrencyList from "./currencylists/aggregate";
 import BitcoinCurrencyList from "./currencylists/bitcoin";
 import CustomCurrencyList from "./currencylists/custom";
-import ISOCurrencyList, { ISOCurrencyData, ISOCurrencies } from "./currencylists/iso";
+import ISOCurrencyList from "./currencylists/iso";
 
 import CashDenominationList from "./cashdenominationlist";
 import AggregateCashDenominationList from "./cashdenominationlists/aggregate";
@@ -48,8 +48,6 @@ export {
     BitcoinCurrencyList,
     CustomCurrencyList,
     ISOCurrencyList,
-    ISOCurrencyData,
-    ISOCurrencies,
 
     CashDenominationList,
     AggregateCashDenominationList,

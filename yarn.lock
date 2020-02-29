@@ -9,10 +9,17 @@
   dependencies:
     regenerator-runtime "^0.13.2"
 
-"@cashmoney/iso-currencies@^1.1.1":
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/@cashmoney/iso-currencies/-/iso-currencies-1.1.1.tgz#45c171a312c73680a5f6a1c1cd01da9e4f6433a8"
-  integrity sha512-CAM7M9e4QirHoOmX1Jw3kuHwsbgPWGiUtgwj2sS62QfXto0slJOJeRN5qvgUOQDM1mJVAMkAfX8BvZopE7ZJLQ==
+"@cashmoney/iso-currencies@^1.2.0":
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@cashmoney/iso-currencies/-/iso-currencies-1.2.0.tgz#c2e064df49e2c8c7c6c3376df6d6d5e54f6c54e4"
+  integrity sha512-5PskkmDb/hYWeE82rBfrpL/yUgmsRO/gOwEWRZuU3hTxhPYG7IT5lU9xdew93U5vXgHVkCwzQeW/EQkP0A2t0g==
+  dependencies:
+    "@cashmoney/iso-currency-contracts" "1.0.0"
+
+"@cashmoney/iso-currency-contracts@1.0.0", "@cashmoney/iso-currency-contracts@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@cashmoney/iso-currency-contracts/-/iso-currency-contracts-1.0.0.tgz#147e1fec7b20ee669b5ceca086472da76f4b8ae7"
+  integrity sha512-FnMeZchFV53I8dXct32xg+mT5e7V90RwybeGgXJTSZAk6SnHhfKNJrV6thn726cwJRPSauG3K6EYWulNyfYxSA==
 
 "@cashmoney/number@^2.3.0":
   version "2.3.0"

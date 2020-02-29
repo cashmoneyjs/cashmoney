@@ -5,11 +5,12 @@
     "license": "MIT",
     "author": "Matthew Gamble <git@matthewgamble.net>",
     "dependencies": {
+        "@cashmoney/iso-currency-contracts": "^1.0.0",
         "@cashmoney/number": "^2.3.0",
         "bignumber.js": "^9.0.0"
     },
     "devDependencies": {
-        "@cashmoney/iso-currencies": "^1.1.1",
+        "@cashmoney/iso-currencies": "^1.2.0",
         "alsatian": "^3.2.1",
         "ts-node": "^8.6.2",
         "tsconfig-paths": "^3.9.0",

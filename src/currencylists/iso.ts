@@ -1,16 +1,10 @@
+import type {
+    CurrencyData as ISOCurrencyData,
+    CurrencyDataMap as ISOCurrencies,
+} from "@cashmoney/iso-currency-contracts";
+
 import Currency from "../currency";
 import CurrencyList from "../currencylist";
-
-export interface ISOCurrencyData {
-    alphabeticCode: string;
-    currency: string;
-    minorUnit: number;
-    numericCode: number;
-}
-
-export interface ISOCurrencies {
-    [currencyCode: string]: Readonly<ISOCurrencyData>;
-}
 
 export default class ISOCurrencyList implements CurrencyList {
     private static readonly currencyData: ISOCurrencies = {};
