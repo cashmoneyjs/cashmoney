@@ -275,4 +275,40 @@ export default class ISOCodeMoneyParserTest {
         const throwFn2 = () => parser2.parse("");
         Expect(throwFn2).toThrowError(Error, "ISOCodeMoneyParser cannot parse empty input.");
     }
+
+    @TestCases(ISOCodeMoneyParserTest.badExamples)
+    @Test("it fails to parse invalid inputs")
+    public itFailsToParseInvalidInputs(input: string) {
+        const parser = new ISOCodeMoneyParser();
+
+        const throwFn = () => parser.parse(input);
+
+        Expect(throwFn).toThrowError(Error, `Cannot parse '${input}' to Money.`);
+    }
+
+    public static *badExamples() {
+        const examples = [
+            "abc", "matt", "1.23", "1,23", "123", "$123", "$ 123", "123$", "123 $", "0123", "0123.45", "$0123.45", "$ 0123.45", "0123.45$", "0123.45 $",
+            "$1,234.56", "$ 1,234.56", "1,234.56$", "1,234.56 $", "AUD 123.", "AUD 0.", "EUR 123,", "EUR 0,", "123. AUD", "0. AUD", "123, EUR", "0, EUR",
+        ];
+        for (const example of examples) {
+            yield [example];
+        }
+    }
+
+    @TestCases(ISOCodeMoneyParserTest.noSpaceExamples)
+    @Test("it requires a space between currency code and amount")
+    public itRequiresSpaceBetweenCurrencyCodeAndAmount(input: string) {
+        const parser = new ISOCodeMoneyParser();
+
+        const throwFn = () => parser.parse(input);
+
+        Expect(throwFn).toThrowError(Error, `Cannot parse '${input}' to Money.`);
+    }
+
+    public static *noSpaceExamples() {
+        for (const example of ISOCodeMoneyParserTest.regularExamples()) {
+            yield [example[0].replace(/\s/, "")];
+        }
+    }
 }
