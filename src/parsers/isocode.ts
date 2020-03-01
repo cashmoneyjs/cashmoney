@@ -51,7 +51,7 @@ export default class ISOCodeMoneyParser implements MoneyParser {
         const currency = new Currency(currencyCode);
         if (this.currencyList) {
             if (this.currencyList.contains(currency) === false) {
-                throw new Error("Unknown currency code.");
+                throw new Error(`Unknown currency code '${currencyCode}'.`);
             }
         }
 
