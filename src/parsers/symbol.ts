@@ -23,7 +23,7 @@ export default class SymbolMoneyParser implements MoneyParser {
     public parse(input: string): PreciseMoney {
         input = input.trim();
         if (input === "") {
-            throw new Error("SymbolMoneyParser cannot parse empty input.");
+            throw new Error("Cannot parse empty input.");
         }
 
         const prefixMatches = PREFIX_PATTERN.exec(input);

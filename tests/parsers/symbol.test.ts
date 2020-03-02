@@ -236,7 +236,8 @@ export default class SymbolMoneyParserTest {
 
     public static *badExamples() {
         const examples = [
-            "abc", "matt", "1.23", "1,23", "123", "$123", "$ 123", "123$", "123 $", "0123", "0123.45", "$0123.45", "$ 0123.45", "0123.45$", "0123.45 $",
+            "abc", "matt", "1.23", "1,23", "123", "$123", "$ 123", "123$", "123 $",
+            "0123", "0123.45", "$0123.45", "$ 0123.45", "0123.45$", "0123.45 $",
             "$1,234.56", "$ 1,234.56", "1,234.56$", "1,234.56 $",
         ];
         for (const example of examples) {
@@ -250,7 +251,7 @@ export default class SymbolMoneyParserTest {
 
         const throwFn = () => parser.parse("");
 
-        Expect(throwFn).toThrowError(Error, "SymbolMoneyParser cannot parse empty input.");
+        Expect(throwFn).toThrowError(Error, "Cannot parse empty input.");
     }
 
     @Test("it refuses to handle no mappings being supplied")

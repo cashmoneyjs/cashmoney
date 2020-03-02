@@ -26,4 +26,20 @@ export default class FixedExchangeTest {
         Expect(currencyPair.counterCurrency).toBe(counterCurrency);
         Expect(currencyPair.conversionRatio).toBe(new Num(1.25));
     }
+
+    @Test("it throws an error for non-existent mappings")
+    public itThrowsForUnknownMappings() {
+        const exchange = new FixedExchange({
+            "EUR": {
+                "USD": 1.25,
+            },
+        });
+
+        const baseCurrency = new Currency("USD");
+        const counterCurrency = new Currency("EUR");
+
+        const throwFn = () => exchange.quote(baseCurrency, counterCurrency);
+
+        Expect(throwFn).toThrowError(Error, "Cannot resolve a currency pair for currencies: USD/EUR.");
+    }
 }
