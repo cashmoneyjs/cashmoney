@@ -1,3 +1,4 @@
+/// <reference path="../../src/alsatian-ambient.d.ts" />
 import { TestFixture, Test, TestCases, Expect } from "alsatian";
 
 import BitcoinMoneyFormatter from "src/formatters/bitcoin";
