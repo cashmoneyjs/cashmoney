@@ -19,6 +19,7 @@ to truly support numbers of artbitrary precision.
 - Precise money, to avoid rounding errors entirely
 - Rounded money, for when you need to work with money in a similar manner to cash
 - Money formatting using built-in JS Intl functionality
+- Money parsing in multiple formats
 - Money exchange (conversion rates must be supplied manually)
 - JSON serialization
 
