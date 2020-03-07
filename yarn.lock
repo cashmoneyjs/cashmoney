@@ -9,22 +9,22 @@
   dependencies:
     regenerator-runtime "^0.13.2"
 
-"@cashmoney/iso-currencies@^1.2.0":
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/@cashmoney/iso-currencies/-/iso-currencies-1.2.0.tgz#c2e064df49e2c8c7c6c3376df6d6d5e54f6c54e4"
-  integrity sha512-5PskkmDb/hYWeE82rBfrpL/yUgmsRO/gOwEWRZuU3hTxhPYG7IT5lU9xdew93U5vXgHVkCwzQeW/EQkP0A2t0g==
+"@cashmoney/iso-currencies@^1.2.1":
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/@cashmoney/iso-currencies/-/iso-currencies-1.2.1.tgz#268c604ef8f49e72bb4de5bbc8a30007d21a2030"
+  integrity sha512-YZAJeUHUs/ME4n0Fu3ngfhBEAutc33MGzRy+IKt5rUpvduAJFczv/RAXHLX6siVoPVMg2gWNGMtJ2pUqr8h3zQ==
   dependencies:
-    "@cashmoney/iso-currency-contracts" "1.0.0"
+    "@cashmoney/iso-currency-contracts" "^1.0.1"
 
-"@cashmoney/iso-currency-contracts@1.0.0", "@cashmoney/iso-currency-contracts@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@cashmoney/iso-currency-contracts/-/iso-currency-contracts-1.0.0.tgz#147e1fec7b20ee669b5ceca086472da76f4b8ae7"
-  integrity sha512-FnMeZchFV53I8dXct32xg+mT5e7V90RwybeGgXJTSZAk6SnHhfKNJrV6thn726cwJRPSauG3K6EYWulNyfYxSA==
+"@cashmoney/iso-currency-contracts@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@cashmoney/iso-currency-contracts/-/iso-currency-contracts-1.0.1.tgz#475f9656f321ea13d85669aafefd3c29e73a10c5"
+  integrity sha512-FY7B1LuuAzVChTCtSXDFali/m0tz3vukHFNvpSWBHlIF6PeESKawVbGIGjdwAZZUoQXsYbdPH6sfI52Z4RDUdA==
 
-"@cashmoney/number@^2.3.0":
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/@cashmoney/number/-/number-2.3.0.tgz#abdbbe0eb59b571a7e185dffe44bffe45023561f"
-  integrity sha512-ByXmMahOkHZAD9W1UYa/AIaZiOJJBAtsLR3rCz/zh1P/NQ/19GjCB/sTXUOvzIb6xDocwPqoMQBKAF5yVQw0Lw==
+"@cashmoney/number@^2.3.1":
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/@cashmoney/number/-/number-2.3.1.tgz#f2204097e2e2f52cca6c452e8376d1319321019c"
+  integrity sha512-nMqC2vMT0E3UPdIoifTiHgOZi7NXzu4OUvXF5Vl4EXrx6SvQKUq4zGhHfQ+gQ4eopRLLoROQhLkedvEPo92p3g==
   dependencies:
     bignumber.js "^9.0.0"
 
@@ -254,6 +254,11 @@ escape-string-regexp@^1.0.5:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/escape-string-regexp/-/escape-string-regexp-1.0.5.tgz#1b61c0562190a8dff6ae3bb2cf0200ca130b86d4"
   integrity sha1-G2HAViGQqN/2rjuyzwIAyhMLhtQ=
+
+esm@^3.2.25:
+  version "3.2.25"
+  resolved "https://registry.yarnpkg.com/esm/-/esm-3.2.25.tgz#342c18c29d56157688ba5ce31f8431fbb795cc10"
+  integrity sha512-U1suiZ2oDVWv4zPO56S0NcR5QriEahGtdN2OR6FiOG4WJvcjBVFB0qI4+eKoWFH483PKGuLuu6V8Z4T5g63UVA==
 
 esprima@^4.0.0:
   version "4.0.1"
