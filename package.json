@@ -19,7 +19,7 @@
     },
     "scripts": {
         "build": "tsc --module esnext",
-        "test": "node run-tests.js 'tests/**/*.test.ts'",
+        "test": "node --require esm run-tests.js 'tests/**/*.test.ts'",
         "gen-money-factories": "ts-node scripts/generate-money-factories.ts node_modules/@cashmoney/iso-currencies/resources/current.json"
     },
     "main": "dist/index.js",
