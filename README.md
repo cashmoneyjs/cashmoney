@@ -252,11 +252,11 @@ const EUR = new Currency("EUR");
 const currencyList = new BitcoinCurrencyList();
 
 assert(currencyList.contains(XBT));
-assert(currencyList.contains(AUD) === false);
+assert(currencyList.contains(EUR) === false);
 console.log(currencyList.nameFor(XBT)); // outputs 'Bitcoin'
 console.log(currencyList.subunitFor(XBT)); // outputs 8
-console.log(currencyList.nameFor(AUD)); // throws Error('AUD is not bitcoin and is not supported by this currency list.'
-console.log(currencyList.subunitFor(AUD)); // throws Error('AUD is not bitcoin and is not supported by this currency list.'
+console.log(currencyList.nameFor(EUR)); // throws Error('EUR is not bitcoin and is not supported by this currency list.'
+console.log(currencyList.subunitFor(EUR)); // throws Error('EUR is not bitcoin and is not supported by this currency list.'
 ```
 
 #### Aggregate Currency List
