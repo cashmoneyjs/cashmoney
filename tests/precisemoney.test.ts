@@ -249,7 +249,7 @@ export default class PreciseMoneyTest {
     @Test("it throws an exception when operand is invalid during multiplication")
     public itThrowsAnExceptionWhenOperandIsInvalidDuringMultiplication(operand: any) {
         const money = new PreciseMoney(1, new Currency("EUR"));
-        const throwFn = () => money.multiply(operand as numeric);
+        const throwFn = () => money.multiply(operand);
         Expect(throwFn).toThrow();
     }
 
@@ -293,7 +293,7 @@ export default class PreciseMoneyTest {
     @Test("it throws an exception when operand is invalid during division")
     public itThrowsAnExceptionWhenOperandIsInvalidDuringDivision(operand: any) {
         const money = new PreciseMoney(1, new Currency("EUR"));
-        const throwFn = () => money.divide(operand as numeric);
+        const throwFn = () => money.divide(operand);
         Expect(throwFn).toThrow();
     }
 
