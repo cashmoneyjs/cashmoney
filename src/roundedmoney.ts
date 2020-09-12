@@ -31,7 +31,7 @@ export default class RoundedMoney {
         this.currency = currency;
     }
 
-    public static fromArray(amounts: (Num | numeric)[], subunit: number, currency: Currency): RoundedMoney[] {
+    public static fromArray(amounts: ReadonlyArray<Num | numeric>, subunit: number, currency: Currency): RoundedMoney[] {
         return amounts.map(amount => new RoundedMoney(amount, subunit, currency));
     }
 
@@ -248,7 +248,7 @@ export default class RoundedMoney {
         return this.negative();
     }
 
-    public allocate(ratios: number[]): RoundedMoney[] {
+    public allocate(ratios: ReadonlyArray<number>): RoundedMoney[] {
         const allocations: RoundedMoney[] = [];
         const intNum = this.num.shiftRight(this.subunit);
 

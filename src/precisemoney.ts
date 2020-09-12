@@ -17,7 +17,7 @@ export default class PreciseMoney {
         this.currency = currency;
     }
 
-    public static fromArray(amounts: (Num | numeric)[], currency: Currency): PreciseMoney[] {
+    public static fromArray(amounts: ReadonlyArray<Num | numeric>, currency: Currency): PreciseMoney[] {
         return amounts.map(amount => new PreciseMoney(amount, currency));
     }
 

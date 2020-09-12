@@ -142,7 +142,7 @@ export default class RoundedMoneyTest {
 
     @TestCases(RoundedMoneyTest.addExamples)
     @Test("it adds one or more amounts")
-    public itAddsAmounts(addendAmounts: string[], expected: string) {
+    public itAddsAmounts(addendAmounts: ReadonlyArray<string>, expected: string) {
         const currency = new Currency("EUR");
         const money = new RoundedMoney(100, 2, currency);
 
@@ -178,7 +178,7 @@ export default class RoundedMoneyTest {
 
     @TestCases(RoundedMoneyTest.diffCurrencyRefusalExamples)
     @Test("it refuses to add amounts of different currencies")
-    public itRefusesToAddAmountsOfDifferentCurrencies(addendMonies: RoundedMoney[]) {
+    public itRefusesToAddAmountsOfDifferentCurrencies(addendMonies: ReadonlyArray<RoundedMoney>) {
         const currency = new Currency("EUR");
         const money = new RoundedMoney("100.00", 2, currency);
 
@@ -200,7 +200,7 @@ export default class RoundedMoneyTest {
 
     @TestCases(RoundedMoneyTest.subtractExamples)
     @Test("it subtracts one or more amounts")
-    public itSubtractsAmounts(subtrahendAmounts: string[], expected: string) {
+    public itSubtractsAmounts(subtrahendAmounts: ReadonlyArray<string>, expected: string) {
         const currency = new Currency("EUR");
         const money = new RoundedMoney(100, 2, currency);
 
@@ -239,7 +239,7 @@ export default class RoundedMoneyTest {
 
     @TestCases(RoundedMoneyTest.diffCurrencyRefusalExamples)
     @Test("it refuses to subtract amounts of different currencies")
-    public itRefusesToSubtractAmountsOfDifferentCurrencies(subtrahendMonies: RoundedMoney[]) {
+    public itRefusesToSubtractAmountsOfDifferentCurrencies(subtrahendMonies: ReadonlyArray<RoundedMoney>) {
         const currency = new Currency("EUR");
         const money = new RoundedMoney("100.00", 2, currency);
 
@@ -385,7 +385,7 @@ export default class RoundedMoneyTest {
 
     @TestCases(RoundedMoneyTest.allocationExamples)
     @Test("it allocates amount")
-    public itAllocatesAmount(money: RoundedMoney, ratios: number[], results: string[]) {
+    public itAllocatesAmount(money: RoundedMoney, ratios: ReadonlyArray<number>, results: ReadonlyArray<string>) {
         const allocated = money.allocate(ratios);
 
         for (const [key, allocatedMoney] of allocated.entries()) {
@@ -498,7 +498,7 @@ export default class RoundedMoneyTest {
 
     @TestCases(RoundedMoneyTest.allocationTargetExamples)
     @Test("It allocates amount to N targets")
-    public itAllocatesAmountToNTargets(money: RoundedMoney, target: number, results: number[]) {
+    public itAllocatesAmountToNTargets(money: RoundedMoney, target: number, results: ReadonlyArray<number>) {
         const allocated = money.allocateTo(target);
 
         for (const [key, allocatedMoney] of allocated.entries()) {
@@ -805,7 +805,7 @@ export default class RoundedMoneyTest {
 
     @TestCases(RoundedMoneyTest.sumExamples)
     @Test("it calculates sum")
-    public itCalculatesSum(values: RoundedMoney[], sum: RoundedMoney) {
+    public itCalculatesSum(values: ReadonlyArray<RoundedMoney>, sum: RoundedMoney) {
         Expect(RoundedMoney.sum(...values)).toBe(sum);
     }
 
@@ -836,7 +836,7 @@ export default class RoundedMoneyTest {
 
     @TestCases(RoundedMoneyTest.minExamples)
     @Test("it calculates min")
-    public itCalculatesMin(values: RoundedMoney[], min: RoundedMoney) {
+    public itCalculatesMin(values: ReadonlyArray<RoundedMoney>, min: RoundedMoney) {
         Expect(RoundedMoney.min(...values)).toBe(min);
     }
 
@@ -867,7 +867,7 @@ export default class RoundedMoneyTest {
 
     @TestCases(RoundedMoneyTest.maxExamples)
     @Test("it calculates max")
-    public itCalculatesMax(values: RoundedMoney[], max: RoundedMoney) {
+    public itCalculatesMax(values: ReadonlyArray<RoundedMoney>, max: RoundedMoney) {
         Expect(RoundedMoney.max(...values)).toBe(max);
     }
 

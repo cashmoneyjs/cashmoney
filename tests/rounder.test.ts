@@ -120,7 +120,7 @@ export default class MoneyRounderTest {
         const halfOddExamples = ["1.00", "1.40", "1.87", "123.45", "123.45", "123.46", "123.46", "123.47", "123.47"];
         const truncateExamples = ["1.00", "1.40", "1.87", "123.45", "123.45", "123.45", "123.46", "123.46", "123.46"];
 
-        const yielder = function*(mode: RoundingMode, values: string[]): Generator<[string, RoundingMode, string]> {
+        const yielder = function*(mode: RoundingMode, values: ReadonlyArray<string>): Generator<[string, RoundingMode, string]> {
             for (const [key, value] of values.entries()) {
                 yield [examples[key], mode, value];
             }

@@ -107,7 +107,7 @@ export default class PreciseMoneyTest {
 
     @TestCases(PreciseMoneyTest.addExamples)
     @Test("it adds one or more amounts")
-    public itAddsAmounts(addendAmounts: string[], expected: string) {
+    public itAddsAmounts(addendAmounts: ReadonlyArray<string>, expected: string) {
         const currency = new Currency("EUR");
         const money = new PreciseMoney(10, currency);
 
@@ -143,7 +143,7 @@ export default class PreciseMoneyTest {
 
     @TestCases(PreciseMoneyTest.diffCurrencyRefusalExamples)
     @Test("it refuses to add amounts of different currencies")
-    public itRefusesToAddAmountsOfDifferentCurrencies(addendMonies: PreciseMoney[]) {
+    public itRefusesToAddAmountsOfDifferentCurrencies(addendMonies: ReadonlyArray<PreciseMoney>) {
         const currency = new Currency("EUR");
         const money = new PreciseMoney(10, currency);
 
@@ -154,7 +154,7 @@ export default class PreciseMoneyTest {
 
     @TestCases(PreciseMoneyTest.subtractExamples)
     @Test("it subtracts one or more amounts")
-    public itSubtractsAmounts(subtrahendAmounts: string[], expected: string) {
+    public itSubtractsAmounts(subtrahendAmounts: ReadonlyArray<string>, expected: string) {
         const currency = new Currency("EUR");
         const money = new PreciseMoney(10, currency);
 
@@ -190,7 +190,7 @@ export default class PreciseMoneyTest {
 
     @TestCases(PreciseMoneyTest.diffCurrencyRefusalExamples)
     @Test("it refuses to subtract amounts of different currencies")
-    public itRefusesToSubtrahendAmountsOfDifferentCurrencies(subtrahendMonies: PreciseMoney[]) {
+    public itRefusesToSubtrahendAmountsOfDifferentCurrencies(subtrahendMonies: ReadonlyArray<PreciseMoney>) {
         const currency = new Currency("EUR");
         const money = new PreciseMoney(10, currency);
 
@@ -577,25 +577,25 @@ export default class PreciseMoneyTest {
 
     @TestCases(sumExamples)
     @Test("it calculates sum")
-    public itCalculatesSum(values: PreciseMoney[], sum: PreciseMoney) {
+    public itCalculatesSum(values: ReadonlyArray<PreciseMoney>, sum: PreciseMoney) {
         Expect(PreciseMoney.sum(...values)).toBe(sum);
     }
 
     @TestCases(minExamples)
     @Test("it calculates min")
-    public itCalculatesMin(values: PreciseMoney[], min: PreciseMoney) {
+    public itCalculatesMin(values: ReadonlyArray<PreciseMoney>, min: PreciseMoney) {
         Expect(PreciseMoney.min(...values)).toBe(min);
     }
 
     @TestCases(maxExamples)
     @Test("it calculates max")
-    public itCalculatesMax(values: PreciseMoney[], max: PreciseMoney) {
+    public itCalculatesMax(values: ReadonlyArray<PreciseMoney>, max: PreciseMoney) {
         Expect(PreciseMoney.max(...values)).toBe(max);
     }
 
     @TestCases(avgExamples)
     @Test("it calculates avg")
-    public itCalculatesAvg(values: PreciseMoney[], avg: PreciseMoney) {
+    public itCalculatesAvg(values: ReadonlyArray<PreciseMoney>, avg: PreciseMoney) {
         Expect(PreciseMoney.avg(...values)).toBe(avg);
     }
 
