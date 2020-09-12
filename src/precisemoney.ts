@@ -172,7 +172,7 @@ export default class PreciseMoney {
     }
 
     public subtractPercentage(percent: number): PreciseMoney {
-        return this.newInstance(this.num.subtractPercent(percent));
+        return this.newInstance(this.num.subtractPercentage(percent));
     }
 
     public subtractPercent(percent: number): PreciseMoney {
