@@ -1,5 +1,5 @@
-import MoneyParser from "../parser";
-import PreciseMoney from "../precisemoney";
+import type MoneyParser from "../parser";
+import type PreciseMoney from "../precisemoney";
 
 export default class AggregateMoneyParser implements MoneyParser {
     private readonly parsers: ReadonlyArray<MoneyParser>;

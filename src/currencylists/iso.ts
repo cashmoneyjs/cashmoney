@@ -4,7 +4,7 @@ import type {
 } from "@cashmoney/iso-currency-contracts";
 
 import Currency from "../currency";
-import CurrencyList from "../currencylist";
+import type CurrencyList from "../currencylist";
 
 export default class ISOCurrencyList implements CurrencyList {
     private static readonly currencyData: ISOCurrencies = {};

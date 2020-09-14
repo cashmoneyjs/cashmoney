@@ -1,5 +1,5 @@
-import MoneyFormatter from "../formatter";
-import RoundedMoney from "../roundedmoney";
+import type MoneyFormatter from "../formatter";
+import type RoundedMoney from "../roundedmoney";
 
 export interface IntlNumberFormatterSettings {
     locales?: string | string[];

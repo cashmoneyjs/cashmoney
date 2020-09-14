@@ -1,8 +1,13 @@
-import PreciseMoney from "./precisemoney";
-import RoundedMoney from "./roundedmoney";
-import Currency from "./currency";
-import CurrencyPair from "./currencypair";
-import { PreciseMoneyMatcher, RoundedMoneyMatcher, CurrencyMatcher, CurrencyPairMatcher } from "./alsatian-matchers";
+import type PreciseMoney from "./precisemoney";
+import type RoundedMoney from "./roundedmoney";
+import type Currency from "./currency";
+import type CurrencyPair from "./currencypair";
+import type {
+    PreciseMoneyMatcher,
+    RoundedMoneyMatcher,
+    CurrencyMatcher,
+    CurrencyPairMatcher,
+} from "./alsatian-matchers";
 
 declare module "alsatian/dist/core/expect/expect.i" {
     export interface IExpect {

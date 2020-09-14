@@ -1,7 +1,7 @@
 import PreciseMoney from "./precisemoney";
-import Currency from "./currency";
-import CurrencyList from "./currencylist";
-import Exchange from "./exchange";
+import type Currency from "./currency";
+import type CurrencyList from "./currencylist";
+import type Exchange from "./exchange";
 
 export default class Converter {
     private readonly currencyList: CurrencyList;

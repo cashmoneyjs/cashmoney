@@ -1,6 +1,6 @@
 import { Num, RoundingMode, numeric } from "@cashmoney/number";
 
-import Currency from "./currency";
+import type Currency from "./currency";
 import RoundedMoney from "./roundedmoney";
 
 export default class PreciseMoney {

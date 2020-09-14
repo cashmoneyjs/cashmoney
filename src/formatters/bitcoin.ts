@@ -1,5 +1,5 @@
-import MoneyFormatter from "../formatter";
-import RoundedMoney from "../roundedmoney";
+import type MoneyFormatter from "../formatter";
+import type RoundedMoney from "../roundedmoney";
 import {
     CODE as BITCOIN_CODE,
     SYMBOL as BITCOIN_SYMBOL,

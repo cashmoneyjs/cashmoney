@@ -1,6 +1,6 @@
-import { Num, numeric } from "@cashmoney/number";
-import Exchange from "../exchange";
-import Currency from "../currency";
+import type { Num, numeric } from "@cashmoney/number";
+import type Exchange from "../exchange";
+import type Currency from "../currency";
 import CurrencyPair from "../currencypair";
 
 interface CurrencyRatioMap {

@@ -1,8 +1,8 @@
 import { Matcher } from "alsatian";
-import PreciseMoney from "./precisemoney";
-import RoundedMoney from "./roundedmoney";
-import Currency from "./currency";
-import CurrencyPair from "./currencypair";
+import type PreciseMoney from "./precisemoney";
+import type RoundedMoney from "./roundedmoney";
+import type Currency from "./currency";
+import type CurrencyPair from "./currencypair";
 
 export class PreciseMoneyMatcher extends Matcher<PreciseMoney> {
     public toBe(other: PreciseMoney) {

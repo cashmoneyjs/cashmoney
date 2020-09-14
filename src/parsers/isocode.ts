@@ -1,7 +1,7 @@
-import MoneyParser from "../parser";
+import type MoneyParser from "../parser";
 import PreciseMoney from "../precisemoney";
 import Currency from "../currency";
-import CurrencyList from "../currencylist";
+import type CurrencyList from "../currencylist";
 
 const INTEGER_PATTERN_CODE_PREFIX = /^([A-Z]{3})\s(-?(?:0|[1-9]\d*))$/;
 const INTEGER_PATTERN_CODE_SUFFIX = /^(-?(?:0|[1-9]\d*))\s([A-Z]{3})$/;

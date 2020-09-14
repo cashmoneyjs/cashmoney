@@ -1,7 +1,7 @@
-import PreciseMoney from "./precisemoney";
-import RoundedMoney from "./roundedmoney";
-import CurrencyList from "./currencylist";
-import CashDenominationList from "./cashdenominationlist";
+import type PreciseMoney from "./precisemoney";
+import type RoundedMoney from "./roundedmoney";
+import type CurrencyList from "./currencylist";
+import type CashDenominationList from "./cashdenominationlist";
 import { RoundingMode } from "@cashmoney/number";
 
 export default class CashRounder {

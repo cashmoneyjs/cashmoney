@@ -1,5 +1,5 @@
-import Currency from "../currency";
-import CurrencyList from "../currencylist";
+import type Currency from "../currency";
+import type CurrencyList from "../currencylist";
 
 export default class AggregateCurrencyList implements CurrencyList {
     private readonly currencyLists: ReadonlyArray<CurrencyList>;

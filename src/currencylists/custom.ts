@@ -1,5 +1,5 @@
 import Currency from "../currency";
-import CurrencyList from "../currencylist";
+import type CurrencyList from "../currencylist";
 
 interface CustomCurrencies {
     [currencyCode: string]: number;

@@ -1,5 +1,5 @@
 import Currency from "../currency";
-import CurrencyList from "../currencylist";
+import type CurrencyList from "../currencylist";
 
 export const CODE = "XBT";
 export const SYMBOL = "\xC9\x83";

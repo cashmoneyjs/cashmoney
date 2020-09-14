@@ -1,4 +1,4 @@
-import MoneyParser from "../parser";
+import type MoneyParser from "../parser";
 import PreciseMoney from "../precisemoney";
 import Currency from "../currency";
 
