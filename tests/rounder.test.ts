@@ -27,6 +27,7 @@ export default class MoneyRounderTest {
 
     public static defaultRoundingExamples() {
         return [
+            ["0.00", "0.00"],
             ["1.00", "1.00"],
             ["1.4", "1.40"],
             ["1.875", "1.88"],
@@ -56,6 +57,7 @@ export default class MoneyRounderTest {
 
     public static roundHalfUpExamples() {
         return [
+            ["0.00", "0.00"],
             ["1.00", "1.00"],
             ["1.4", "1.40"],
             ["1.875", "1.88"],
@@ -85,6 +87,7 @@ export default class MoneyRounderTest {
 
     public static roundHalfDownExamples() {
         return [
+            ["0.00", "0.00"],
             ["1.00", "1.00"],
             ["1.4", "1.40"],
             ["1.875", "1.87"],
@@ -113,12 +116,12 @@ export default class MoneyRounderTest {
     }
 
     public static *roundCustomExamples() {
-        const examples = ["1.00", "1.4", "1.875", "123.454", "123.455", "123.456", "123.464", "123.465", "123.466"];
-        const halfDownExamples = ["1.00", "1.40", "1.87", "123.45", "123.45", "123.46", "123.46", "123.46", "123.47"];
-        const halfUpExamples = ["1.00", "1.40", "1.88", "123.45", "123.46", "123.46", "123.46", "123.47", "123.47"];
-        const halfEvenExamples = ["1.00", "1.40", "1.88", "123.45", "123.46", "123.46", "123.46", "123.46", "123.47"];
-        const halfOddExamples = ["1.00", "1.40", "1.87", "123.45", "123.45", "123.46", "123.46", "123.47", "123.47"];
-        const truncateExamples = ["1.00", "1.40", "1.87", "123.45", "123.45", "123.45", "123.46", "123.46", "123.46"];
+        const examples = ["0.00", "1.00", "1.4", "1.875", "123.454", "123.455", "123.456", "123.464", "123.465", "123.466"];
+        const halfDownExamples = ["0.00", "1.00", "1.40", "1.87", "123.45", "123.45", "123.46", "123.46", "123.46", "123.47"];
+        const halfUpExamples = ["0.00", "1.00", "1.40", "1.88", "123.45", "123.46", "123.46", "123.46", "123.47", "123.47"];
+        const halfEvenExamples = ["0.00", "1.00", "1.40", "1.88", "123.45", "123.46", "123.46", "123.46", "123.46", "123.47"];
+        const halfOddExamples = ["0.00", "1.00", "1.40", "1.87", "123.45", "123.45", "123.46", "123.46", "123.47", "123.47"];
+        const truncateExamples = ["0.00", "1.00", "1.40", "1.87", "123.45", "123.45", "123.45", "123.46", "123.46", "123.46"];
 
         const yielder = function*(mode: RoundingMode, values: ReadonlyArray<string>): Generator<[string, RoundingMode, string]> {
             for (const [key, value] of values.entries()) {
