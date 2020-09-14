@@ -8,14 +8,14 @@ const INTEGER_PATTERN_CODE_SUFFIX = /^(-?(?:0|[1-9]\d*))\s([A-Z]{3})$/;
 const DECIMAL_PATTERN_CODE_PREFIX = /^([A-Z]{3})\s(-?(?:0|[1-9]\d*)[\.,](?:\d+))$/;
 const DECIMAL_PATTERN_CODE_SUFFIX = /^(-?(?:0|[1-9]\d*)[\.,](?:\d+))\s([A-Z]{3})$/;
 
-const CODE_PREFIX_PATTERNS = [
+const CODE_PREFIX_PATTERNS: ReadonlyArray<RegExp> = [
     INTEGER_PATTERN_CODE_PREFIX,
     DECIMAL_PATTERN_CODE_PREFIX,
-] as ReadonlyArray<RegExp>;
-const CODE_SUFFIX_PATTERNS = [
+];
+const CODE_SUFFIX_PATTERNS: ReadonlyArray<RegExp> = [
     INTEGER_PATTERN_CODE_SUFFIX,
     DECIMAL_PATTERN_CODE_SUFFIX,
-] as ReadonlyArray<RegExp>;
+];
 
 export default class ISOCodeMoneyParser implements MoneyParser {
     private readonly currencyList: CurrencyList | null;
