@@ -165,6 +165,15 @@ const rMoneyHalfDown = rounder.round(pMoneyMultiplied, RoundingMode.ROUND_HALF_D
 Note that this is another departure from MoneyPHP, which simply defaults to
 "round half up".
 
+The rounder can provide the delta between the original amount and the rounded
+amount. This can be useful for record-keeping purposes.
+
+```typescript
+const [rMoney2, rDelta] = rounder.roundWithDelta(pMoneyMultiplied);
+assert(rMoney2.equals(rMoney));
+assert(rDelta.equals(PAUD("0.005")));
+```
+
 ### Currency Lists
 
 In CashMoney, You can construct currency objects at any time with any currency
