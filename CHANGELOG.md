@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0] - 2020-09-14
+
+### Added
+
+- New 'roundWithDelta' method to the MoneyRounder class that provides not just the rounded amount
+  but also the delta between the original amount and the rounded amount.
+
+### Changed
+
+These changes should hopefully not have any impact on consumers of the library.
+
+- Updated internal method call for subtracting percentages to be more direct.
+- Moved to using ``import type`` in as many places as possible.
+
 ## [1.0.1] - 2020-09-12
 
 Updated typescript and other dependencies, including the Typescript compiler. There were also some
