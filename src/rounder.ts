@@ -20,4 +20,15 @@ export default class MoneyRounder {
         const places = this.currencyList.subunitFor(money.currency);
         return money.roundToDecimalPlaces(places, roundingMode);
     }
+
+    public roundWithDelta(money: PreciseMoney, roundingMode?: RoundingMode): [RoundedMoney, PreciseMoney] {
+        const roundedMoney = this.round(money, roundingMode);
+
+        // To avoid encouraging everyone else to do this (because it is almost
+        // always a bad idea) we do it ourselves here.
+        const tempPreciseRoundedMoney = new PreciseMoney(roundedMoney.num, money.currency);
+        const delta = tempPreciseRoundedMoney.subtract(money);
+
+        return [roundedMoney, delta];
+    }
 }

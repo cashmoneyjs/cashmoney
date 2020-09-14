@@ -135,4 +135,40 @@ export default class MoneyRounderTest {
         yield* yielder(RoundingMode.ROUND_HALF_ODD, halfOddExamples);
         yield* yielder(RoundingMode.ROUND_TRUNCATE, truncateExamples);
     }
+
+    @TestCases(MoneyRounderTest.roundWithDeltaExamples)
+    @Test("it can provide the rounding delta as part of the rounding process")
+    public itProvidesRoundingDeltas(amount: string, expectedRoundedMoney: string, expectedRoundingDelta: string) {
+        const currencies = new CustomCurrencyList({ AUD: 2 });
+        const rounder = new MoneyRounder(currencies);
+
+        const currency = new Currency("AUD");
+        const pMoney = new PreciseMoney(amount, currency);
+
+        const [rMoney, rDelta] = rounder.roundWithDelta(pMoney);
+        Expect(rMoney instanceof RoundedMoney).toBeTruthy();
+        Expect(rDelta instanceof PreciseMoney).toBeTruthy();
+
+        Expect(rMoney).toBe(new RoundedMoney(expectedRoundedMoney, 2, currency));
+        Expect(rMoney.amount).toBe(expectedRoundedMoney);
+
+        Expect(rDelta).toBe(new PreciseMoney(expectedRoundingDelta, currency));
+        Expect(rDelta.amount).toBe(expectedRoundingDelta);
+    }
+
+    public static roundWithDeltaExamples() {
+        return [
+            ["0.00", "0.00", "0"],
+            ["1.00", "1.00", "0"],
+            ["1.4", "1.40", "0"],
+            ["1.865", "1.86", "-0.005"],
+            ["1.875", "1.88", "0.005"],
+            ["123.454", "123.45", "-0.004"],
+            ["123.455", "123.46", "0.005"],
+            ["123.456", "123.46", "0.004"],
+            ["123.464", "123.46", "-0.004"],
+            ["123.465", "123.46", "-0.005"],
+            ["123.466", "123.47", "0.004"],
+        ];
+    }
 }
