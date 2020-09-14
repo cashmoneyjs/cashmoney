@@ -145,8 +145,8 @@ const currencies = new CustomCurrencyList({ AUD: 2 });
 const rounder = new MoneyRounder(currencies);
 
 const pMoney = PAUD("1.50");
-const pMoneyMultiplied = PAUD(1.25); // equals "1.875"
-const rMoney = rounder.round(pMoney);
+const pMoneyMultiplied = pMoney.times(1.25); // equals "1.875"
+const rMoney = rounder.round(pMoneyMultiplied);
 assert(rMoney.equals(RAUD("1.88")));
 ```
 
