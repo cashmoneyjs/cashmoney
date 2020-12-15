@@ -6,16 +6,16 @@
     "author": "Matthew Gamble <git@matthewgamble.net>",
     "dependencies": {
         "@cashmoney/iso-currency-contracts": "^1.0.2",
-        "@cashmoney/number": "^2.4.2",
-        "bignumber.js": "^9.0.0"
+        "@cashmoney/number": "^2.4.3",
+        "bignumber.js": "^9.0.1"
     },
     "devDependencies": {
         "@cashmoney/iso-currencies": "^1.2.2",
         "alsatian": "^3.2.1",
         "esm": "^3.2.25",
-        "ts-node": "^9.0.0",
+        "ts-node": "^9.1.1",
         "tsconfig-paths": "^3.9.0",
-        "typescript": "^4.0.2"
+        "typescript": "^4.1.3"
     },
     "scripts": {
         "build": "tsc --module esnext --noEmitOnError",
