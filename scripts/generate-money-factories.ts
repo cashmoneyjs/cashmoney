@@ -11,7 +11,7 @@ const warning = `// IMPORTANT:
 
 let preciseCode = `${warning}
 
-import { numeric } from "@cashmoney/number";
+import type { numeric } from "@cashmoney/number";
 import PreciseMoney from "./precisemoney";
 import Currency from "./currency";
 
@@ -23,7 +23,7 @@ function moneyFactory(amount: numeric, currencyCode: string): PreciseMoney {
 
 let roundedCode = `${warning}
 
-import { numeric } from "@cashmoney/number";
+import type { numeric } from "@cashmoney/number";
 import RoundedMoney from "./roundedmoney";
 import Currency from "./currency";
 
@@ -48,8 +48,8 @@ const currencies: Currency[] = Array.from(currencyList);
 currencies.sort();
 
 for (const currency of currencies) {
-    preciseCode += `export const ${currency.code} = (amount: number) => moneyFactory(amount, '${currency.code}'); // ${currencyList.nameFor(currency)}` + "\n";
-    roundedCode += `export const ${currency.code} = (amount: number) => moneyFactory(amount, ${currencyList.subunitFor(currency)}, '${currency.code}'); // ${currencyList.nameFor(currency)}` + "\n";
+    preciseCode += `export const ${currency.code} = (amount: numeric) => moneyFactory(amount, '${currency.code}'); // ${currencyList.nameFor(currency)}` + "\n";
+    roundedCode += `export const ${currency.code} = (amount: numeric) => moneyFactory(amount, ${currencyList.subunitFor(currency)}, '${currency.code}'); // ${currencyList.nameFor(currency)}` + "\n";
 }
 
 fs.writeFileSync(path.join(__dirname, "..", "src", "precisefactory.ts"), preciseCode);
