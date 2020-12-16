@@ -176,7 +176,7 @@ assert(rDelta.equals(PAUD("0.005")));
 
 ### Currency Lists
 
-In CashMoney, You can construct currency objects at any time with any currency
+In CashMoney, you can construct currency objects at any time with any currency
 code (as you've seen in the above examples). As a result, these currency objects
 don't contain any information about the currency itself. Most importantly, this
 means they can't tell you how many minor units a currency has (eg. AUD uses 2
