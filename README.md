@@ -193,7 +193,7 @@ currency you're going to work with in most applications.
 import { Currency, ISOCurrencyList } from "@cashmoney/core";
 
 const AUD = new Currency("AUD");
-const JPY = new CUrrency("JPY");
+const JPY = new Currency("JPY");
 const isoCurrencyList = new ISOCurrencyList();
 
 assert(isoCurrencyList.contains(AUD));
