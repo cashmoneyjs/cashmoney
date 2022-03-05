@@ -164,6 +164,7 @@ export const UYI = (amount: numeric) => moneyFactory(amount, 'UYI'); // Uruguay 
 export const UYU = (amount: numeric) => moneyFactory(amount, 'UYU'); // Peso Uruguayo
 export const UYW = (amount: numeric) => moneyFactory(amount, 'UYW'); // Unidad Previsional
 export const UZS = (amount: numeric) => moneyFactory(amount, 'UZS'); // Uzbekistan Sum
+export const VED = (amount: numeric) => moneyFactory(amount, 'VED'); // Bolívar Soberano
 export const VES = (amount: numeric) => moneyFactory(amount, 'VES'); // Bolívar Soberano
 export const VND = (amount: numeric) => moneyFactory(amount, 'VND'); // Dong
 export const VUV = (amount: numeric) => moneyFactory(amount, 'VUV'); // Vatu
