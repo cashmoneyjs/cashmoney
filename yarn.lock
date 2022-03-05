@@ -105,14 +105,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:>=0.0.2, @types/node@npm:>=4.0.0":
-  version: 14.10.1
-  resolution: "@types/node@npm:14.10.1"
-  checksum: 620dad770f81554efefe3c47e47b8e58661c38d07e5de5576090443914c9c2a71ed8d0851f842003e366b4dae96b617f8702f7064b41c3b9b12e988f4bc81572
-  languageName: node
-  linkType: hard
-
-"@types/node@npm:^16.11.26":
+"@types/node@npm:>=0.0.2, @types/node@npm:>=4.0.0, @types/node@npm:^16.11.26":
   version: 16.11.26
   resolution: "@types/node@npm:16.11.26"
   checksum: 57757caaba3f0d95de82198cb276a1002c49b710108c932a1d02d7c91ff2fa57cfe2dd19fde60853b6dd90b0964b3cf35557981d2628e20aed6a909057aedfe6
