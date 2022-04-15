@@ -20,7 +20,7 @@ to truly support numbers of artbitrary precision.
 
 - Precise money, to avoid rounding errors entirely
 - Rounded money, for when you need to work with money in a similar manner to cash
-- Money formatting using built-in JS Intl functionality
+- Money formatting using built-in JS `Intl` functionality
 - Money parsing in multiple formats
 - Money exchange (conversion rates must be supplied manually)
 - JSON serialization
@@ -43,12 +43,12 @@ $ npm add @cashmoney/core
 
 ### Money
 
-There are two types of money: Precise and Rounded. Which one you want depends
+There are two types of money: `Precise` and `Rounded`. Which one you want depends
 on what you plan to do with the relevant amount(s).
 
 #### Precise Money
 
-Precise Money objects accept values of any precision, as strings or numbers.
+`Precise` Money objects accept values of any precision, as strings or numbers.
 
 ```typescript
 import {
@@ -74,7 +74,7 @@ assert(tenAud.subtract(new PreciseMoney("2.5", currency)).equals(sevenPointFiveA
 
 #### Rounded Money
 
-Rounded Money objects require that the expected precision of the currency is supplied.
+`Rounded` Money objects require that the expected precision of the currency is supplied.
 
 ```typescript
 import {
@@ -110,12 +110,12 @@ assert(fiveAud.equals(fiveAudAlt));
 
 #### Converting between Precise and Rounded
 
-You can convert a Precise Money object to a Rounded Money object, but there
+You can convert a `Precise` Money object to a `Rounded` Money object, but there
 is no automated translation going back the other way. This is supposed to be
 indicative of the idea that once you've disposed of the precision provided by
-the Precise Money class, you can never get it back.
+the `Precise` Money class, you can never get it back.
 
-The Precise Money class has a method for converting to Rounded Money objects. 
+The `Precise` Money class has a method for converting to `Rounded` Money objects. 
 
 ```typescript
 import { PreciseMoney, RoundedMoney, Currency } from "@cashmoney/core";
@@ -293,8 +293,8 @@ const currencyList = new AggregateCurrencyList(
 #### Create your own currency list
 
 It's pretty easy to make your own currency list class that integrates cleanly with
-the rest of CashMoney. The only important thing to remember is that ``nameFor()``
-and ``subunitFor()`` must throw an ``Error`` for currencies that don't apply for
+the rest of CashMoney. The only important thing to remember is that `nameFor()`
+and `subunitFor()` must throw an `Error` for currencies that don't apply for
 your custom list.
 
 ```typescript
@@ -327,12 +327,12 @@ class MyAppCurrency implements CurrencyList {
 }
 ```
 
-The ``Symbol.iterator`` method can return any iterator - it doesn't have to
+The `Symbol.iterator` method can return any iterator - it doesn't have to
 be a generator.
 
 ### Parsing
 
-All parsers return instances of ``PreciseMoney``.
+All parsers return instances of `PreciseMoney`.
 
 #### ISO Code parser
 
@@ -436,10 +436,10 @@ class MyAppMoneyParser implements MoneyParser {
 }
 ```
 
-Just remember to throw an ``Error`` for inputs you can't successfully parse.
+Just remember to throw an `Error` for inputs you can't successfully parse.
 
 Maybe all you want to do is provide some additional type safety for your own
-custom currency symbol. In this case, you can just subclass ``SymbolMoneyParser``
+custom currency symbol. In this case, you can just subclass `SymbolMoneyParser`
 like so.
 
 ```typescript
@@ -460,7 +460,7 @@ with formatters needing to work out how many subunits a particular currency has.
 
 #### Intl formatter
 
-Most of the time you're probably going to want to use the Intl money formatter. This uses
+Most of the time you're probably going to want to use the `Intl` money formatter. This uses
 the built-in internationalisation APIs provided by up-to-date JS runtimes.
 
 ```typescript
@@ -497,14 +497,14 @@ usFormatter.format(fiveJpy); // '¥5'
 usFormatter.format(fiveUsd); // '$5.00'
 ```
 
-You should be careful with this, however. The JS Intl number formatter will only
+You should be careful with this, however. The JS `Intl` number formatter will only
 deal with numbers, not strings containing numbers. This means the value of the
 money object must first be cast to a float before formatting, which has the potential
 to cause a loss of precision.
 
 #### Decimal formatter
 
-The Decimal formatter simply outputs the raw value of a Rounded Money object.
+The Decimal formatter simply outputs the raw value of a `Rounded` Money object.
 
 ```typescript
 import { RoundedMoneyFactory, DecimalMoneyFormatter } from "@cashmoney/core";
@@ -546,7 +546,7 @@ console.log(formatter.format(moreBtc)); // outputs 'É5.5'
 
 #### Aggregate formatter
 
-The aggregate formatter lets you specify which formatter should be used for each
+The Aggregate formatter lets you specify which formatter should be used for each
 currency code, with an optional fallback formatter if nothing else matches.
 
 ```typescript
@@ -717,11 +717,11 @@ class MyAppCashDenominationList implements CashDenominationList {
 }
 ```
 
-Be sure to throw an ``Error`` for currencies your list doesn't support.
+Be sure to throw an `Error` for currencies your list doesn't support.
 
 ## Tests
 
-To run the test suite, run ``yarn run test`` in the root of the repository.
+To run the test suite, run `yarn run test` in the root of the repository.
 
 ## License
 
