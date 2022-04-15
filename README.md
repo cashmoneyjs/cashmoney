@@ -301,7 +301,7 @@ your custom list.
 import { Currency, CurrencyList } from "@cashmoney/core";
 
 class MyAppCurrency implements CurrencyList {
-    public contains(currency: Currnecy): boolean {
+    public contains(currency: Currency): boolean {
         return currency.code === "123";
     }
 
