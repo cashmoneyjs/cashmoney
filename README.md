@@ -1,5 +1,7 @@
 # CashMoney
 
+[![Build Status](https://drone.matthewgamble.net/api/badges/cashmoneyjs/cashmoney/status.svg?ref=refs/heads/master)](https://drone.matthewgamble.net/cashmoneyjs/cashmoney)
+
 CashMoney assists you in the handling of monetary values to ensure you avoid awkward
 rounding errors in your business logic.
 
