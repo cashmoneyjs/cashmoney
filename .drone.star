@@ -1,5 +1,5 @@
-NODE_SUPPORTED_VERSIONS = (14, 16, 17)
-NODE_IMAGE_TEMPLATE = "node:{major}"
+NODE_SUPPORTED_VERSIONS = (14, 16, 18)
+NODE_IMAGE_TEMPLATE = "node:{major}-slim"
 
 def install_deps(image):
     return {
